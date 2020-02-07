@@ -16,7 +16,7 @@ export async function getLeftMenuData() {
       divider: true,
     },
     {
-      title: 'Dashboard Alpha',
+      title: 'Dashboard',
       key: 'dashboardAlpha',
       url: '/dashboard/alpha',
       icon: 'icmn icmn-home',
