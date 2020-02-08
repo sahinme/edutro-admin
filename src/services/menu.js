@@ -13,13 +13,29 @@ export async function getLeftMenuData() {
       icon: 'icmn icmn-books',
     }, */
     {
-      divider: true,
-    },
-    {
       title: 'Panel',
       key: 'dashboardAlpha',
       url: '/dashboard/alpha',
       icon: 'icmn icmn-home',
+    },
+    {
+      title: 'Eğitimler',
+      key: 'courses',
+      icon: 'icmn icmn-database',
+      children: [
+        {
+          title: 'Eğitim Oluştur',
+          key: 'createCourse',
+          url: '/egitimler/egitim-olustur',
+          pro: false,
+        },
+        {
+          title: 'Eğitimlerim',
+          key: 'myCourses',
+          url: '/egitimler/egitimlerim',
+          pro: false,
+        },
+      ],
     },
     /*     {
       title: 'Dashboard Beta',
@@ -49,18 +65,12 @@ export async function getLeftMenuData() {
       icon: 'icmn icmn-home',
       pro: true,
     }, */
-    {
-      divider: true,
-    },
     /*     {
       title: 'AntDesign Components',
       key: 'antComponents',
       icon: 'icmn icmn-menu',
       url: '/antd',
     }, */
-    {
-      divider: true,
-    },
     /*  {
       title: 'Default Pages',
       key: 'defaultPages',
@@ -146,9 +156,6 @@ export async function getLeftMenuData() {
       key: 'profile',
       url: '/apps/profile',
       pro: false,
-    },
-    {
-      divider: true,
     },
     {
       title: 'Araçlar',

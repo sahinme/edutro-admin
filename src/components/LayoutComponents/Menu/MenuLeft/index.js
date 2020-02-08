@@ -124,14 +124,14 @@ class MenuLeft extends React.Component {
                 )}
               </a>
             ) : (
-              <Link to={url}>
-                {icon && <span className={`${icon} ${styles.icon} icon-collapsed-hidden`} />}
-                <span className={styles.title}>{title}</span>
-                {pro && (
-                  <span className="badge badge-primary badge-collapsed-hidden ml-2">PRO</span>
-                )}
-              </Link>
-            )}
+                <Link to={url}>
+                  {icon && <span className={`${icon} ${styles.icon} icon-collapsed-hidden`} />}
+                  <span className={styles.title}>{title}</span>
+                  {pro && (
+                    <span className="badge badge-primary badge-collapsed-hidden ml-2">PRO</span>
+                  )}
+                </Link>
+              )}
           </Menu.Item>
         )
       }
@@ -185,18 +185,18 @@ class MenuLeft extends React.Component {
     const { isMobileView, isMenuCollapsed, isLightTheme } = this.props
     const menuSettings = isMobileView
       ? {
-          width: 256,
-          collapsible: false,
-          collapsed: false,
-          onCollapse: this.onCollapse,
-        }
+        width: 256,
+        collapsible: false,
+        collapsed: false,
+        onCollapse: this.onCollapse,
+      }
       : {
-          width: 256,
-          collapsible: true,
-          collapsed: isMenuCollapsed,
-          onCollapse: this.onCollapse,
-          breakpoint: 'lg',
-        }
+        width: 256,
+        collapsible: true,
+        collapsed: isMenuCollapsed,
+        onCollapse: this.onCollapse,
+        breakpoint: 'lg',
+      }
 
     const menu = this.generateMenuItems()
 
@@ -240,7 +240,7 @@ class MenuLeft extends React.Component {
           >
             {menu}
           </Menu>
-          <div className={styles.buyPro}>
+          {/*  <div className={styles.buyPro}>
             <p>
               <strong>More components, more styles, more themes, and premium support!</strong>
             </p>
@@ -252,7 +252,7 @@ class MenuLeft extends React.Component {
             >
               Buy Bundle 26$
             </a>
-          </div>
+          </div> */}
         </Scrollbars>
       </Sider>
     )

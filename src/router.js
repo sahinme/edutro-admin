@@ -55,6 +55,16 @@ const routes = [
 
   // Default Pages
   {
+    path: '/egitimler/egitim-olustur',
+    component: loadable(() => import('pages/courses/components/addCourse')),
+    exact: true,
+  },
+  {
+    path: '/egitimler/egitimlerim',
+    component: loadable(() => import('pages/courses')),
+    exact: true,
+  },
+  {
     path: '/pages/login-alpha',
     component: loadable(() => import('pages/pages/login-alpha')),
     exact: true,
