@@ -16,39 +16,39 @@ class AddForm extends React.Component {
     return (
       <Form className="mt-3">
         <div className="form-group">
-          <FormItem label="Title">
+          <FormItem label="Başlık">
             {form.getFieldDecorator('title')(<Input placeholder="Post title" />)}
           </FormItem>
         </div>
         <div className="form-group">
-          <FormItem label="Type">
+          <FormItem label="Biçim">
             {form.getFieldDecorator('type')(
               <RadioGroup>
-                <Radio value="text">Text</Radio>
+                <Radio value="text">Yazı</Radio>
                 <Radio value="video">Video</Radio>
-                <Radio value="image">Image</Radio>
-                <Radio value="audio">Audio</Radio>
+                <Radio value="image">Resim</Radio>
+                <Radio value="audio">Ses</Radio>
                 <Radio value="vimeo">Vimeo</Radio>
               </RadioGroup>,
             )}
           </FormItem>
         </div>
         <div className="form-group">
-          <FormItem label="Category">
+          <FormItem label="Kategori">
             {form.getFieldDecorator('category', {
               initialValue: ['travel', 'lifestyle'],
             })(
               <Select
                 mode="tags"
                 size="default"
-                placeholder="Select post category"
+                placeholder="Kategori Seçin"
                 style={{ width: '100%' }}
               />,
             )}
           </FormItem>
         </div>
         <div className="form-group">
-          <FormItem label="Content">
+          <FormItem label="İçerik">
             {form.getFieldDecorator('content')(
               <div className={styles.editor}>
                 <Editor />
@@ -63,11 +63,10 @@ class AddForm extends React.Component {
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
                 </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload. Strictly prohibit from uploading company data
-                  or other band files
+                <p className="ant-upload-text">
+                  Dosya yüklemek için tıklayın veya dosyayı sürükleyin
                 </p>
+                <p className="ant-upload-hint">Tek veya toplu yükleme desteklenir.</p>
               </Dragger>,
             )}
           </FormItem>
@@ -76,11 +75,11 @@ class AddForm extends React.Component {
           <div className={styles.submit}>
             <span className="mr-3">
               <Button type="primary" htmlType="submit">
-                Save and Post
+                Kaydet ve Paylaş
               </Button>
             </span>
             <Button type="danger" htmlType="submit">
-              Discard
+              Sil
             </Button>
           </div>
         </FormItem>

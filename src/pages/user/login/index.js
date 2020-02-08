@@ -31,7 +31,7 @@ class Login extends Component {
         <Helmet title="Login" />
         <div className={`${styles.title} login-heading`}>
           <h1>
-            <strong>WELCOME TO CLEAN UI REACT - REACT REDUX ADMIN TEMPLATE</strong>
+            <strong>Edutro`ya Hoş Geldiniz.</strong>
           </h1>
           <p>
             Pluggable enterprise-level react application framework.

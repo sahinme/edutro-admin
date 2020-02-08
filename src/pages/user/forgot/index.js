@@ -17,19 +17,24 @@ class Forgot extends Component {
               <div className={styles.inner}>
                 <div className={styles.form}>
                   <h4 className="text-uppercase">
-                    <strong>Restore Password</strong>
+                    <strong>Şifre Yenile</strong>
                   </h4>
                   <br />
                   <Form layout="vertical" hideRequiredMark onSubmit={this.onSubmit}>
                     <Form.Item label="Username">
                       {form.getFieldDecorator('username', {
                         initialValue: '',
-                        rules: [{ required: true, message: 'Please input username or email' }],
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Lütfen kullanıcı adı veya e-posta adresi girin',
+                          },
+                        ],
                       })(<Input size="default" />)}
                     </Form.Item>
                     <div className="mb-2">
                       <Link to="/user/login" className="utils__link--blue utils__link--underlined">
-                        Back to login
+                        Geri Dön
                       </Link>
                     </div>
                     <div className="form-actions">
@@ -40,7 +45,7 @@ class Forgot extends Component {
                           htmlType="submit"
                           loading={false}
                         >
-                          Restore Password
+                          Şifre Yenile
                         </Button>
                       </Link>
                     </div>

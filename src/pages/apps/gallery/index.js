@@ -40,12 +40,12 @@ class GalleryList extends React.Component {
             <div className="pull-right">
               <Upload {...props}>
                 <Button type="primary">
-                  <Icon type="upload" /> Click to Upload
+                  <Icon type="upload" /> Yüklemek İçin Tıklayın
                 </Button>
               </Upload>
             </div>
             <div className="utils__title">
-              <strong>Photo Gallery</strong>
+              <strong>Galeri</strong>
             </div>
           </div>
           <div className="card-body">
