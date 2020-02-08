@@ -14,13 +14,13 @@ const { TextArea } = Input
 const actions = (
   <Menu>
     <Menu.Item>
-      <Icon type="edit" /> Edit Post
+      <Icon type="edit" /> Yazıyı Düzenle
     </Menu.Item>
     <Menu.Item>
-      <Icon type="delete" /> Delete Post
+      <Icon type="delete" /> Yazıyı Sil
     </Menu.Item>
     <Menu.Item>
-      <Icon type="frown-o" /> Mark as a Spam
+      <Icon type="frown-o" /> İstenmeyen Olarak İşaretle
     </Menu.Item>
   </Menu>
 )
@@ -95,8 +95,8 @@ class ProfileApp extends React.Component {
                     <br />
                     <br />
                     <Button.Group size="default">
-                      <Button style={{ width: 150 }}>Follow</Button>
-                      <Button style={{ width: 150 }}>Add to Friend</Button>
+                      <Button style={{ width: 150 }}>Takip Et</Button>
+                      <Button style={{ width: 150 }}>Arkadaş Olarak Ekle</Button>
                     </Button.Group>
                     <br />
                     <p className="text-white mt-2">{`Last activity: ${lastActivity}`}</p>
@@ -110,21 +110,21 @@ class ProfileApp extends React.Component {
               <div className="card">
                 <div className="card-body">
                   <h5 className="mb-3 text-black">
-                    <strong>Actions</strong>
+                    <strong>İşlemler</strong>
                   </h5>
                   <div className={style.actions}>
-                    <Button style={{ display: 'block', width: '100%' }}>Send Message</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Send File</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Access History</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Rename User</Button>
-                    <Button style={{ display: 'block', width: '100%' }}>Ban User</Button>
+                    <Button style={{ display: 'block', width: '100%' }}>Mesaj Gönder</Button>
+                    <Button style={{ display: 'block', width: '100%' }}>Dosya Gönder</Button>
+                    <Button style={{ display: 'block', width: '100%' }}>İşlem Geçmişi</Button>
+                    <Button style={{ display: 'block', width: '100%' }}>Yeniden Adlandır</Button>
+                    <Button style={{ display: 'block', width: '100%' }}>Kullanıcıyı Engelle</Button>
                   </div>
                 </div>
               </div>
               <div className="card">
                 <div className="card-body">
                   <h5 className="mb-3 text-black">
-                    <strong>Skills</strong>
+                    <strong>Yetenekler</strong>
                   </h5>
                   {skills.map(skill => (
                     <div key={skill.name}>
@@ -137,14 +137,14 @@ class ProfileApp extends React.Component {
               <div className="card">
                 <div className="card-body">
                   <h5 className="mb-3 text-black">
-                    <strong>Information</strong>
+                    <strong>Bilgiler</strong>
                   </h5>
                   <dl className="row">
-                    <dt className="col-xl-3">Courses End:</dt>
+                    <dt className="col-xl-3">Tamamlanan Eğitimler:</dt>
                     <dd className="col-xl-9">{coursesEnd}</dd>
-                    <dt className="col-xl-3">Address:</dt>
+                    <dt className="col-xl-3">Adres:</dt>
                     <dd className="col-xl-9">{adress}</dd>
-                    <dt className="col-xl-3">Skills:</dt>
+                    <dt className="col-xl-3">Yetenekler:</dt>
                     <dd className="col-xl-9">
                       {profSkills.map(skill => (
                         <span className="badge badge-default mr-1" key={skill}>
@@ -152,9 +152,9 @@ class ProfileApp extends React.Component {
                         </span>
                       ))}
                     </dd>
-                    <dt className="col-xl-3">Last companies:</dt>
+                    <dt className="col-xl-3">Çalıştığı Yer:</dt>
                     <dd className="col-xl-9">{lastCompanies}</dd>
-                    <dt className="col-xl-3">Personal Information:</dt>
+                    <dt className="col-xl-3">Kişisel Bilgi:</dt>
                     <dd className="col-xl-9">{personal}</dd>
                   </dl>
                 </div>
@@ -162,7 +162,7 @@ class ProfileApp extends React.Component {
               <div className="card">
                 <div className="card-body">
                   <h5 className="mb-3 text-black">
-                    <strong>Calendar</strong>
+                    <strong>Takvim</strong>
                   </h5>
                   <Calendar fullscreen={false} />
                 </div>
@@ -182,11 +182,11 @@ class ProfileApp extends React.Component {
                 <div className={style.socialCounts}>
                   <div className="text-center mr-3">
                     <h2>{followersCount}</h2>
-                    <p className="mb-0">Followers</p>
+                    <p className="mb-0">Takipçiler</p>
                   </div>
                   <div className="text-center">
                     <h2>{postsCount}</h2>
-                    <p className="mb-0">Posts</p>
+                    <p className="mb-0">Yazılar</p>
                   </div>
                 </div>
               </div>
@@ -196,7 +196,7 @@ class ProfileApp extends React.Component {
                     <TabPane
                       tab={
                         <span>
-                          <i className="icmn-menu" /> Wall
+                          <i className="icmn-menu" /> Duvar
                         </span>
                       }
                       key="1"
@@ -206,11 +206,11 @@ class ProfileApp extends React.Component {
                         <div className="mt-3">
                           <Button className="mr-2" type="primary" style={{ width: 200 }}>
                             <i className="fa fa-send mr-2" />
-                            Create Post
+                            Yazı Oluştur
                           </Button>
                           <Upload>
                             <Button>
-                              <Icon type="upload" /> Attach File
+                              <Icon type="upload" /> Dosya Eki
                             </Button>
                           </Upload>
                         </div>
@@ -227,11 +227,11 @@ class ProfileApp extends React.Component {
                                 <div className="pull-right">
                                   <Dropdown overlay={actions}>
                                     <a className="ant-dropdown-link" href="javascript: void(0);">
-                                      Actions <Icon type="down" />
+                                      İşlem <Icon type="down" />
                                     </a>
                                   </Dropdown>
                                 </div>
-                                <strong>{item.name}</strong> posted:
+                                <strong>{item.name}</strong> gönderildi:
                                 <br />
                                 <small className="text-muted">{item.date}</small>
                               </div>
@@ -278,11 +278,11 @@ class ProfileApp extends React.Component {
                                               className="ant-dropdown-link"
                                               href="javascript: void(0);"
                                             >
-                                              Actions <Icon type="down" />
+                                              İşlem <Icon type="down" />
                                             </a>
                                           </Dropdown>
                                         </div>
-                                        <strong>{postComment.name}</strong> posted:
+                                        <strong>{postComment.name}</strong> gönderildi:
                                         <br />
                                         <small className="text-muted">{postComment.date}</small>
                                       </div>
@@ -311,11 +311,11 @@ class ProfileApp extends React.Component {
                             <div className="mt-3">
                               <Button className="mr-2" type="primary" style={{ width: 200 }}>
                                 <i className="fa fa-send mr-2" />
-                                Comment
+                                Yorum Yap
                               </Button>
                               <Upload>
                                 <Button>
-                                  <Icon type="upload" /> Attach File
+                                  <Icon type="upload" /> Dosya Eki
                                 </Button>
                               </Upload>
                             </div>
@@ -326,7 +326,7 @@ class ProfileApp extends React.Component {
                     <TabPane
                       tab={
                         <span>
-                          <i className="icmn-bubbles" /> Messages
+                          <i className="icmn-bubbles" /> Mesajlar
                         </span>
                       }
                       key="2"
@@ -336,7 +336,7 @@ class ProfileApp extends React.Component {
                     <TabPane
                       tab={
                         <span>
-                          <i className="icmn-cog" /> Settings
+                          <i className="icmn-cog" /> Ayarlar
                         </span>
                       }
                       key="3"

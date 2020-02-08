@@ -1,27 +1,27 @@
 export async function getLeftMenuData() {
   return [
     {
-      title: 'Settings',
+      title: 'Görünüm Ayarları',
       key: 'settings',
       icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
     },
-    {
+    /*     {
       title: 'Documentation',
       key: 'documentation',
       url: 'https://docs.cleanuitemplate.com',
       target: '_blank',
       icon: 'icmn icmn-books',
-    },
+    }, */
     {
       divider: true,
     },
     {
-      title: 'Dashboard',
+      title: 'Panel',
       key: 'dashboardAlpha',
       url: '/dashboard/alpha',
       icon: 'icmn icmn-home',
     },
-    {
+    /*     {
       title: 'Dashboard Beta',
       key: 'dashboardBeta',
       url: '/dashboard/beta',
@@ -48,20 +48,20 @@ export async function getLeftMenuData() {
       url: '/dashboard/docs',
       icon: 'icmn icmn-home',
       pro: true,
-    },
+    }, */
     {
       divider: true,
     },
-    {
+    /*     {
       title: 'AntDesign Components',
       key: 'antComponents',
       icon: 'icmn icmn-menu',
       url: '/antd',
-    },
+    }, */
     {
       divider: true,
     },
-    {
+    /*  {
       title: 'Default Pages',
       key: 'defaultPages',
       icon: 'icmn icmn-file-text',
@@ -140,42 +140,45 @@ export async function getLeftMenuData() {
       url: '/layout/mail-templates',
       icon: 'icmn icmn-envelop',
       pro: true,
+    }, */
+    {
+      title: 'Profil',
+      key: 'profile',
+      url: '/apps/profile',
+      pro: false,
     },
     {
       divider: true,
     },
     {
-      title: 'Apps',
+      title: 'Araçlar',
       key: 'apps',
       icon: 'icmn icmn-database',
       children: [
         {
-          title: 'Messaging',
+          title: 'Mesaj',
           key: 'messaging',
           url: '/apps/messaging',
-          pro: true,
+          pro: false,
         },
         {
           title: 'Mail',
           key: 'mail',
           url: '/apps/mail',
-          pro: true,
+          pro: false,
         },
         {
-          title: 'Profile',
-          key: 'profile',
-          url: '/apps/profile',
-          pro: true,
-        },
-        {
-          title: 'Gallery',
+          title: 'Galeri',
           key: 'gallery',
           url: '/apps/gallery',
-          pro: true,
+          pro: false,
         },
       ],
     },
     {
+      divider: true,
+    },
+    /* {
       title: 'Ecommerce',
       key: 'ecommerce',
       icon: 'icmn icmn-cart',
@@ -223,33 +226,33 @@ export async function getLeftMenuData() {
           pro: true,
         },
       ],
-    },
+    }, */
     {
       title: 'Blog',
       key: 'blog',
       icon: 'icmn icmn-wordpress',
       children: [
         {
-          title: 'Feed',
+          title: 'Blog Yazıları',
           key: 'blogFeed',
           url: '/blog/feed',
-          pro: true,
+          pro: false,
         },
         {
-          title: 'Post',
+          title: 'Yazılarım',
           key: 'blogPost',
           url: '/blog/post',
-          pro: true,
+          pro: false,
         },
         {
-          title: 'Add Post',
+          title: 'Yazı Ekle',
           key: 'blogAddPost',
           url: '/blog/add-blog-post',
-          pro: true,
+          pro: false,
         },
       ],
     },
-    {
+    /* {
       title: 'YouTube',
       key: 'youtube',
       icon: 'icmn icmn-youtube',
@@ -286,8 +289,8 @@ export async function getLeftMenuData() {
           pro: true,
         },
       ],
-    },
-    {
+    }, */
+    /*     {
       divider: true,
     },
     {
@@ -335,8 +338,8 @@ export async function getLeftMenuData() {
       key: 'utilities',
       url: '/layout/utilities',
       icon: 'icmn icmn-magic-wand',
-    },
-    {
+    }, */
+    /*     {
       divider: true,
     },
     {
@@ -371,7 +374,7 @@ export async function getLeftMenuData() {
       key: 'disabledItem',
       disabled: true,
       icon: 'icmn icmn-cancel-circle',
-    },
+    }, */
   ]
 }
 export async function getTopMenuData() {

@@ -11,13 +11,13 @@ const { Search } = Input
 const actions = (
   <Menu>
     <Menu.Item>
-      <Icon type="edit" /> Edit Comment
+      <Icon type="edit" /> Yorumu Düzenle
     </Menu.Item>
     <Menu.Item>
-      <Icon type="delete" /> Delete Comment
+      <Icon type="delete" /> Yorumu Sil
     </Menu.Item>
     <Menu.Item>
-      <Icon type="frown-o" /> Mark as a Spam
+      <Icon type="frown-o" /> İstenmeyen Olarak İşaretle
     </Menu.Item>
   </Menu>
 )
@@ -38,7 +38,7 @@ class BlogPost extends React.Component {
         <section className="card">
           <div className="card-header">
             <div className="utils__title">
-              <strong>Blog Post</strong>
+              <strong>Blog Yazıları</strong>
             </div>
           </div>
           <div className="card-body">
@@ -55,7 +55,7 @@ class BlogPost extends React.Component {
                       <ul className={styles.meta}>
                         <li className={styles.metaInf}>
                           <span className={styles.articleAuthor}>
-                            Post By <a href="javascript: void(0);">{articleData.author}</a>
+                            Tarafından <a href="javascript: void(0);">{articleData.author}</a>
                           </span>
                         </li>
                         <li className={styles.metaInf}>
@@ -112,13 +112,13 @@ class BlogPost extends React.Component {
                           href="javascript: void(0);"
                           className="blog-feed__author-profile-btn btn btn-sm btn-primary"
                         >
-                          View Profile
+                          Profili Gör
                         </a>
                       </div>
                     </div>
                   </div>
                   <div className="mb-4">
-                    <div className={styles.commentsTitle}>Leave a comment</div>
+                    <div className={styles.commentsTitle}>Yorum Yap</div>
                     <div className={styles.addCommentForm}>
                       <CommentForm />
                     </div>
@@ -141,14 +141,14 @@ class BlogPost extends React.Component {
                               <div className={styles.commentContent}>
                                 <div className="clearfix">
                                   <div className="pull-left">
-                                    <strong>{postComment.name}</strong> posted:
+                                    <strong>{postComment.name}</strong> gönderildi:
                                     <br />
                                     <small className="text-muted">{postComment.date}</small>
                                   </div>
                                   <div className="pull-right">
                                     <Dropdown overlay={actions}>
                                       <a className="ant-dropdown-link" href="javascript: void(0);">
-                                        Actions <Icon type="down" />
+                                        İşlem <Icon type="down" />
                                       </a>
                                     </Dropdown>
                                   </div>
@@ -175,7 +175,7 @@ class BlogPost extends React.Component {
                                   </a>
                                   <a href="javascript: void(0);">
                                     <i className="icmn-reply mr-2" />
-                                    <span>Reply</span>
+                                    <span>Cevap</span>
                                   </a>
                                 </div>
                                 {postComment.subComments && (
@@ -195,7 +195,7 @@ class BlogPost extends React.Component {
                                         <div className={styles.commentContent}>
                                           <div className="clearfix">
                                             <div className="pull-left">
-                                              <strong>{subComment.name}</strong> posted:
+                                              <strong>{subComment.name}</strong> gönderildi:
                                               <br />
                                               <small className="text-muted">
                                                 {subComment.date}
@@ -207,7 +207,7 @@ class BlogPost extends React.Component {
                                                   className="ant-dropdown-link"
                                                   href="javascript: void(0);"
                                                 >
-                                                  Actions <Icon type="down" />
+                                                  İşlem <Icon type="down" />
                                                 </a>
                                               </Dropdown>
                                             </div>
@@ -238,7 +238,7 @@ class BlogPost extends React.Component {
                                             </a>
                                             <a href="javascript: void(0);">
                                               <i className="icmn-reply mr-2" />
-                                              <span>Reply</span>
+                                              <span>Cevap</span>
                                             </a>
                                           </div>
                                         </div>
@@ -253,7 +253,7 @@ class BlogPost extends React.Component {
                       )}
                       <div className="mb-5 pb-2">
                         <a href="javascript: void(0);" className="btn btn-default btn-block mb-5">
-                          Load More
+                          Daha fazla yükle
                         </a>
                       </div>
                     </div>
@@ -263,14 +263,14 @@ class BlogPost extends React.Component {
                   <aside className={styles.sidebar}>
                     <div className={styles.partition}>
                       <div className={styles.partitionHead}>
-                        <span className={styles.partitionName}>Search</span>
+                        <span className={styles.partitionName}>Ara</span>
                       </div>
                       <div className="input-group">
                         <Search
                           placeholder="Search ..."
                           enterButton={
                             <span>
-                              <Icon type="search" /> Search
+                              <Icon type="search" /> Ara
                             </span>
                           }
                         />
@@ -278,7 +278,7 @@ class BlogPost extends React.Component {
                     </div>
                     <div className={styles.partition}>
                       <div className={styles.partitionHead}>
-                        <span className={styles.partitionName}>Categories</span>
+                        <span className={styles.partitionName}>Kategoriler</span>
                       </div>
                       <ul className={styles.categoriesList}>
                         {articlesCategories.map(category => (
@@ -292,7 +292,7 @@ class BlogPost extends React.Component {
                     </div>
                     <div className={styles.partition}>
                       <div className={styles.partitionHead}>
-                        <span className={styles.partitionName}>Latest post</span>
+                        <span className={styles.partitionName}>Son Yazılar</span>
                       </div>
                       {latesArticlesData.map(latestArticle => (
                         <article className={styles.latestPost} key={Math.random()}>
@@ -310,7 +310,8 @@ class BlogPost extends React.Component {
                             <ul className={`${styles.latestArticleMeta} ${styles.meta}`}>
                               <li className={styles.metaInf}>
                                 <span className={styles.articleAuthor}>
-                                  Post By <a href="javascript: void(0);">{latestArticle.author}</a>
+                                  Tarafından{' '}
+                                  <a href="javascript: void(0);">{latestArticle.author}</a>
                                 </span>
                               </li>
                               <li className={styles.metaInf}>
@@ -325,7 +326,7 @@ class BlogPost extends React.Component {
                     </div>
                     <div className={styles.partition}>
                       <div className={styles.partitionHead}>
-                        <span className={styles.partitionName}>Subscribe</span>
+                        <span className={styles.partitionName}>Takip Et</span>
                       </div>
                       <div className="input-group">
                         <Input

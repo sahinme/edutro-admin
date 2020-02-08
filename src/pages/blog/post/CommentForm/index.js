@@ -32,12 +32,12 @@ class CommentForm extends React.Component {
         <FormItem>
           <Button className="mr-2" type="primary" style={{ width: 200 }}>
             <i className="fa fa-send mr-2" />
-            Send
+            Gönder
           </Button>
           <Upload>
             <Button>
               <Icon type="upload" />
-              Attach File
+              Dosya Eki
             </Button>
           </Upload>
         </FormItem>

@@ -21,7 +21,7 @@ class BlogFeed extends React.Component {
         <section className="card">
           <div className="card-header">
             <div className="utils__title">
-              <strong>Blog Feed</strong>
+              <strong>Blog Yazıları</strong>
             </div>
           </div>
           <div className="card-body">
@@ -40,7 +40,7 @@ class BlogFeed extends React.Component {
                           <ul className={styles.meta}>
                             <li className={styles.metaInf}>
                               <span>
-                                Post By <a href="javascript: void(0);">{article.author}</a>
+                                Tarafından <a href="javascript: void(0);">{article.author}</a>
                               </span>
                             </li>
                             <li className={styles.metaInf}>
@@ -57,7 +57,7 @@ class BlogFeed extends React.Component {
                           <div dangerouslySetInnerHTML={{ __html: article.shortContent }} />
                           <div className={styles.articleMore}>
                             <Button type="primary">
-                              Read more
+                              Daha Fazla Oku
                               <i className="ml-2 fa fa-angle-right" aria-hidden="true" />
                             </Button>
                           </div>
@@ -105,14 +105,14 @@ class BlogFeed extends React.Component {
                   <aside className={styles.sidebar}>
                     <div className={styles.partition}>
                       <div className={styles.partitionHead}>
-                        <span className={styles.partitionName}>Search</span>
+                        <span className={styles.partitionName}>Ara</span>
                       </div>
                       <div className="input-group">
                         <Search
                           placeholder="Search ..."
                           enterButton={
                             <span>
-                              <Icon type="search" /> Search
+                              <Icon type="search" /> Ara
                             </span>
                           }
                         />
@@ -152,7 +152,8 @@ class BlogFeed extends React.Component {
                             <ul className={`${styles.latestArticleMeta} ${styles.meta}`}>
                               <li className={styles.metaInf}>
                                 <span className={styles.articleAuthor}>
-                                  Post By <a href="javascript: void(0);">{latestArticle.author}</a>
+                                  Tarafından{' '}
+                                  <a href="javascript: void(0);">{latestArticle.author}</a>
                                 </span>
                               </li>
                               <li className={styles.metaInf}>
@@ -167,7 +168,7 @@ class BlogFeed extends React.Component {
                     </div>
                     <div className={styles.partition}>
                       <div className={styles.partitionHead}>
-                        <span className={styles.partitionName}>Subscribe</span>
+                        <span className={styles.partitionName}>Takip Et</span>
                       </div>
                       <div className="input-group">
                         <Input

@@ -13,7 +13,7 @@ class SettingsForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <h5 className="text-black mt-4">
-          <strong>Personal Information</strong>
+          <strong>Kişisel Bilgiler</strong>
         </h5>
         <div className="row">
           <div className="col-lg-6">
@@ -32,7 +32,7 @@ class SettingsForm extends React.Component {
           </div>
         </div>
         <h5 className="text-black mt-4">
-          <strong>New Password</strong>
+          <strong>Yeni Şifre</strong>
         </h5>
         <div className="row">
           <div className="col-lg-6">
@@ -49,30 +49,30 @@ class SettingsForm extends React.Component {
         <div className="row">
           <div className="col-lg-6">
             <h5 className="text-black mt-4 mb-3">
-              <strong>Profile Avatar</strong>
+              <strong>Profil Fotoğrafı</strong>
             </h5>
             <Upload>
               <Button size="small">
-                <Icon type="upload" /> Click to Upload
+                <Icon type="upload" /> Yüklemek için Tıklayın
               </Button>
             </Upload>
           </div>
           <div className="col-lg-6">
             <h5 className="text-black mt-4 mb-3">
-              <strong>Profile Background</strong>
+              <strong>Arkaplan Fotoğrafı</strong>
             </h5>
             <Upload>
               <Button size="small">
-                <Icon type="upload" /> Click to Upload
+                <Icon type="upload" /> Yüklemek için Tıklayın
               </Button>
             </Upload>
           </div>
         </div>
         <div className="form-actions">
           <Button style={{ width: 150 }} type="primary" htmlType="submit" className="mr-3">
-            Submit
+            Kaydet
           </Button>
-          <Button htmlType="submit">Cancel</Button>
+          <Button htmlType="submit">İptal</Button>
         </div>
       </Form>
     )

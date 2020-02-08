@@ -43,18 +43,18 @@ class LoginFormComponent extends React.Component {
             style={{ lineHeight: '36px' }}
             href="javascript: void(0);"
           >
-            Forgot password?
+            Şifremi Unuttum
           </a>
         </FormItem>
         <div className="form-actions">
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Sign in
+            Giriş
           </Button>
           <span className="ml-3 register-link">
             <a href="javascript: void(0);" className="text-primary utils__link--underlined">
-              Register
+              Kayıt Ol
             </a>{' '}
-            if you don&#39;t have account
+            Eğer Hesabın Yoksa
           </span>
         </div>
         <div className="form-group">
