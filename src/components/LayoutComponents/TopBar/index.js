@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'antd'
+import { Button, notification } from 'antd'
 import { FormattedMessage } from 'react-intl'
 import HomeMenu from './HomeMenu'
 import ProjectManagement from './ProjectManagement'
@@ -9,21 +9,38 @@ import BitcoinPrice from './BitcoinPrice'
 import ProfileMenu from './ProfileMenu'
 import LanguageSelector from './LanguageSelector'
 import styles from './style.module.scss'
+import PriceContactForm from './PriceContactForm'
+
+const openNotificationWithIcon = (type, message, description) => {
+  notification[type]({
+    message: message,
+    description: description,
+  })
+}
 
 class TopBar extends React.Component {
+  state = {
+    visible: false,
+  }
+
+  onCreate = () => {
+    openNotificationWithIcon('success', 'mesaj', 'aciklama')
+    this.setState({ visible: false })
+  }
+
+  closeModal = () => {
+    this.setState({ visible: false })
+  }
+
   render() {
+    const { visible } = this.state
     return (
       <div className={styles.topbar}>
         <div className="mr-auto">
           <LiveSearch />
         </div>
-        <a
-          href="https://themeforest.net/item/clean-ui-react-admin-template/21938700"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mr-4 d-none d-sm-inline"
-        >
-          <Button type="danger">
+        <a target="_blank" rel="noopener noreferrer" className="mr-4 d-none d-sm-inline">
+          <Button onClick={() => this.setState({ visible: true })} type="danger">
             Paket Yükselt
           </Button>
         </a>
@@ -34,6 +51,7 @@ class TopBar extends React.Component {
           <HomeMenu />
         </div>
         <ProfileMenu />
+        <PriceContactForm visible={visible} onCreate={this.onCreate} closeModal={this.closeModal} />
       </div>
     )
   }
