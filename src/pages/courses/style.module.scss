@@ -35,6 +35,12 @@
   list-style: none;
 }
 
+.editor {
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid $gray-border;
+}
+
 .item {
   width: 196px;
   padding-top: rem(15);
@@ -55,6 +61,15 @@
   cursor: pointer;
 }
 
+.addPost {
+  max-width: rem(1000);
+  margin: 0 auto;
+
+  :global(.ant-form-item) {
+    margin-bottom: 0;
+  }
+}
+
 .itemName {
   display: block;
   font-size: rem(14);
@@ -68,4 +83,10 @@
 
 .itemViews {
   display: block;
+}
+
+.editor {
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid $gray-border;
 }

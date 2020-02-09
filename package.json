@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@rowno/sparkline": "^4.0.0",
+    "@tinymce/tinymce-react": "^3.4.0",
     "antd": "^3.20.3",
     "bootstrap-css-only": "^4.3.1",
     "chart.js": "^2.8.0",
@@ -66,7 +67,8 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.0.5",
     "redux-thunk": "^2.3.0",
-    "store": "^2.0.12"
+    "store": "^2.0.12",
+    "tinymce": "^5.1.6"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.4.4",

@@ -1,7 +1,10 @@
 import React from 'react'
-import { Form, Icon, Input, Button, Upload } from 'antd'
+import { Form, Icon, Input, Button, Upload, Select } from 'antd'
 
 const FormItem = Form.Item
+const { Option } = Select
+const { TextArea } = Input
+
 
 @Form.create()
 class SettingsForm extends React.Component {
@@ -13,59 +16,40 @@ class SettingsForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <h5 className="text-black mt-4">
-          <strong>Kişisel Bilgiler</strong>
+          <strong>Genel Bilgiler</strong>
         </h5>
         <div className="row">
           <div className="col-lg-6">
-            <FormItem label="Username">
+            <FormItem label="Kullacı Adı">
               {form.getFieldDecorator('userName', {
                 rules: [{ required: false }],
-              })(<Input placeholder="Username" />)}
+              })(<Input />)}
             </FormItem>
           </div>
           <div className="col-lg-6">
-            <FormItem label="Email">
+            <FormItem label="E-Posta">
               {form.getFieldDecorator('email', {
                 rules: [{ required: false }],
-              })(<Input placeholder="Email" />)}
+              })(<Input />)}
             </FormItem>
           </div>
         </div>
         <h5 className="text-black mt-4">
-          <strong>Yeni Şifre</strong>
+          <strong>Adres Bilgileri</strong>
         </h5>
         <div className="row">
           <div className="col-lg-6">
-            <FormItem label="Password">
-              {form.getFieldDecorator('password')(<Input placeholder="New password" />)}
+            <FormItem label="Lokasyon">
+              {form.getFieldDecorator('password')(<Select defaultValue="Option1">
+                <Option value="Option1">Ankara</Option>
+                <Option value="hafta">İstanbul</Option>
+              </Select>)}
             </FormItem>
           </div>
           <div className="col-lg-6">
-            <FormItem label="Confirm Password">
-              {form.getFieldDecorator('confirmpassword')(<Input placeholder="Confirm password" />)}
+            <FormItem label="Açık Adres">
+              {form.getFieldDecorator('confirmpassword')(<TextArea rows={3} id="product-edit-fulldescr" />)}
             </FormItem>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-6">
-            <h5 className="text-black mt-4 mb-3">
-              <strong>Profil Fotoğrafı</strong>
-            </h5>
-            <Upload>
-              <Button size="small">
-                <Icon type="upload" /> Yüklemek için Tıklayın
-              </Button>
-            </Upload>
-          </div>
-          <div className="col-lg-6">
-            <h5 className="text-black mt-4 mb-3">
-              <strong>Arkaplan Fotoğrafı</strong>
-            </h5>
-            <Upload>
-              <Button size="small">
-                <Icon type="upload" /> Yüklemek için Tıklayın
-              </Button>
-            </Upload>
           </div>
         </div>
         <div className="form-actions">

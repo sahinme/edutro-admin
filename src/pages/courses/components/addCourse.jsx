@@ -12,6 +12,8 @@ import {
   InputNumber,
 } from 'antd'
 import { Helmet } from 'react-helmet'
+import { Editor } from '@tinymce/tinymce-react'
+import styles from '../style.module.scss'
 
 const { Option } = Select
 const InputGroup = Input.Group
@@ -46,7 +48,7 @@ class AddCourse extends React.Component {
             </div>
           </div>
           <div className="card-body">
-            <Form layout="vertical">
+            <Form className="mt-3">
               <div className="row">
                 <div className="col-lg-8">
                   <div className="row">
@@ -103,6 +105,15 @@ class AddCourse extends React.Component {
                         </FormItem>
                       </div>
                     </div>
+                    <div className="col-lg-6">
+                      <div className="form-group">
+                        <FormItem label="Açık Adres">
+                          {form.getFieldDecorator('address')(
+                            <Input placeholder="örn:Kızılay seminer salonu no:34/A" />,
+                          )}
+                        </FormItem>
+                      </div>
+                    </div>
                     <div className="col-lg-12">
                       <div className="form-group">
                         <FormItem label="Kısa Özet">
@@ -116,9 +127,30 @@ class AddCourse extends React.Component {
                         </FormItem>
                       </div>
                       <div className="form-group">
-                        <FormItem label="Tanım">
+                        <FormItem label="Detaylı Tanım">
                           {form.getFieldDecorator('fullDescription')(
-                            <TextArea rows={3} id="product-edit-fulldescr" />,
+                            <Editor
+                              init={{
+                                height: 400,
+                                menubar: false,
+                                plugins: [
+                                  'advlist autolink lists link image charmap print preview anchor',
+                                  'searchreplace visualblocks code fullscreen',
+                                  'insertdatetime media table paste code help wordcount',
+                                ],
+                                toolbar:
+                                  'undo redo | formatselect | bold italic backcolor | \
+                                  alignleft aligncenter alignright alignjustify | \
+                                  bullist numlist outdent indent | removeformat | help',
+                              }}
+                              /* value={
+                                initialValues &&
+                                initialValues.length > 0 &&
+                                (language === 'en' ? enText : deText)
+                              } */
+                              // onEditorChange={this.handleEditorChange}
+                              rows={4}
+                            />,
                           )}
                         </FormItem>
                       </div>
@@ -198,13 +230,20 @@ class AddCourse extends React.Component {
                             </FormItem>
                           </div>
                         </div>
+                        <div className="col-lg-4">
+                          <div className="form-group">
+                            <FormItem>
+                              {form.getFieldDecorator('video')(<Checkbox>Online Video</Checkbox>)}
+                            </FormItem>
+                          </div>
+                        </div>
 
                         <div className="col-lg-12">
                           <div className="form-actions">
                             <Button type="primary" className="mr-2">
-                              Save Product
+                              Oluştur
                             </Button>
-                            <Button type="default">Cancel</Button>
+                            <Button type="default">Vazgeç</Button>
                           </div>
                         </div>
                       </div>
