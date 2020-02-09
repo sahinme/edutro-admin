@@ -47,15 +47,15 @@ class DashboardAlpha extends React.Component {
 
     return (
       <Authorize roles={['admin']} redirect to="/dashboard/beta">
-        <Helmet title="Dashboard Alpha" />
+        <Helmet title="Kontrol Paneli" />
         <div className="utils__title utils__title--flat mb-3">
-          <strong className="text-uppercase font-size-16">Haftalık Veriler</strong>
+          <strong className="text-uppercase font-size-16">Genel Veriler</strong>
         </div>
         <div className="row">
           <div className="col-xl-4">
             <ChartCard
-              title="Transactions"
-              amount="1240"
+              title="Tüm Eğitimler"
+              amount="13"
               chartProps={{
                 width: 120,
                 height: 107,
@@ -73,8 +73,8 @@ class DashboardAlpha extends React.Component {
           </div>
           <div className="col-xl-4">
             <ChartCard
-              title="Income"
-              amount="$1,240.00"
+              title="Aktif Eğitimler"
+              amount="5"
               chartProps={{
                 width: 120,
                 height: 107,
@@ -92,8 +92,8 @@ class DashboardAlpha extends React.Component {
           </div>
           <div className="col-xl-4">
             <ChartCard
-              title="Outcome"
-              amount="$240.56"
+              title="Bildirimler"
+              amount="8"
               chartProps={{
                 width: 120,
                 height: 107,
@@ -115,10 +115,8 @@ class DashboardAlpha extends React.Component {
             <div className="card">
               <div className="card-header">
                 <div className="utils__title">
-                  <strong>Recently Referrals</strong>
-                </div>
-                <div className="utils__titleDescription">
-                  Block with important Recently Referrals information
+                  <strong>Son Kayıtlar</strong>
+                  <Button className="ml-3">Tümünü Gör</Button>
                 </div>
               </div>
               <div className="card-body">
@@ -134,8 +132,8 @@ class DashboardAlpha extends React.Component {
           </div>
         </div>
         <div className="utils__title utils__title--flat mb-3">
-          <strong className="text-uppercase font-size-16">Your Cards (3)</strong>
-          <Button className="ml-3">View All</Button>
+          <strong className="text-uppercase font-size-16">Eğitimlerim (3)</strong>
+          <Button className="ml-3">Tümünü Gör</Button>
         </div>
         <div className="row">
           <div className="col-lg-4">
@@ -170,8 +168,8 @@ class DashboardAlpha extends React.Component {
           </div>
         </div>
         <div className="utils__title utils__title--flat mb-3">
-          <strong className="text-uppercase font-size-16">Your Accounts (6)</strong>
-          <Button className="ml-3">View All</Button>
+          <strong className="text-uppercase font-size-16">Hesabım (6)</strong>
+          <Button className="ml-3">Tümünü Gör</Button>
         </div>
         <div className="row">
           <div className="col-lg-6">
@@ -210,8 +208,8 @@ class DashboardAlpha extends React.Component {
           </div>
         </div>
         <div className="utils__title mb-3">
-          <strong className="text-uppercase font-size-16">Recent Transactions (167)</strong>
-          <Button className="ml-3">View All</Button>
+          <strong className="text-uppercase font-size-16">Son Satışlar (167)</strong>
+          <Button className="ml-3">Tümünü Gör</Button>
         </div>
         <div className="row">
           <div className="col-lg-12">
@@ -235,7 +233,7 @@ class DashboardAlpha extends React.Component {
             />
             <div className="text-center pb-5">
               <Button type="primary" className="width-200" loading>
-                Load More...
+                Yükleniyor...
               </Button>
             </div>
           </div>
