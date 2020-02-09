@@ -1,4 +1,5 @@
 import React from 'react'
+import {withRouter} from "react-router-dom";
 import { Helmet } from 'react-helmet'
 import {Input} from "antd";
 import QuestionCard from 'components/CleanUIComponents/QuestionCard'
@@ -10,6 +11,7 @@ class Questions extends React.Component {
 
   render() {
     const data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
+    const {history} = this.props;
     return (
       <div>
         <Helmet title="Soru-Cevap" />
@@ -37,4 +39,4 @@ class Questions extends React.Component {
   }
 }
 
-export default Questions
+export default withRouter(Questions) 

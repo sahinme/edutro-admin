@@ -167,11 +167,11 @@ class DashboardAlpha extends React.Component {
             />
           </div>
         </div>
-        <div className="utils__title utils__title--flat mb-3">
+        {/* <div className="utils__title utils__title--flat mb-3">
           <strong className="text-uppercase font-size-16">Hesabım (6)</strong>
           <Button className="ml-3">Tümünü Gör</Button>
-        </div>
-        <div className="row">
+        </div> */}
+        {/* <div className="row">
           <div className="col-lg-6">
             <PaymentAccount
               icon="lnr lnr-inbox"
@@ -188,8 +188,8 @@ class DashboardAlpha extends React.Component {
               sum="$560,245.35"
             />
           </div>
-        </div>
-        <div className="row">
+        </div> */}
+        {/* <div className="row">
           <div className="col-lg-6">
             <PaymentAccount
               icon="lnr lnr-inbox"
@@ -206,12 +206,12 @@ class DashboardAlpha extends React.Component {
               sum="$560,245.35"
             />
           </div>
-        </div>
-        <div className="utils__title mb-3">
+        </div> */}
+        {/* <div className="utils__title mb-3">
           <strong className="text-uppercase font-size-16">Son Satışlar (167)</strong>
           <Button className="ml-3">Tümünü Gör</Button>
-        </div>
-        <div className="row">
+        </div> */}
+     {/*    <div className="row">
           <div className="col-lg-12">
             <PaymentTransaction
               income={false}
@@ -237,7 +237,7 @@ class DashboardAlpha extends React.Component {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
       </Authorize>
     )
   }

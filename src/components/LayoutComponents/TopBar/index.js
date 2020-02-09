@@ -40,7 +40,7 @@ class TopBar extends React.Component {
           <LiveSearch />
         </div>
         <a target="_blank" rel="noopener noreferrer" className="mr-4 d-none d-sm-inline">
-          <Button onClick={() => this.setState({ visible: true })} type="danger">
+          <Button onClick={() => this.setState({ visible: true })} style={{ backgroundColor: "#46be8a", borderColor: "#46be8a",color:"white" }}>
             Paket Yükselt
           </Button>
         </a>

@@ -1,10 +1,10 @@
 export async function getLeftMenuData() {
   return [
-    {
+  /*   {
       title: 'Görünüm Ayarları',
       key: 'settings',
       icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
-    },
+    }, */
     /*     {
       title: 'Documentation',
       key: 'documentation',
@@ -38,9 +38,9 @@ export async function getLeftMenuData() {
       ],
     },
     {
-      title: 'Mesajlar',
+      title: 'Sorular',
       key: 'messages',
-      url: '/mesajlar',
+      url: '/sorular',
       icon: 'icmn icmn-message',
     },
     /*     {
@@ -160,7 +160,7 @@ export async function getLeftMenuData() {
     {
       title: 'Profil',
       key: 'profile',
-      url: '/apps/profile',
+      url: '/profile',
       pro: false,
     },
     {
@@ -371,6 +371,12 @@ export async function getTopMenuData() {
       title: 'Eğitim Düzenle',
       key: 'courseEdit',
       url: '/egitim/egitim-duzenle',
+      icon: 'icmn icmn-magic-wand',
+    },
+    {
+      title: 'Soru Detayi',
+      key: 'detailsQuestion',
+      url: '/sorular/soru-detay',
       icon: 'icmn icmn-magic-wand',
     },
     {

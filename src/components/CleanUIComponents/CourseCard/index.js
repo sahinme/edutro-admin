@@ -29,7 +29,7 @@ class CourseCard extends React.Component {
 
   render() {
     const { icon, name, number, type, footer, sum } = this.state
-    const { history } = this.props;
+    const { history, onDelete } = this.props;
     return (
       <a href="javascript: void(0);" className={`card card--withShadow ${styles.paymentCard}`}>
         {sum && <span className={styles.sum}>{sum}</span>}
@@ -41,7 +41,7 @@ class CourseCard extends React.Component {
         {name && <span className={styles.name}>{name}</span>}
         {<span className={styles.number}> <ButtonGroup>
           <Button onClick={() => history.push("/egitimler/egitim-duzenle")} type="primary" ghost>Düzenle</Button>
-          <Button type="danger" ghost>Sil</Button>
+          <Button onClick={onDelete} type="danger" ghost>Sil</Button>
         </ButtonGroup> </span>}
         {type && <span className={styles.type}>{type}</span>}
         {footer && <div className={styles.footer}>{footer}</div>}

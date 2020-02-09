@@ -3,11 +3,20 @@ import { Pagination } from 'antd'
 import { Helmet } from 'react-helmet'
 import CourseCard from 'components/CleanUIComponents/CourseCard'
 import styles from './style.module.scss'
+import RemoveCourseModal from './components/removeCourseModal'
 
 class Courses extends React.Component {
+  state = {
+    visible: false,
+  }
+
+  handleDelete = () => {
+    this.setState({ visible: true });
+  }
 
   render() {
     const data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
+    const { visible } = this.state;
     return (
       <div>
         <Helmet title="Eğitimler" />
@@ -23,6 +32,7 @@ class Courses extends React.Component {
                 {data.map(item => (
                   <div className="col-lg-4">
                     <CourseCard
+                      onDelete={this.handleDelete}
                       icon="lnr lnr-bookmark"
                       name="NLP Eğitimi"
                       number="Ankara - Cankaya"
@@ -38,7 +48,8 @@ class Courses extends React.Component {
                 <Pagination defaultCurrent={1} total={50} />
               </div>
             </div>
-          </div>
+          </div> 
+          <RemoveCourseModal closeModal={() => this.setState({ visible: false })} onDelete={() => { }} visible={visible} />
         </section>
       </div>
     )

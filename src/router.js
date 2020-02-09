@@ -70,8 +70,13 @@ const routes = [
     exact: true,
   },
   {
-    path: '/mesajlar',
+    path: '/sorular',
     component: loadable(() => import('pages/questions')),
+    exact: true,
+  },
+  {
+    path: '/sorular/soru-detay',
+    component: loadable(() => import('pages/questions/components/questionDetail')),
     exact: true,
   },
   {
@@ -117,7 +122,7 @@ const routes = [
     exact: true,
   },
   {
-    path: '/apps/profile',
+    path: '/profile',
     component: loadable(() => import('pages/apps/profile')),
     exact: true,
   },

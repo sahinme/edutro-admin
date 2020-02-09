@@ -16,7 +16,7 @@ class PriceContactForm extends React.Component {
           cancelText="Vazgeç"
           onOk={onCreate}
         >
-          <h5>Paket Yükseltmek İçin İletişime Geçin</h5>
+          <h5>Paket Yükseltmek İçin Talep Gönder</h5>
         </Modal>
       </div>
     )
