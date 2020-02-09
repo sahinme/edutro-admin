@@ -3,16 +3,11 @@ import { Pagination } from 'antd'
 import { Helmet } from 'react-helmet'
 import CourseCard from 'components/CleanUIComponents/CourseCard'
 import styles from './style.module.scss'
-import data from './data.json'
 
 class Courses extends React.Component {
-  state = {
-    partitions: data.partitions,
-  }
 
   render() {
     const data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
-    const { partitions } = this.state
     return (
       <div>
         <Helmet title="Eğitimler" />

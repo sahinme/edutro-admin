@@ -387,6 +387,12 @@ export async function getLeftMenuData() {
 export async function getTopMenuData() {
   return [
     {
+      title: 'Eğitim Düzenle',
+      key: 'courseEdit',
+      url: '/egitim/egitim-duzenle',
+      icon: 'icmn icmn-magic-wand',
+    },
+    {
       title: 'Settings',
       key: 'settings',
       icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',

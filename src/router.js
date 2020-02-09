@@ -60,6 +60,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/egitimler/egitim-duzenle',
+    component: loadable(() => import('pages/courses/components/editCourse')),
+    exact: true,
+  },
+  {
     path: '/egitimler/egitimlerim',
     component: loadable(() => import('pages/courses')),
     exact: true,

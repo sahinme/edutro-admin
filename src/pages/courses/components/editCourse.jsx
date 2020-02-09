@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Input,
+  TreeSelect,
   Select,
   Button,
   Upload,
@@ -13,12 +14,26 @@ import {
 } from 'antd'
 import { Helmet } from 'react-helmet'
 import { Editor } from '@tinymce/tinymce-react'
+import styles from '../style.module.scss'
 
 const { Option } = Select
 const InputGroup = Input.Group
 const { TextArea } = Input
 const FormItem = Form.Item
 
+const dragprop = {
+  name: 'file',
+  multiple: true,
+  action: '//jsonplaceholder.typicode.com/posts/',
+  onChange(info) {
+    const { status } = info.file
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`)
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`)
+    }
+  },
+}
 function getBase64(img, callback) {
   const reader = new FileReader()
   reader.addEventListener('load', () => callback(reader.result))
@@ -38,7 +53,7 @@ function beforeUpload(file) {
 }
 
 @Form.create()
-class AddCourse extends React.Component {
+class EditCourse extends React.Component {
   state = {
     loading: false,
   }
@@ -59,17 +74,6 @@ class AddCourse extends React.Component {
     }
   }
 
-  onSubmit = event => {
-    debugger;
-    event.preventDefault()
-    const { form } = this.props
-    form.validateFields((error, values) => {
-      if (!error) {
-        console.log(values)
-      }
-    })
-  }
-
   render() {
     const { imageUrl, loading } = this.state
 
@@ -82,15 +86,15 @@ class AddCourse extends React.Component {
     const { form } = this.props
     return (
       <div>
-        <Helmet title="Eğitim Oluştur" />
+        <Helmet title="Eğitim Düzenle" />
         <div className="card">
           <div className="card-header">
             <div className="utils__title">
-              <strong>Eğitim Oluştur</strong>
+              <strong>Eğitim Düzenle</strong>
             </div>
           </div>
           <div className="card-body">
-            <Form onSubmit={this.onSubmit} className="mt-3">
+            <Form className="mt-3">
               <div className="row">
                 <div className="col-lg-8">
                   <div className="row">
@@ -204,11 +208,7 @@ class AddCourse extends React.Component {
                           <div className="form-group">
                             <FormItem label="Normal Fiyat">
                               {form.getFieldDecorator('totalPrice')(
-                                <InputNumber
-                                  style={{ width: '100%' }}
-                                  min={0}
-                                  placeholder="örn: 199.99"
-                                />,
+                                <Input id="product-edit-total-price" placeholder="299.99" />,
                               )}
                             </FormItem>
                           </div>
@@ -217,11 +217,7 @@ class AddCourse extends React.Component {
                           <div className="form-group">
                             <FormItem label="İndirimli Fiyat">
                               {form.getFieldDecorator('discountPrice')(
-                                <InputNumber
-                                  style={{ width: '100%' }}
-                                  min={0}
-                                  placeholder="99.99"
-                                />,
+                                <Input id="product-edit-discountprice" placeholder="199.99" />,
                               )}
                             </FormItem>
                           </div>
@@ -290,7 +286,7 @@ class AddCourse extends React.Component {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="Eğitim Görseli">
-                              {form.getFieldDecorator('image')(
+                              {form.getFieldDecorator('totalPrice')(
                                 <Upload
                                   name="avatar"
                                   listType="picture-card"
@@ -312,7 +308,7 @@ class AddCourse extends React.Component {
                         </div>
                         <div className="col-lg-12">
                           <div className="form-actions">
-                            <Button htmlType="submit" type="primary" className="mr-2">
+                            <Button type="primary" className="mr-2">
                               Oluştur
                             </Button>
                             <Button type="default">Vazgeç</Button>
@@ -331,4 +327,4 @@ class AddCourse extends React.Component {
   }
 }
 
-export default AddCourse
+export default EditCourse

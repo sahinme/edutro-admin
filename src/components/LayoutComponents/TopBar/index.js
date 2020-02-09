@@ -14,12 +14,6 @@ class TopBar extends React.Component {
   render() {
     return (
       <div className={styles.topbar}>
-        <div className="mr-4">
-          <IssuesHistory />
-        </div>
-        <div className="mr-4">
-          <ProjectManagement />
-        </div>
         <div className="mr-auto">
           <LiveSearch />
         </div>
@@ -30,7 +24,7 @@ class TopBar extends React.Component {
           className="mr-4 d-none d-sm-inline"
         >
           <Button type="danger">
-            <FormattedMessage id="topBar.buyNow" />
+            Paket Yükselt
           </Button>
         </a>
         <div className="mr-4">

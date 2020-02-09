@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { Button } from 'antd';
 import styles from './style.module.scss'
 
@@ -28,7 +29,7 @@ class CourseCard extends React.Component {
 
   render() {
     const { icon, name, number, type, footer, sum } = this.state
-
+    const { history } = this.props;
     return (
       <a href="javascript: void(0);" className={`card card--withShadow ${styles.paymentCard}`}>
         {sum && <span className={styles.sum}>{sum}</span>}
@@ -39,7 +40,7 @@ class CourseCard extends React.Component {
         )}
         {name && <span className={styles.name}>{name}</span>}
         {<span className={styles.number}> <ButtonGroup>
-          <Button type="primary" ghost>Düzenle</Button>
+          <Button onClick={() => history.push("/egitimler/egitim-duzenle")} type="primary" ghost>Düzenle</Button>
           <Button type="danger" ghost>Sil</Button>
         </ButtonGroup> </span>}
         {type && <span className={styles.type}>{type}</span>}
@@ -49,4 +50,4 @@ class CourseCard extends React.Component {
   }
 }
 
-export default CourseCard
+export default withRouter(CourseCard)

@@ -12,11 +12,11 @@ class BitcoinPrice extends React.Component {
     const { chartsData } = this.state
     return (
       <div className={style.bitcoinPrice}>
-        <FormattedMessage id="topBar.bitcoin" />:
+        Dolar:
         <span style={{ margin: '0 8px', position: 'relative', top: '3px' }}>
           <Line values={chartsData} />
         </span>
-        +20%
+        6,02 ₺
       </div>
     )
   }
