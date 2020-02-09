@@ -37,6 +37,12 @@ export async function getLeftMenuData() {
         },
       ],
     },
+    {
+      title: 'Mesajlar',
+      key: 'messages',
+      url: '/mesajlar',
+      icon: 'icmn icmn-message',
+    },
     /*     {
       title: 'Dashboard Beta',
       key: 'dashboardBeta',
@@ -156,31 +162,6 @@ export async function getLeftMenuData() {
       key: 'profile',
       url: '/apps/profile',
       pro: false,
-    },
-    {
-      title: 'Araçlar',
-      key: 'apps',
-      icon: 'icmn icmn-database',
-      children: [
-        {
-          title: 'Mesaj',
-          key: 'messaging',
-          url: '/apps/messaging',
-          pro: false,
-        },
-        {
-          title: 'Mail',
-          key: 'mail',
-          url: '/apps/mail',
-          pro: false,
-        },
-        {
-          title: 'Galeri',
-          key: 'gallery',
-          url: '/apps/gallery',
-          pro: false,
-        },
-      ],
     },
     {
       divider: true,

@@ -32,31 +32,19 @@ class ProfileMenu extends React.Component {
       <Menu selectable={false}>
         <Menu.Item>
           <strong>
-            <FormattedMessage id="topBar.profileMenu.hello" />, {user.name || 'Anonymous'}
+            Merhaba, {user.name || 'Anonymous'}
           </strong>
-          <div>
-            <strong className="mr-1">
-              <FormattedMessage id="topBar.profileMenu.billingPlan" />:{' '}
-            </strong>
-            Professional
-          </div>
-          <div>
-            <strong>
-              <FormattedMessage id="topBar.profileMenu.role" />:{' '}
-            </strong>
-            {user.role}
-          </div>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
           <div>
             <strong>
-              <FormattedMessage id="topBar.profileMenu.email" />:{' '}
+              E-Posta:
             </strong>
-            {user.email}
+            {" " + user.email}
             <br />
             <strong>
-              <FormattedMessage id="topBar.profileMenu.phone" />:{' '}
+              Telefon
             </strong>
             {user.phone || '-'}
           </div>
@@ -65,14 +53,14 @@ class ProfileMenu extends React.Component {
         <Menu.Item>
           <a href="javascript: void(0);">
             <i className={`${styles.menuIcon} icmn-user`} />
-            <FormattedMessage id="topBar.profileMenu.editProfile" />
+            Profili Düzenle
           </a>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
           <a href="javascript: void(0);" onClick={this.logout}>
             <i className={`${styles.menuIcon} icmn-exit`} />
-            <FormattedMessage id="topBar.profileMenu.logout" />
+            Çıkış Yap
           </a>
         </Menu.Item>
       </Menu>

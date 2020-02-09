@@ -97,22 +97,6 @@ class MessagingChat extends React.Component {
       <div>
         <Helmet title="Messaging App" />
         <div className={`card ${styles.messaging}`}>
-          <div className={styles.sidebar}>
-            <div className={styles.sidebarHeader}>
-              <Search placeholder="input search text" style={{ width: '100%' }} />
-            </div>
-            <div className={styles.tabs}>
-              <Tabs
-                defaultActiveKey={chatsData[0].companionName}
-                tabPosition="left"
-                onChange={this.changeChat}
-              >
-                {chatsData.map(chat => (
-                  <TabPane tab={chatTab(chat)} key={chat.companionName} />
-                ))}
-              </Tabs>
-            </div>
-          </div>
           <div className={styles.content}>
             <div className="card-header clearfix">
               <h4 className="mt-1 mb-1 text-black d-inline-block">

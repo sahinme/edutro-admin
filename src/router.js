@@ -70,6 +70,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/mesajlar',
+    component: loadable(() => import('pages/questions')),
+    exact: true,
+  },
+  {
     path: '/pages/login-alpha',
     component: loadable(() => import('pages/pages/login-alpha')),
     exact: true,

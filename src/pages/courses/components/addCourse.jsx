@@ -41,6 +41,7 @@ function beforeUpload(file) {
 class AddCourse extends React.Component {
   state = {
     loading: false,
+    fullDescription:''
   }
 
   handleChange = info => {
@@ -65,10 +66,16 @@ class AddCourse extends React.Component {
     const { form } = this.props
     form.validateFields((error, values) => {
       if (!error) {
+        const {fullDescription} = this.state;
+        values.fullDescription= fullDescription;
         console.log(values)
       }
     })
   }
+
+  handleEditorChange = content => {
+      this.setState({ fullDescription: content });
+  };
 
   render() {
     const { imageUrl, loading } = this.state
@@ -104,7 +111,7 @@ class AddCourse extends React.Component {
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Kategori">
-                          {form.getFieldDecorator('category')(
+                          {form.getFieldDecorator('categoryId')(
                             <Select
                               id="product-edit-colors"
                               showSearch
@@ -185,12 +192,7 @@ class AddCourse extends React.Component {
                                   alignleft aligncenter alignright alignjustify | \
                                   bullist numlist outdent indent | removeformat | help',
                               }}
-                              /* value={
-                                initialValues &&
-                                initialValues.length > 0 &&
-                                (language === 'en' ? enText : deText)
-                              } */
-                              // onEditorChange={this.handleEditorChange}
+                              onEditorChange={this.handleEditorChange}
                               rows={4}
                             />,
                           )}
@@ -252,7 +254,7 @@ class AddCourse extends React.Component {
                         <div className="col-lg-3">
                           <div className="form-group">
                             <FormItem label="Eğitim Süresi">
-                              {form.getFieldDecorator('day')(
+                              {form.getFieldDecorator('duration')(
                                 <InputGroup compact>
                                   <InputNumber min={1} placeholder="örn:3" />
                                   <Select defaultValue="Option1">
@@ -269,28 +271,28 @@ class AddCourse extends React.Component {
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('colors')(<Checkbox>Sertifika</Checkbox>)}
+                              {form.getFieldDecorator('certificate')(<Checkbox>Sertifika</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('size')(<Checkbox>Katılım Belgesi</Checkbox>)}
+                              {form.getFieldDecorator('certificateOfParticipation')(<Checkbox>Katılım Belgesi</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('video')(<Checkbox>Online Video</Checkbox>)}
+                              {form.getFieldDecorator('onlineVideo')(<Checkbox>Online Video</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="Eğitim Görseli">
-                              {form.getFieldDecorator('image')(
+                              {form.getFieldDecorator('courseImage')(
                                 <Upload
                                   name="avatar"
                                   listType="picture-card"

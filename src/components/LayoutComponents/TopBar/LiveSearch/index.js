@@ -60,10 +60,10 @@ class LiveSearch extends React.Component {
       <div className="d-inline-block mr-4">
         <Input
           className={styles.extInput}
-          placeholder={formatMessage({ id: 'topBar.typeToSearch' })}
+          placeholder="kurs arayin"
           prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
           style={{ width: 200 }}
-          onFocus={this.showLiveSearch}
+          // onFocus={this.showLiveSearch}
         />
         <div
           className={`${
@@ -86,83 +86,12 @@ class LiveSearch extends React.Component {
                 value={searchText}
                 onChange={this.changeSearchText}
                 id="livesearchInput"
-                placeholder="Type to search..."
+                placeholder="kurs arayin..."
                 ref={this.handleNode}
               />
               <ul className={styles.options}>
-                <li className={`${styles.option} ${styles.optionCheckbox}`}>
-                  <Checkbox>Search within page</Checkbox>
-                </li>
                 <li className={styles.option}>Press enter to search</li>
               </ul>
-              <div className={styles.results}>
-                <div className={styles.resultsTitle}>
-                  <span>Pages Search Results</span>
-                </div>
-                <div className="row">
-                  <div className="col-lg-4">
-                    <div className={styles.resultContent}>
-                      <div
-                        className={styles.resultThumb}
-                        style={{ backgroundImage: 'url(resources/images/photos/1.jpeg)' }}
-                      >
-                        #1
-                      </div>
-                      <div className={styles.result}>
-                        <div className={styles.resultText}>Text from input field must be here</div>
-                        <div className={styles.resultSource}>In some partition</div>
-                      </div>
-                    </div>
-                    <div className={styles.resultContent}>
-                      <div
-                        className={styles.resultThumb}
-                        style={{ backgroundImage: 'url(resources/images/photos/2.jpeg)' }}
-                      >
-                        KF
-                      </div>
-                      <div className={styles.result}>
-                        <div className={styles.resultText}>Text from input field must be here</div>
-                        <div className={styles.resultSource}>In some partition</div>
-                      </div>
-                    </div>
-                    <div className={styles.resultContent}>
-                      <div
-                        className={styles.resultThumb}
-                        style={{ backgroundImage: 'url(resources/images/photos/3.jpeg)' }}
-                      >
-                        GF
-                      </div>
-                      <div className={styles.result}>
-                        <div className={styles.resultText}>Text from input field must be here</div>
-                        <div className={styles.resultSource}>In some partition</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div className={styles.resultContent}>
-                      <div className={styles.resultThumb}>01</div>
-                      <div className={styles.result}>
-                        <div className={styles.resultText}>Text from input field must be here</div>
-                        <div className={styles.resultSource}>In some partition</div>
-                      </div>
-                    </div>
-                    <div className={styles.resultContent}>
-                      <div className={styles.resultThumb}>02</div>
-                      <div className={styles.result}>
-                        <div className={styles.resultText}>Text from input field must be here</div>
-                        <div className={styles.resultSource}>In some partition</div>
-                      </div>
-                    </div>
-                    <div className={styles.resultContent}>
-                      <div className={styles.resultThumb}>03</div>
-                      <div className={styles.result}>
-                        <div className={styles.resultText}>Text from input field must be here</div>
-                        <div className={styles.resultSource}>In some partition</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

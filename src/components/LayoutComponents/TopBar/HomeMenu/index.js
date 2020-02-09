@@ -95,7 +95,7 @@ class HomeMenu extends React.Component {
     return (
       <Dropdown overlay={menu} trigger={['click']}>
         <div className={styles.dropdown}>
-          <i className="icmn-home topbar__dropdownIcon" />
+          <i className="icmn-bubbles topbar__dropdownIcon" />
         </div>
       </Dropdown>
     )

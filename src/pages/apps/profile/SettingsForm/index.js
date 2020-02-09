@@ -33,6 +33,20 @@ class SettingsForm extends React.Component {
               })(<Input />)}
             </FormItem>
           </div>
+          <div className="col-lg-6">
+            <FormItem label="İsim">
+              {form.getFieldDecorator('tenantName', {
+                rules: [{ required: false }],
+              })(<Input />)}
+            </FormItem>
+          </div>
+          <div className="col-lg-6">
+            <FormItem label="Title">
+              {form.getFieldDecorator('title', {
+                rules: [{ required: false }],
+              })(<Input />)}
+            </FormItem>
+          </div>
         </div>
         <h5 className="text-black mt-4">
           <strong>Adres Bilgileri</strong>

@@ -131,7 +131,7 @@ class ProfileApp extends React.Component {
                 <div className={style.socialCounts}>
                   <div className="text-center mr-3">
                     <h2>{followersCount}</h2>
-                    <p className="mb-0">Takipçiler</p>
+                    <p className="mb-0">Eğitimler</p>
                   </div>
                   <div className="text-center">
                     <h2>{postsCount}</h2>

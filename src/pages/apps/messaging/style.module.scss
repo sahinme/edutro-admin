@@ -121,8 +121,6 @@
 }
 
 .content {
-  margin-left: rem(320);
-
   @media (max-width: $md-max-width) {
     margin-left: 0;
   }

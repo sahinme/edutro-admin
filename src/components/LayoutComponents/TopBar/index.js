@@ -31,9 +31,6 @@ class TopBar extends React.Component {
           <BitcoinPrice />
         </div>
         <div className="mr-4">
-          <LanguageSelector />
-        </div>
-        <div className="mr-4">
           <HomeMenu />
         </div>
         <ProfileMenu />
