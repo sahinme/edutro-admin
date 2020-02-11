@@ -1,12 +1,13 @@
 import React from 'react'
 import { Editor } from 'react-draft-wysiwyg'
-import FroalaEditorComponent from 'react-froala-wysiwyg';
+import FroalaEditor from 'react-froala-wysiwyg';
 import { Form, Input, Button, Radio, Select, Upload, Icon } from 'antd'
 
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 import styles from '../style.module.scss'
+import Example from './Example';
 
 
 const FormItem = Form.Item
@@ -16,9 +17,21 @@ const { Dragger } = Upload
 @Form.create()
 class AddForm extends React.Component {
   render() {
-    /* const config = {
-      imageEditButtons: ['imageDisplay', 'imageAlign', 'imageInfo', 'imageRemove']
-    } */
+    const config = {
+      imageUploadURL: 'https://api.cloudinary.com/v1_1/.../image/upload',
+      imageUploadParams: {
+        'api_key': '...',
+        'upload_preset': '...'
+      },
+      imageUploadMethod: 'POST',
+      events: {
+        'froalaEditor.image.uploaded': (e, editor, response) => {
+          response = JSON.parse(response);
+          editor.image.insert(response.secure_url, true, null, editor.image.get(), null)
+          return false
+        }
+      }
+    }
     const { form } = this.props
 
     return (
@@ -59,19 +72,7 @@ class AddForm extends React.Component {
           <FormItem label="İçerik">
             {form.getFieldDecorator('content')(
               <div className={styles.editor}>
-                <FroalaEditorComponent
-                  config={{
-                    placeholderText: 'Edit Your Content Here!',
-                    charCounterCount: false,
-                    imageUpload: true,
-                    imageDefaultDisplay: 'inline-block',
-                    // Set max image size to 5MB.
-                    imageMaxSize: 5 * 1024 * 1024,
-                    // Allow to upload PNG and JPG.
-                    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
-                  }}
-                  tag='textarea'
-                />
+                <Example />
               </div>,
             )}
           </FormItem>
