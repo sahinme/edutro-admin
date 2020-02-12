@@ -10,9 +10,13 @@ import {
   Checkbox,
   InputNumber,
   Icon,
+  Collapse,
+  Row,
 } from 'antd'
 import { Helmet } from 'react-helmet'
 import { Editor } from '@tinymce/tinymce-react'
+
+const { Panel } = Collapse
 
 const { Option } = Select
 const InputGroup = Input.Group
@@ -28,20 +32,22 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!')
+    message.error('Yanlızca JPG/PNG dosyaları yükleyebilirsiniz!')
   }
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!')
+    message.error('Dosya boyutu 2MB dan küçük olmalıdır!')
   }
   return isJpgOrPng && isLt2M
 }
 
+let id = 0
+let idTeaching = 0
 @Form.create()
 class AddCourse extends React.Component {
   state = {
     loading: false,
-    fullDescription:''
+    fullDescription: '',
   }
 
   handleChange = info => {
@@ -61,24 +67,62 @@ class AddCourse extends React.Component {
   }
 
   onSubmit = event => {
-    debugger;
     event.preventDefault()
     const { form } = this.props
     form.validateFields((error, values) => {
       if (!error) {
-        const {fullDescription} = this.state;
-        values.fullDescription= fullDescription;
+        const { fullDescription } = this.state
+        values.fullDescription = fullDescription
+        const requirements = values.names.join(',')
+        values.requirements = requirements
+        const teachings = values.namesTeaching.join(',')
+        values.teachings = teachings
         console.log(values)
       }
     })
   }
 
   handleEditorChange = content => {
-      this.setState({ fullDescription: content });
-  };
+    this.setState({ fullDescription: content })
+  }
+
+  remove = k => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keys')
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    })
+  }
+
+  removeTeaching = k => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keysTeaching')
+    form.setFieldsValue({
+      keysTeaching: keys.filter(key => key !== k),
+    })
+  }
+
+  add = () => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keys')
+    const nextKeys = keys.concat(id++)
+    form.setFieldsValue({
+      keys: nextKeys,
+    })
+  }
+
+  addTeaching = () => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keysTeaching')
+    const nextKeys = keys.concat(idTeaching++)
+    form.setFieldsValue({
+      keysTeaching: nextKeys,
+    })
+  }
 
   render() {
     const { imageUrl, loading } = this.state
+    const { form } = this.props
 
     const uploadButton = (
       <div>
@@ -86,7 +130,91 @@ class AddCourse extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     )
-    const { form } = this.props
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 20 },
+      },
+    }
+    const formItemLayoutWithOutLabel = {
+      wrapperCol: {
+        xs: { span: 24, offset: 0 },
+        sm: { span: 20, offset: 4 },
+      },
+    }
+    form.getFieldDecorator('keys', { initialValue: [] })
+    form.getFieldDecorator('keysTeaching', { initialValue: [] })
+    const keys = form.getFieldValue('keys')
+    const keysTeaching = form.getFieldValue('keysTeaching')
+
+    const formItems = keys.map((k, index) => (
+      <Form.Item
+        {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+        label={index === 0 ? 'Gereklilik' : ''}
+        required={false}
+        key={k}
+      >
+        {form.getFieldDecorator(`names[${k}]`, {
+          validateTrigger: ['onChange', 'onBlur'],
+          rules: [
+            {
+              required: true,
+              whitespace: true,
+              message: 'Bu alan zorunludur.',
+            },
+          ],
+        })(
+          <Input
+            placeholder="örn:17-25 yaş arasında olmak"
+            style={{ width: '60%', marginRight: 8 }}
+          />,
+        )}
+        {keys.length > 0 ? (
+          <Icon
+            className="dynamic-delete-button"
+            type="minus-circle-o"
+            onClick={() => this.remove(k)}
+          />
+        ) : null}
+      </Form.Item>
+    ))
+
+    const formItemsTeaching = keysTeaching.map((k, index) => (
+      <Form.Item
+        {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+        label={index === 0 ? 'Öğrenilecekler' : ''}
+        required={false}
+        key={k}
+      >
+        {form.getFieldDecorator(`namesTeaching[${k}]`, {
+          validateTrigger: ['onChange', 'onBlur'],
+          rules: [
+            {
+              required: true,
+              whitespace: true,
+              message: 'Bu alan zorunludur.',
+            },
+          ],
+        })(
+          <Input
+            placeholder="örn:Bilinçaltınızı olumlu şekilde programlayabileceksiniz."
+            style={{ width: '60%', marginRight: 8 }}
+          />,
+        )}
+        {keysTeaching.length > 0 ? (
+          <Icon
+            className="dynamic-delete-button"
+            type="minus-circle-o"
+            onClick={() => this.removeTeaching(k)}
+          />
+        ) : null}
+      </Form.Item>
+    ))
+
     return (
       <div>
         <Helmet title="Eğitim Oluştur" />
@@ -164,19 +292,31 @@ class AddCourse extends React.Component {
                       </div>
                     </div>
                     <div className="col-lg-12">
+                      <h4 className="text-black mt-2 mb-3">
+                        <strong>Gereklilikler</strong>
+                      </h4>
                       <div className="form-group">
-                        <FormItem label="Kısa Özet">
-                          {form.getFieldDecorator('shortDescription')(
-                            <TextArea
-                              placeholder="kurs kartı üzerindeki kısa açıklama"
-                              rows={3}
-                              id="product-edit-shordescr"
-                            />,
-                          )}
-                        </FormItem>
+                        {formItems}
+                        <Form.Item>
+                          <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+                            <Icon type="plus" /> Gereklilik ekle
+                          </Button>
+                        </Form.Item>
+                      </div>
+
+                      <h4 className="text-black mt-2 mb-3">
+                        <strong>Eğitimde Neler Öğrenilecek ?</strong>
+                      </h4>
+                      <div className="form-group">
+                        {formItemsTeaching}
+                        <Form.Item>
+                          <Button type="dashed" onClick={this.addTeaching} style={{ width: '60%' }}>
+                            <Icon type="plus" /> Madde ekle
+                          </Button>
+                        </Form.Item>
                       </div>
                       <div className="form-group">
-                        <FormItem label="Detaylı Tanım">
+                        <FormItem label="Açıklama (Detaylı Tanım)">
                           {form.getFieldDecorator('fullDescription')(
                             <Editor
                               init={{
@@ -271,47 +411,64 @@ class AddCourse extends React.Component {
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('certificate')(<Checkbox>Sertifika</Checkbox>)}
-                            </FormItem>
-                          </div>
-                        </div>
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <FormItem>
-                              {form.getFieldDecorator('certificateOfParticipation')(<Checkbox>Katılım Belgesi</Checkbox>)}
-                            </FormItem>
-                          </div>
-                        </div>
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <FormItem>
-                              {form.getFieldDecorator('onlineVideo')(<Checkbox>Online Video</Checkbox>)}
-                            </FormItem>
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <FormItem label="Eğitim Görseli">
-                              {form.getFieldDecorator('courseImage')(
-                                <Upload
-                                  name="avatar"
-                                  listType="picture-card"
-                                  className="avatar-uploader"
-                                  showUploadList={false}
-                                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                                  beforeUpload={beforeUpload}
-                                  onChange={this.handleChange}
-                                >
-                                  {imageUrl ? (
-                                    <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
-                                  ) : (
-                                    uploadButton
-                                  )}
-                                </Upload>,
+                              {form.getFieldDecorator('certificate')(
+                                <Checkbox>Sertifika</Checkbox>,
                               )}
                             </FormItem>
                           </div>
                         </div>
+                        <div className="col-lg-4">
+                          <div className="form-group">
+                            <FormItem>
+                              {form.getFieldDecorator('certificateOfParticipation')(
+                                <Checkbox>Katılım Belgesi</Checkbox>,
+                              )}
+                            </FormItem>
+                          </div>
+                        </div>
+                        <div className="col-lg-4">
+                          <div className="form-group">
+                            <FormItem>
+                              {form.getFieldDecorator('onlineVideo')(
+                                <Checkbox>Online Video</Checkbox>,
+                              )}
+                            </FormItem>
+                          </div>
+                        </div>
+                        <div className="col-lg-3">
+                          <div className="form-group">
+                            <FormItem label="Kontenjan">
+                              {form.getFieldDecorator('quota')(
+                                <InputNumber style={{ width: '100%' }} min={0} placeholder="12" />,
+                              )}
+                            </FormItem>
+                          </div>
+                        </div>
+                        <Row>
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <FormItem label="Eğitim Görseli">
+                                {form.getFieldDecorator('courseImage')(
+                                  <Upload
+                                    name="avatar"
+                                    listType="picture-card"
+                                    className="avatar-uploader"
+                                    showUploadList={false}
+                                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                    beforeUpload={beforeUpload}
+                                    onChange={this.handleChange}
+                                  >
+                                    {imageUrl ? (
+                                      <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                                    ) : (
+                                      uploadButton
+                                    )}
+                                  </Upload>,
+                                )}
+                              </FormItem>
+                            </div>
+                          </div>
+                        </Row>
                         <div className="col-lg-12">
                           <div className="form-actions">
                             <Button htmlType="submit" type="primary" className="mr-2">

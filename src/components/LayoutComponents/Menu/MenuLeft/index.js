@@ -203,7 +203,7 @@ class MenuLeft extends React.Component {
     return (
       <Sider
         {...menuSettings}
-        className={isLightTheme ? `${styles.menu} ${styles.light}` : styles.menu}
+        className={`${styles.menu} ${styles.dark}`}
       >
         <div className={styles.logo}>
           <div className={styles.logoContainer}>
@@ -230,7 +230,7 @@ class MenuLeft extends React.Component {
           autoHide
         >
           <Menu
-            theme={isLightTheme ? 'light' : 'dark'}
+            theme={isLightTheme ? 'dark' : 'dark'}
             onClick={this.handleClick}
             selectedKeys={selectedKeys}
             openKeys={openedKeys}
