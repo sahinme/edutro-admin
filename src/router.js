@@ -70,6 +70,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/egitmenler',
+    component: loadable(() => import('pages/educators')),
+    exact: true,
+  },
+  {
     path: '/sorular',
     component: loadable(() => import('pages/questions')),
     exact: true,

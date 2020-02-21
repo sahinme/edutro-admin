@@ -38,6 +38,12 @@ export async function getLeftMenuData() {
       ],
     },
     {
+      title: 'Eğitmenler',
+      key: 'educators',
+      url: '/egitmenler',
+      icon: 'icmn icmn-user',
+    },
+    {
       title: 'Sorular',
       key: 'messages',
       url: '/sorular',

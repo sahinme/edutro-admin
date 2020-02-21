@@ -80,7 +80,7 @@ class EditCourse extends React.Component {
     const uploadButton = (
       <div>
         <Icon type={loading ? 'loading' : 'plus'} />
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">Yükle</div>
       </div>
     )
     const { form } = this.props
