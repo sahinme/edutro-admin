@@ -316,6 +316,13 @@ class AddCourse extends React.Component {
                         </Form.Item>
                       </div>
                       <div className="form-group">
+                        <FormItem label="Kısa Açıklama">
+                          {form.getFieldDecorator('adress')(
+                            <TextArea maxlength="160" rows={3} id="shortDescription" />,
+                          )}
+                        </FormItem>
+                      </div>
+                      <div className="form-group">
                         <FormItem label="Açıklama (Detaylı Tanım)">
                           {form.getFieldDecorator('fullDescription')(
                             <Editor
