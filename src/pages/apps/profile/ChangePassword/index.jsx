@@ -48,7 +48,7 @@ class ChangePassword extends React.Component {
     const { form } = this.props
 
     return (
-      <Form onSubmit={this.onSubmit} className="login-form">
+      <Form style={{ marginLeft: '10px' }} onSubmit={this.onSubmit} className="login-form">
         <h5 className="text-black mt-4">
           <strong>Şifre Değiştir</strong>
         </h5>

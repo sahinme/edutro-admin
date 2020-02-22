@@ -60,7 +60,7 @@ class AddEducatorModal extends Component {
 
   render() {
     const { visible, onCancel } = this.props
-    const { data,value } = this.state
+    const { data, value } = this.state
     const options = data.map(d => <Option key={d.value}>{d.text}</Option>)
     return (
       <Modal
@@ -69,13 +69,15 @@ class AddEducatorModal extends Component {
         visible={visible}
         onOk={onCancel}
         onCancel={onCancel}
+        okText="Gönder"
+        cancelText="Vazgeç"
       >
         <Select
           showSearch
           value={value}
           placeholder="Eklenecek eğitmenin kullanıcı adı"
           defaultActiveFirstOption={false}
-          style={{width:"100%"}}
+          style={{ width: '100%' }}
           showArrow={false}
           filterOption={false}
           onSearch={this.handleSearch}

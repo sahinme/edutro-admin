@@ -1,13 +1,24 @@
 import React from 'react'
 import { Pagination } from 'antd'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
 import { Helmet } from 'react-helmet'
+import { withRouter } from "react-router-dom";
 import CourseCard from 'components/CleanUIComponents/CourseCard'
+import { getTenantCoursesRequest } from "../../redux/course/actions";
 import styles from './style.module.scss'
 import RemoveCourseModal from './components/removeCourseModal'
 
+
+@connect(({ courses }) => ({ courses }))
 class Courses extends React.Component {
   state = {
     visible: false,
+  }
+
+  componentDidMount() {
+    const { getTenantCourses } = this.props;
+    getTenantCourses({});
   }
 
   handleDelete = () => {
@@ -48,7 +59,7 @@ class Courses extends React.Component {
                 <Pagination defaultCurrent={1} total={50} />
               </div>
             </div>
-          </div> 
+          </div>
           <RemoveCourseModal closeModal={() => this.setState({ visible: false })} onDelete={() => { }} visible={visible} />
         </section>
       </div>
@@ -56,4 +67,8 @@ class Courses extends React.Component {
   }
 }
 
-export default Courses
+const mapDispatchToProps = dispatch => ({
+  getTenantCourses: payload => dispatch(getTenantCoursesRequest(payload))
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(Courses)

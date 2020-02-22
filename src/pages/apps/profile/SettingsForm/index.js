@@ -14,33 +14,33 @@ class SettingsForm extends React.Component {
     const { form } = this.props
 
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form style={{ marginLeft: "10px" }} onSubmit={this.handleSubmit} className="login-form">
         <h5 className="text-black mt-4">
           <strong>Genel Bilgiler</strong>
         </h5>
         <div className="row">
-          <div className="col-lg-6">
+          <div className="col-lg-5">
             <FormItem label="Kullacı Adı">
               {form.getFieldDecorator('userName', {
                 rules: [{ required: false }],
               })(<Input />)}
             </FormItem>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-5">
             <FormItem label="E-Posta">
               {form.getFieldDecorator('email', {
                 rules: [{ required: false }],
               })(<Input />)}
             </FormItem>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-5">
             <FormItem label="İsim">
               {form.getFieldDecorator('tenantName', {
                 rules: [{ required: false }],
               })(<Input />)}
             </FormItem>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-5">
             <FormItem label="Title">
               {form.getFieldDecorator('title', {
                 rules: [{ required: false }],
@@ -52,7 +52,7 @@ class SettingsForm extends React.Component {
           <strong>Adres Bilgileri</strong>
         </h5>
         <div className="row">
-          <div className="col-lg-6">
+          <div className="col-lg-5">
             <FormItem label="Lokasyon">
               {form.getFieldDecorator('password')(<Select defaultValue="Option1">
                 <Option value="Option1">Ankara</Option>

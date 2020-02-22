@@ -1,0 +1,9 @@
+export const GET_TENANT_COURSES_REQUEST = 'GET_TENANT_COURSES_REQUEST';
+export const GET_TENANT_COURSES_SUCCESS = 'GET_TENANT_COURSES_SUCCESS';
+export const GET_TENANT_COURSES_FAILURE = 'GET_TENANT_COURSES_FAILURE';
+
+export const getTenantCoursesRequest = payload => ({
+  type: GET_TENANT_COURSES_REQUEST,
+  payload,
+});
+
