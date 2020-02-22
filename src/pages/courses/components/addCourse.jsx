@@ -317,7 +317,7 @@ class AddCourse extends React.Component {
                       </div>
                       <div className="form-group">
                         <FormItem label="Açıklama (Detaylı Tanım)">
-                          {form.getFieldDecorator('fullDescription')(
+                          {form.getFieldDecorator('description')(
                             <Editor
                               init={{
                                 height: 400,
