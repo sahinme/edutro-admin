@@ -112,8 +112,8 @@ const Get = (endpoint, body = {}, token, isUrlEncoded) => {
     method: 'GET',
     headers: {
       Accept: 'application/json, text/javascript, */*; q=0.01',
-      'Content-Type': isUrlEncoded ? contentTypes.urlEncoded : contentTypes.json,
-      token,
+      // 'Content-Type': isUrlEncoded ? contentTypes.urlEncoded : contentTypes.json,
+      /* token, */
       /*   "X-API-KEY": "56KeU2RBAXzp7maaX5C9GQqSLaSC5rL8qujbj3ux",
         "Authorization": token */
     },
