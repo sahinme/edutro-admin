@@ -1,14 +1,24 @@
 import React from 'react'
 import { Pagination, Button , Divider} from 'antd'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import { withRouter } from "react-router-dom";
 import { Helmet } from 'react-helmet'
-import CourseCard from 'components/CleanUIComponents/CourseCard'
 import styles from './style.module.scss'
+import { getTenantEducatorsRequest } from "../../redux/educators/actions";
 import EducatorCard from "./components/educatorCard";
 import AddEducatorModal from "./components/addEducatorModal";
 
+
+@connect(({ educators }) => ({ educators }))
 class Educators extends React.Component {
   state = {
     visible: false,
+  }
+  
+  componentDidMount() {
+    const { getTenantEducators } = this.props;
+    getTenantEducators({});
   }
 
   showEducatorModal = () => {
@@ -20,8 +30,8 @@ class Educators extends React.Component {
   }
 
   render() {
-    const data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
     const { visible } = this.state;
+    const {educators} = this.props;
     return (
       <div>
         <Helmet title="Eğitimler" />
@@ -40,9 +50,9 @@ class Educators extends React.Component {
               </div>
               <Divider></Divider>
               <div className="row">
-                {data.map(item => (
+                {educators && educators.data && educators.data.map(item => (
                   <div className="col-lg-4">
-                   <EducatorCard></EducatorCard>
+                   <EducatorCard name={item.name} surname={item.surname} profession={item.profession} logoPath={item.logoPath}></EducatorCard>
                   </div>
                 ))}
               </div>
@@ -59,4 +69,8 @@ class Educators extends React.Component {
   }
 }
 
-export default Educators
+const mapDispatchToProps = dispatch => ({
+  getTenantEducators: payload => dispatch(getTenantEducatorsRequest(payload))
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(Educators)
