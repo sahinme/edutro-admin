@@ -1,6 +1,5 @@
 import React from 'react'
 import { Radio } from 'antd'
-import { user } from './data.json'
 import Avatar from '../../../components/CleanUIComponents/Avatar';
 import styles from './style.module.scss'
 
@@ -10,7 +9,7 @@ class EducatorCard extends React.Component {
   }
 
   render() {
-    const { type } = this.props
+    const { type,name,surname,profession,logoPath } = this.props
     return (
       <div
         className={`${styles.userCard} px-3 py-5 ${
@@ -18,14 +17,14 @@ class EducatorCard extends React.Component {
         }`}
       >
         <Avatar
-          src={user.avatar}
+          src={logoPath}
           border
           borderColor={`${type.length > 0 ? 'white' : ''}`}
           size="90"
         />
         <div className="my-3 text-center">
-          <div className={`${styles.userName} font-size-18`}>{user.name}</div>
-          <div className={styles.post}>{user.post}</div>
+          <div className={`${styles.userName} font-size-18`}>{name+" "+surname}</div>
+          <div className={styles.post}>{profession}</div>
         </div>
         <div className="text-center">
           <div className="btn-group text-center">
