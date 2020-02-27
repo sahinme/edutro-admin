@@ -1,4 +1,4 @@
-import { getSearchParams } from './helpers';
+import { getSearchParams } from 'helpers';
 
 export const API_URL = 'https://test.radinyazilim.com';
 
@@ -16,10 +16,8 @@ const Post = (endpoint, body = {}, token, isUrlEncoded) => {
       Accept: 'application/json, text/javascript, */*; q=0.01',
       'Content-Type': isUrlEncoded ? contentTypes.urlEncoded : contentTypes.json,
       token,
-      "X-API-KEY": "56KeU2RBAXzp7maaX5C9GQqSLaSC5rL8qujbj3ux",
-      "Authorization": token
     },
-    body: isUrlEncoded ? getSearchParams(body) : JSON.stringify(body),
+    body: JSON.stringify(body),
   };
   const response = fetch(apiUrl, requestOptions)
     .then(fetchResponse => fetchResponse.json())

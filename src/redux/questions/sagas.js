@@ -4,7 +4,6 @@ import { push } from 'react-router-redux';
 import { GET_TENANT_QUESTIONS_SUCCESS, GET_TENANT_QUESTIONS_FAILURE, GET_TENANT_QUESTIONS_REQUEST } from "./actions";
 
 function* getTenantQuestionsSaga({ payload }) {
-  debugger;
   try {
     const response = yield call(Get, "/api/course/get-all-courses", false);
     console.log(response);

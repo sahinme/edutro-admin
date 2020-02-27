@@ -26,7 +26,7 @@ class Courses extends React.Component {
   }
 
   render() {
-    const data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
+    const { courses } = this.props;
     const { visible } = this.state;
     return (
       <div>
@@ -40,7 +40,7 @@ class Courses extends React.Component {
           <div className="card-body">
             <div className={styles.feed}>
               <div className="row">
-                {data.map(item => (
+                {courses && courses.data && courses.data.map(item => (
                   <div className="col-lg-4">
                     <CourseCard
                       onDelete={this.handleDelete}
@@ -53,10 +53,6 @@ class Courses extends React.Component {
                     />
                   </div>
                 ))}
-              </div>
-
-              <div className="mb-5">
-                <Pagination defaultCurrent={1} total={50} />
               </div>
             </div>
           </div>

@@ -4,7 +4,6 @@ import { push } from 'react-router-redux';
 import { GET_TENANT_EDUCATORS_SUCCESS, GET_TENANT_EDUCATORS_FAILURE, GET_TENANT_EDUCATORS_REQUEST } from "./actions";
 
 function* getTenantEducatorsSaga({ payload }) {
-  debugger;
   try {
     const response = yield call(Get, "/api/educator/get-all-educator", false);
     console.log(response);

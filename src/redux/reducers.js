@@ -5,6 +5,7 @@ import menu from './menu/reducers'
 import settings from './settings/reducers'
 import courses from "./course/reducers";
 import educators from "./educators/reducers";
+import auth from "./auth/reducers";
 
 export default history =>
   combineReducers({
@@ -13,5 +14,6 @@ export default history =>
     menu,
     settings,
     courses,
-    educators
+    educators,
+    auth
   })

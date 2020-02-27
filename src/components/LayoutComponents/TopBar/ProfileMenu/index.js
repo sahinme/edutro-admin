@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Menu, Dropdown, Avatar, Badge } from 'antd'
 import { withRouter } from "react-router-dom";
+import { removeLocalStorage } from 'helpers';
+
 import styles from './style.module.scss'
 
 @connect(({ user }) => ({ user }))
@@ -11,10 +13,9 @@ class ProfileMenu extends React.Component {
   }
 
   logout = () => {
-    const { dispatch } = this.props
-    dispatch({
-      type: 'user/LOGOUT',
-    })
+    const { history } = this.props
+    removeLocalStorage("loginInfo");
+    history.push("/user/login");
   }
 
   addCount = () => {

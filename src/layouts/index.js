@@ -3,6 +3,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import NProgress from 'nprogress'
 import { Helmet } from 'react-helmet'
+import { readLocalStorage } from 'helpers'
 import Loader from 'components/LayoutComponents/Loader'
 import PublicLayout from './Public'
 import LoginLayout from './Login'
@@ -15,7 +16,7 @@ const Layouts = {
 }
 
 @withRouter
-@connect(({ user }) => ({ user }))
+@connect(({ auth }) => ({ auth }))
 class IndexLayout extends React.PureComponent {
   previousPath = ''
 
@@ -31,7 +32,7 @@ class IndexLayout extends React.PureComponent {
     const {
       children,
       location: { pathname, search },
-      user,
+      auth,
     } = this.props
 
     // NProgress Management
@@ -57,17 +58,18 @@ class IndexLayout extends React.PureComponent {
     }
 
     const Container = Layouts[getLayout()]
-    const isUserAuthorized = user.authorized
-    const isUserLoading = user.loading
+    const isUserAuthorized = auth && auth.data && auth.data.token
+    // const isUserLoading = user.loading
     const isLoginLayout = getLayout() === 'login'
 
     const BootstrappedLayout = () => {
+      const loginData = readLocalStorage("loginInfo");
       // show loader when user in check authorization process, not authorized yet and not on login pages
-      if (isUserLoading && !isUserAuthorized && !isLoginLayout) {
-        return <Loader />
-      }
+      /*  if (isUserLoading && !isUserAuthorized && !isLoginLayout) {
+         return <Loader />
+       } */
       // redirect to login page if current is not login page and user not authorized
-      if (!isLoginLayout && !isUserAuthorized) {
+      if (!isLoginLayout && loginData === null) {
         return <Redirect to="/user/login" />
       }
       // redirect to main dashboard when user on login page and authorized

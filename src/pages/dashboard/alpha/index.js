@@ -46,7 +46,7 @@ class DashboardAlpha extends React.Component {
     ]
 
     return (
-      <Authorize roles={['admin']} redirect to="/dashboard/beta">
+      <React.Fragment>
         <Helmet title="Kontrol Paneli" />
         <div className="utils__title utils__title--flat mb-3">
           <strong className="text-uppercase font-size-16">Genel Veriler</strong>
@@ -167,78 +167,7 @@ class DashboardAlpha extends React.Component {
             />
           </div>
         </div>
-        {/* <div className="utils__title utils__title--flat mb-3">
-          <strong className="text-uppercase font-size-16">Hesabım (6)</strong>
-          <Button className="ml-3">Tümünü Gör</Button>
-        </div> */}
-        {/* <div className="row">
-          <div className="col-lg-6">
-            <PaymentAccount
-              icon="lnr lnr-inbox"
-              number="US 4658-1678-7528"
-              footer="Current month charged: $10,200.00"
-              sum="$2,156.78"
-            />
-          </div>
-          <div className="col-lg-6">
-            <PaymentAccount
-              icon="lnr lnr-inbox"
-              number="IBAN 445646-8748-4664-1678-5416"
-              footer="Current month charged: $1,276.00"
-              sum="$560,245.35"
-            />
-          </div>
-        </div> */}
-        {/* <div className="row">
-          <div className="col-lg-6">
-            <PaymentAccount
-              icon="lnr lnr-inbox"
-              number="US 4658-1678-7528"
-              footer="Current month charged: $10,200.00"
-              sum="$2,156.78"
-            />
-          </div>
-          <div className="col-lg-6">
-            <PaymentAccount
-              icon="lnr lnr-inbox"
-              number="IBAN 445646-8748-4664-1678-5416"
-              footer="Current month charged: $1,276.00"
-              sum="$560,245.35"
-            />
-          </div>
-        </div> */}
-        {/* <div className="utils__title mb-3">
-          <strong className="text-uppercase font-size-16">Son Satışlar (167)</strong>
-          <Button className="ml-3">Tümünü Gör</Button>
-        </div> */}
-     {/*    <div className="row">
-          <div className="col-lg-12">
-            <PaymentTransaction
-              income={false}
-              amount="-$100.00"
-              info="US 4658-1678-7528"
-              footer="To AMAZON COPR, NY, 1756"
-            />
-            <PaymentTransaction
-              income
-              amount="+27,080.00"
-              info="4512-XXXX-1678-7528"
-              footer="To DigitalOcean Cloud Hosting, Winnetka, LA"
-            />
-            <PaymentTransaction
-              income={false}
-              amount="-100,000.00"
-              info="6245-XXXX-1678-3256"
-              footer="To Tesla Cars, LA, USA"
-            />
-            <div className="text-center pb-5">
-              <Button type="primary" className="width-200" loading>
-                Yükleniyor...
-              </Button>
-            </div>
-          </div>
-        </div> */}
-      </Authorize>
+      </React.Fragment>
     )
   }
 }

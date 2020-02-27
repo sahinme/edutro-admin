@@ -1,22 +1,27 @@
 import React, { Component } from 'react'
-import { Form, Input, Button, Checkbox } from 'antd'
+import { Form, Input, Button, Checkbox, Select } from 'antd'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { compose } from 'lodash/fp';
+import { loginRequest } from 'redux/auth/actions'
+
 import styles from './style.module.scss'
+
+const { Option } = Select;
 
 @Form.create()
 @connect(({ user }) => ({ user }))
 class Login extends Component {
+
   onSubmit = event => {
     event.preventDefault()
-    const { form, dispatch } = this.props
+    const { form } = this.props
     form.validateFields((error, values) => {
       if (!error) {
-        dispatch({
-          type: 'user/LOGIN',
-          payload: values,
-        })
+        const { login, history } = this.props;
+        login(values);
+        // history.push("/dashboard/alpha")
       }
     })
   }
@@ -26,21 +31,14 @@ class Login extends Component {
       form,
       user: { loading },
     } = this.props
+    const message = "Bu alan zorunludur!"
     return (
       <div>
-        <Helmet title="Login" />
+        <Helmet title="Giriş" />
         <div className={`${styles.title} login-heading`}>
           <h1>
             <strong>Edutro`ya Hoş Geldiniz.</strong>
           </h1>
-          <p>
-            Pluggable enterprise-level react application framework.
-            <br />
-            An excellent front-end solution for web applications built upon Ant Design and UmiJS.
-            <br />
-            Credentials for testing purposes - <strong>admin@mediatec.org</strong> /{' '}
-            <strong>cleanui</strong>
-          </p>
         </div>
         <div className={styles.block}>
           <div className="row">
@@ -48,33 +46,27 @@ class Login extends Component {
               <div className={styles.inner}>
                 <div className={styles.form}>
                   <h4 className="text-uppercase">
-                    <strong>Please log in</strong>
+                    <strong>Giriş Yapınız</strong>
                   </h4>
                   <br />
                   <Form layout="vertical" hideRequiredMark onSubmit={this.onSubmit}>
-                    <Form.Item label="Email">
+                    <Form.Item label="E-Posta">
                       {form.getFieldDecorator('email', {
-                        initialValue: 'admin@mediatec.org',
-                        rules: [{ required: true, message: 'Please input your e-mail address' }],
-                      })(<Input size="default" />)}
+                        rules: [{ required: true, message }],
+                      })(<Input placeholder="kayıtlı e-posta adresinizi giriniz" size="default" />)}
                     </Form.Item>
-                    <Form.Item label="Password">
+                    <Form.Item label="Şifre">
                       {form.getFieldDecorator('password', {
-                        initialValue: 'cleanui',
-                        rules: [{ required: true, message: 'Please input your password' }],
-                      })(<Input size="default" type="password" />)}
+                        rules: [{ required: true, message }],
+                      })(<Input placeholder="şifrenizi giriniz" size="default" type="password" />)}
                     </Form.Item>
-                    <Form.Item>
-                      {form.getFieldDecorator('remember', {
-                        valuePropName: 'checked',
-                        initialValue: true,
-                      })(<Checkbox>Remember me</Checkbox>)}
-                      <Link
-                        to="/user/forgot"
-                        className="utils__link--blue utils__link--underlined pull-right"
-                      >
-                        Forgot password?
-                      </Link>
+                    <Form.Item label="Giriş türü">
+                      {form.getFieldDecorator('entityType', {
+                        rules: [{ required: true, message }],
+                      })(<Select style={{ width: "100%" }}>
+                        <Option value="Tenant">Kurum</Option>
+                        <Option value="Educator">Özel Eğitmen</Option>
+                      </Select>)}
                     </Form.Item>
                     <div className="form-actions">
                       <Button
@@ -83,34 +75,8 @@ class Login extends Component {
                         htmlType="submit"
                         loading={loading}
                       >
-                        Login
+                        Giriş Yap
                       </Button>
-                      <span className="ml-3 register-link">
-                        <a
-                          href="javascript: void(0);"
-                          className="text-primary utils__link--underlined"
-                        >
-                          Register
-                        </a>{' '}
-                        if you don&#39;t have account
-                      </span>
-                    </div>
-                    <div className="form-group">
-                      <p>Use another service to Log In</p>
-                      <div className="mt-2">
-                        <a href="javascript: void(0);" className="btn btn-icon mr-2">
-                          <i className="icmn-facebook" />
-                        </a>
-                        <a href="javascript: void(0);" className="btn btn-icon mr-2">
-                          <i className="icmn-google" />
-                        </a>
-                        <a href="javascript: void(0);" className="btn btn-icon mr-2">
-                          <i className="icmn-windows" />
-                        </a>
-                        <a href="javascript: void(0);" className="btn btn-icon mr-2">
-                          <i className="icmn-twitter" />
-                        </a>
-                      </div>
                     </div>
                   </Form>
                 </div>
@@ -123,4 +89,18 @@ class Login extends Component {
   }
 }
 
-export default Login
+const mapStateToProps = state => ({
+  login: state.auth.data
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: payload => dispatch(loginRequest(payload)),
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withRouter,
+)(Login);

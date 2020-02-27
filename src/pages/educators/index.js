@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pagination, Button , Divider} from 'antd'
+import { Pagination, Button, Divider } from 'antd'
 import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
 import { withRouter } from "react-router-dom";
@@ -15,7 +15,7 @@ class Educators extends React.Component {
   state = {
     visible: false,
   }
-  
+
   componentDidMount() {
     const { getTenantEducators } = this.props;
     getTenantEducators({});
@@ -26,12 +26,12 @@ class Educators extends React.Component {
   }
 
   closeModal = () => {
-    this.setState({visible:false});
+    this.setState({ visible: false });
   }
 
   render() {
     const { visible } = this.state;
-    const {educators} = this.props;
+    const { educators } = this.props;
     return (
       <div>
         <Helmet title="Eğitimler" />
@@ -43,25 +43,21 @@ class Educators extends React.Component {
           </div>
           <div className="card-body">
             <div className={styles.feed}>
-            <div className="row" style={{justifyContent:"flex-end"}}>
-            <div style={{textAlign:"right"}} className="col-lg-4">
-               <Button onClick={this.showEducatorModal} type="primary">Eğitmen Ekle</Button>
-               </div>
+              <div className="row" style={{ justifyContent: "flex-end" }}>
+                <div style={{ textAlign: "right" }} className="col-lg-4">
+                  <Button onClick={this.showEducatorModal} type="primary">Eğitmen Ekle</Button>
+                </div>
               </div>
               <Divider></Divider>
               <div className="row">
                 {educators && educators.data && educators.data.map(item => (
                   <div className="col-lg-4">
-                   <EducatorCard name={item.name} surname={item.surname} profession={item.profession} logoPath={item.logoPath}></EducatorCard>
+                    <EducatorCard name={item.name} surname={item.surname} profession={item.profession} logoPath={item.profileImagePath}></EducatorCard>
                   </div>
                 ))}
               </div>
-
-              <div className="mb-5">
-                <Pagination defaultCurrent={1} total={50} />
-              </div>
             </div>
-          </div> 
+          </div>
           <AddEducatorModal onCancel={this.closeModal} visible={visible} />
         </section>
       </div>
