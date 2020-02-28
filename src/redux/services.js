@@ -15,7 +15,7 @@ const Post = (endpoint, body = {}, token, isUrlEncoded) => {
     headers: {
       Accept: 'application/json, text/javascript, */*; q=0.01',
       'Content-Type': isUrlEncoded ? contentTypes.urlEncoded : contentTypes.json,
-      token,
+      // token,
     },
     body: JSON.stringify(body),
   };

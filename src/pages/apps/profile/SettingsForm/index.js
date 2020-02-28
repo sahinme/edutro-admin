@@ -11,6 +11,8 @@ const { TextArea } = Input
 class SettingsForm extends React.Component {
   state = { aboutUs: null }
 
+
+
   handleEditorChange = content => {
     this.setState({ aboutUs: content })
   }

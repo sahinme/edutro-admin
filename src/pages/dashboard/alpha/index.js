@@ -1,50 +1,43 @@
 import React from 'react'
 import { Button, Table } from 'antd'
 import { Helmet } from 'react-helmet'
-import PaymentCard from 'components/CleanUIComponents/PaymentCard'
-import PaymentAccount from 'components/CleanUIComponents/PaymentAccount'
-import PaymentTransaction from 'components/CleanUIComponents/PaymentTransaction'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import { withRouter, Link } from "react-router-dom";
 import ChartCard from 'components/CleanUIComponents/ChartCard'
-import Authorize from 'components/LayoutComponents/Authorize'
+import CourseCard from 'components/CleanUIComponents/CourseCard'
+import { getTenantCoursesRequest } from "redux/course/actions";
 import { tableData } from './data.json'
 
+@connect(({ courses }) => ({ courses }))
 class DashboardAlpha extends React.Component {
+
+  componentDidMount() {
+    const { getTenantCourses } = this.props;
+    getTenantCourses({})
+  }
+
   render() {
+    const { courses, history } = this.props;
     const tableColumns = [
       {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'Başlık',
+        dataIndex: 'title',
+        key: 'title',
       },
       {
-        title: 'Position',
-        dataIndex: 'position',
-        key: 'position',
+        title: 'Açıklama',
+        dataIndex: 'description',
+        key: 'description',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-        sorter: (a, b) => a.age - b.age,
-      },
-      {
-        title: 'Office',
-        dataIndex: 'office',
-        key: 'office',
-      },
-      {
-        title: 'Date',
-        dataIndex: 'date',
-        key: 'date',
-      },
-      {
-        title: 'Salary',
-        dataIndex: 'salary',
-        key: 'salary',
-        sorter: (a, b) => a.salary - b.salary,
+        title: 'Tarih',
+        dataIndex: 'createdDateTime',
+        key: 'createdDateTime',
+        sorter: (a, b) => a.createdDateTime - b.createdDateTime,
       },
     ]
-
+    const { data } = courses;
     return (
       <React.Fragment>
         <Helmet title="Kontrol Paneli" />
@@ -115,8 +108,8 @@ class DashboardAlpha extends React.Component {
             <div className="card">
               <div className="card-header">
                 <div className="utils__title">
-                  <strong>Son Kayıtlar</strong>
-                  <Button className="ml-3">Tümünü Gör</Button>
+                  <strong>Soru & Mesajlar</strong>
+                  <Button onClick={() => history.push('/sorular')} className="ml-3">Tümünü Gör</Button>
                 </div>
               </div>
               <div className="card-body">
@@ -137,34 +130,19 @@ class DashboardAlpha extends React.Component {
         </div>
         <div className="row">
           <div className="col-lg-4">
-            <PaymentCard
-              icon="lnr lnr-bookmark"
-              name="Matt Daemon"
-              number="4512-XXXX-1678-7528"
-              type="VISA"
-              footer="Expires at 02/20"
-              sum="$2,156.78"
-            />
-          </div>
-          <div className="col-lg-4">
-            <PaymentCard
-              icon="lnr lnr-bookmark"
-              name="David Beckham"
-              number="8748-XXXX-1678-5416"
-              type="MASTERCARD"
-              footer="Expires at 03/22"
-              sum="$560,245.35"
-            />
-          </div>
-          <div className="col-lg-4">
-            <PaymentCard
-              icon="lnr lnr-hourglass"
-              name="Mrs. Angelina Jolie"
-              number="6546-XXXX-1678-1579"
-              type="VISA"
-              footer="Locked Temporary"
-              sum="$1,467,98"
-            />
+            {data && data.length > 0 ? data.map(item => {
+              return (
+                <CourseCard
+                  onDelete={this.handleDelete}
+                  icon="lnr lnr-bookmark"
+                  name="NLP Eğitimi"
+                  number="Ankara - Cankaya"
+                  type="NLP"
+                  footer="20.02.2020"
+                  sum="499.99 ₺"
+                />
+              )
+            }) : <p>Aktif Eğitiminiz Bulunmamaktadır.</p>}
           </div>
         </div>
       </React.Fragment>
@@ -172,4 +150,8 @@ class DashboardAlpha extends React.Component {
   }
 }
 
-export default DashboardAlpha
+const mapDispatchToProps = dispatch => ({
+  getTenantCourses: payload => dispatch(getTenantCoursesRequest(payload))
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(DashboardAlpha)

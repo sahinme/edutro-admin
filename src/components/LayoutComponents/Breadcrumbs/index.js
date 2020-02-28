@@ -90,7 +90,7 @@ class Breadcrumbs extends React.Component {
       <div className={styles.breadcrumbs}>
         <div className={styles.path}>
           <Link to="/dashboard/alpha" className="text-muted">
-            Home
+            Panel
           </Link>
           {breadcrumb}
         </div>

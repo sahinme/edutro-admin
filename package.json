@@ -46,6 +46,7 @@
     "jodit": "^3.3.22",
     "jodit-react": "^1.0.41",
     "lodash": "^4.17.14",
+    "moment": "^2.24.0",
     "nprogress": "^0.2.0",
     "peity-react": "^0.0.7",
     "prop-types": "^15.7.2",

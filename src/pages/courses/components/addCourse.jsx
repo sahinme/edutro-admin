@@ -13,8 +13,13 @@ import {
   Collapse,
   Row,
 } from 'antd'
+import moment from 'moment'
 import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import { withRouter, Link } from 'react-router-dom'
 import { Editor } from '@tinymce/tinymce-react'
+import { createCourseRequest } from 'redux/course/actions'
 
 const { Panel } = Collapse
 
@@ -68,15 +73,19 @@ class AddCourse extends React.Component {
 
   onSubmit = event => {
     event.preventDefault()
-    const { form } = this.props
+    const { form, createCourse } = this.props
     form.validateFields((error, values) => {
       if (!error) {
         const { fullDescription } = this.state
         values.fullDescription = fullDescription
-        const requirements = values.names.join(',')
+        const requirements = values.names.join('|')
         values.requirements = requirements
-        const teachings = values.namesTeaching.join(',')
+        const teachings = values.namesTeaching.join('|')
         values.teachings = teachings
+        values.file = values.file.file.originFileObj
+        values.startDate = moment(values.startDate).format('YYYY-MM-DD')
+        values.endDate = moment(values.endDate).format('YYYY-MM-DD')
+        createCourse(values)
         console.log(values)
       }
     })
@@ -251,7 +260,7 @@ class AddCourse extends React.Component {
                                 0
                               }
                             >
-                              <Option value="blue">Kişisel Gelişim</Option>
+                              <Option value={1}>Kişisel Gelişim</Option>
                               <Option value="red">Yazılım</Option>
                               <Option value="green">Sanat</Option>
                             </Select>,
@@ -274,9 +283,9 @@ class AddCourse extends React.Component {
                                 0
                               }
                             >
-                              <Option value="blue">Ankara</Option>
-                              <Option value="red">İstanbul</Option>
-                              <Option value="green">İzmir</Option>
+                              <Option value={1}>Ankara</Option>
+                              <Option value="2">İstanbul</Option>
+                              <Option value="3">İzmir</Option>
                             </Select>,
                           )}
                         </FormItem>
@@ -317,8 +326,13 @@ class AddCourse extends React.Component {
                       </div>
                       <div className="form-group">
                         <FormItem label="Kısa Açıklama">
-                          {form.getFieldDecorator('adress')(
-                            <TextArea maxlength="160" rows={3} id="shortDescription" />,
+                          {form.getFieldDecorator('shortDescription')(
+                            <TextArea
+                              maxlength="160"
+                              placeholder="Eğitim hakkında kısa-özet bilgi"
+                              rows={3}
+                              id="shortDescription"
+                            />,
                           )}
                         </FormItem>
                       </div>
@@ -352,7 +366,7 @@ class AddCourse extends React.Component {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="Normal Fiyat">
-                              {form.getFieldDecorator('totalPrice')(
+                              {form.getFieldDecorator('price')(
                                 <InputNumber
                                   style={{ width: '100%' }}
                                   min={0}
@@ -455,7 +469,7 @@ class AddCourse extends React.Component {
                           <div className="col-lg-6">
                             <div className="form-group">
                               <FormItem label="Eğitim Görseli">
-                                {form.getFieldDecorator('courseImage')(
+                                {form.getFieldDecorator('file')(
                                   <Upload
                                     name="avatar"
                                     listType="picture-card"
@@ -497,4 +511,8 @@ class AddCourse extends React.Component {
   }
 }
 
-export default AddCourse
+const mapDispatchToProps = dispatch => ({
+  createCourse: payload => dispatch(createCourseRequest(payload)),
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(AddCourse)
