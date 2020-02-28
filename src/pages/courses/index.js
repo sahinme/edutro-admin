@@ -3,8 +3,9 @@ import { Pagination } from 'antd'
 import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
 import { Helmet } from 'react-helmet'
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import CourseCard from 'components/CleanUIComponents/CourseCard'
+import { NotFound } from 'components/CleanUIComponents/NotFound'
 import { getTenantCoursesRequest } from "../../redux/course/actions";
 import styles from './style.module.scss'
 import RemoveCourseModal from './components/removeCourseModal'
@@ -26,7 +27,7 @@ class Courses extends React.Component {
   }
 
   render() {
-    const { courses } = this.props;
+    const { courses, history } = this.props;
     const { visible } = this.state;
     return (
       <div>
@@ -40,7 +41,7 @@ class Courses extends React.Component {
           <div className="card-body">
             <div className={styles.feed}>
               <div className="row">
-                {courses && courses.data && courses.data.map(item => (
+                {courses && courses.data && courses.data.length > 0 ? courses.data.map(item => (
                   <div className="col-lg-4">
                     <CourseCard
                       onDelete={this.handleDelete}
@@ -52,7 +53,7 @@ class Courses extends React.Component {
                       sum="499.99 ₺"
                     />
                   </div>
-                ))}
+                )) : <NotFound onClick={() => history.push('/egitimler/egitim-olustur')} title="Oluşturulmuş eğitiminiz yok" subTitle="Eğitimleriniz duyurmaya hemen başlayın" status="404" extra="Eğitim Oluştur" />}
               </div>
             </div>
           </div>

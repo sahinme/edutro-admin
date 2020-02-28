@@ -1,17 +1,34 @@
 import React from 'react'
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Helmet } from 'react-helmet'
-import {Input} from "antd";
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import { Input, Result, Button } from "antd";
+import { QuestionOutlined } from '@ant-design/icons';
 import QuestionCard from 'components/CleanUIComponents/QuestionCard'
+import { getEntityQuestionsRequest } from "../../redux/questions/actions";
 import styles from './style.module.scss'
 
 const { Search } = Input
 
+@connect(({ questions }) => ({ questions }))
 class Questions extends React.Component {
 
+  componentDidMount() {
+    debugger;
+    const { getEntityQuestions } = this.props;
+    getEntityQuestions({})
+  }
+
   render() {
-    const data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
-    const {history} = this.props;
+    const { questions } = this.props;
+    const renderNoQuestion = (
+      <Result
+        style={{ width: "100%" }}
+        icon={<QuestionOutlined />}
+        title="Henüz soru sorulmamış"
+      />
+    )
     return (
       <div>
         <Helmet title="Soru-Cevap" />
@@ -22,14 +39,14 @@ class Questions extends React.Component {
             </div>
           </div>
           <div className="card-body">
-          <Search placeholder="mesajlari arayin..." style={{ width: '100%' }} />
+            <Search placeholder="mesajlari arayin..." style={{ width: '100%' }} />
             <div className={styles.feed}>
               <div className="row">
-                {data.map(item => (
+                {questions && questions.data ? questions.data.map(item => (
                   <div className="col-lg-6">
                     <QuestionCard />
                   </div>
-                ))}
+                )) : renderNoQuestion}
               </div>
             </div>
           </div>
@@ -39,4 +56,8 @@ class Questions extends React.Component {
   }
 }
 
-export default withRouter(Questions) 
+const mapDispatchToProps = dispatch => ({
+  getEntityQuestions: payload => dispatch(getEntityQuestionsRequest(payload))
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(Questions)

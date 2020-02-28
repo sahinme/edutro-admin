@@ -1,11 +1,12 @@
 import { Get, Post } from "redux/services";
 import { call, put, takeLatest } from "redux-saga/effects";
-import { push } from 'react-router-redux';
+import { readLocalStorage } from "helpers";
 import { GET_TENANT_COURSES_SUCCESS, GET_TENANT_COURSES_FAILURE, GET_TENANT_COURSES_REQUEST } from "./actions";
 
 function* getTenantCoursesSaga({ payload }) {
+  const loginInfo = readLocalStorage('loginInfo');
   try {
-    const response = yield call(Get, "/api/course/get-all-courses", false);
+    const response = yield call(Get, `/api/course/get-entity-courses?entityType=${loginInfo.entityData.entityType}&id=${loginInfo.entityData.id}`, false);
     console.log(response);
     if (response) {
       yield put({ type: GET_TENANT_COURSES_SUCCESS, payload: response.results });

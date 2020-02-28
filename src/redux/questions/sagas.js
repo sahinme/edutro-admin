@@ -1,23 +1,26 @@
 import { Get, Post } from "redux/services";
 import { call, put, takeLatest } from "redux-saga/effects";
-import { push } from 'react-router-redux';
-import { GET_TENANT_QUESTIONS_SUCCESS, GET_TENANT_QUESTIONS_FAILURE, GET_TENANT_QUESTIONS_REQUEST } from "./actions";
+import { readLocalStorage } from 'helpers';
+import { GET_ENTITY_QUESTIONS_FAILURE, GET_ENTITY_QUESTIONS_REQUEST, GET_ENTITY_QUESTIONS_SUCCESS } from "./actions";
 
-function* getTenantQuestionsSaga({ payload }) {
+function* getEntityQuestionsSaga({ payload }) {
+  debugger;
+  const loginInfo = readLocalStorage('loginInfo').entityData;
   try {
-    const response = yield call(Get, "/api/course/get-all-courses", false);
+    const { id, entityType } = loginInfo;
+    const response = yield call(Get, `/api/question/get-entity-questions?entityId=${id}&${entityType}`, false);
     console.log(response);
     if (response) {
-      yield put({ type: GET_TENANT_QUESTIONS_SUCCESS, payload: response.data });
+      yield put({ type: GET_ENTITY_QUESTIONS_SUCCESS, payload: response.data });
     } else {
-      yield put({ type: GET_TENANT_QUESTIONS_FAILURE, payload: response });
+      yield put({ type: GET_ENTITY_QUESTIONS_FAILURE, payload: response });
     }
   } catch (error) {
-    yield put({ type: GET_TENANT_QUESTIONS_FAILURE, payload: error });
+    yield put({ type: GET_ENTITY_QUESTIONS_FAILURE, payload: error });
   }
 }
 
 
 export default function* Saga() {
-  yield takeLatest(GET_TENANT_QUESTIONS_REQUEST, getTenantQuestionsSaga);
+  yield takeLatest(GET_ENTITY_QUESTIONS_REQUEST, getEntityQuestionsSaga);
 }

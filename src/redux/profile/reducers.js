@@ -1,4 +1,4 @@
-import { GET_ENTITY_QUESTIONS_FAILURE, GET_ENTITY_QUESTIONS_REQUEST, GET_ENTITY_QUESTIONS_SUCCESS } from './actions';
+import { GET_PROFILE_INFO_FAILURE, GET_PROFILE_INFO_REQUEST, GET_PROFILE_INFO_SUCCESS } from './actions';
 
 const initialState = {
   data: null,
@@ -7,11 +7,11 @@ const initialState = {
 
 export default function (state = initialState, { type, payload }) {
   switch (type) {
-    case GET_ENTITY_QUESTIONS_REQUEST:
+    case GET_PROFILE_INFO_REQUEST:
       return { ...state, error: '' };
-    case GET_ENTITY_QUESTIONS_SUCCESS:
+    case GET_PROFILE_INFO_SUCCESS:
       return { ...state, data: payload };
-    case GET_ENTITY_QUESTIONS_FAILURE:
+    case GET_PROFILE_INFO_FAILURE:
       return { ...state, error: payload };
     default:
       return state;

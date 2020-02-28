@@ -82,7 +82,7 @@ class IndexLayout extends React.PureComponent {
 
     return (
       <Fragment>
-        <Helmet titleTemplate="Edutro Yönetim Paneli | %s" title="React Admin Template" />
+        <Helmet titleTemplate="Edutro Yönetim Paneli | %s" title="Edutro" />
         {BootstrappedLayout()}
       </Fragment>
     )

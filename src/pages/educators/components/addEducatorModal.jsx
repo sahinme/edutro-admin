@@ -75,7 +75,7 @@ class AddEducatorModal extends Component {
         <Select
           showSearch
           value={value}
-          placeholder="Eklenecek eğitmenin kullanıcı adı"
+          placeholder="Eklenecek eğitmenin e-posta adresini giriniz"
           defaultActiveFirstOption={false}
           style={{ width: '100%' }}
           showArrow={false}

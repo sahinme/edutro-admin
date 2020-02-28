@@ -9,9 +9,10 @@ const error = () => {
 };
 
 function* login({ payload }) {
+    debugger;
     try {
         const response = yield call(Post, "/api/token/post/tenantOrEducatorToken", payload, false);
-        if (response && !response.error) {
+        if (response && !response.errors) {
             writeLocalStorage("loginInfo", {
                 token: response.token,
                 entityData: response.loginData
@@ -23,6 +24,7 @@ function* login({ payload }) {
         }
     } catch (error) {
         yield put({ type: AUTH_FAILURE, payload: error });
+        error()
     }
 }
 

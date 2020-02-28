@@ -5,7 +5,9 @@ import settings from './settings/sagas'
 import courses from "./course/sagas";
 import educators from "./educators/sagas"
 import auth from "./auth/sagas";
+import questions from "./questions/sagas";
+import profile from "./profile/sagas";
 
 export default function* rootSaga() {
-  yield all([user(), menu(), settings(), courses(), educators(), auth()])
+  yield all([user(), menu(), settings(), courses(), educators(), auth(), questions(), profile()])
 }

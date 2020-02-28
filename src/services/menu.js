@@ -1,10 +1,10 @@
 export async function getLeftMenuData() {
   return [
-  /*   {
-      title: 'Görünüm Ayarları',
-      key: 'settings',
-      icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
-    }, */
+    /*   {
+        title: 'Görünüm Ayarları',
+        key: 'settings',
+        icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
+      }, */
     /*     {
       title: 'Documentation',
       key: 'documentation',
@@ -41,6 +41,7 @@ export async function getLeftMenuData() {
       title: 'Eğitmenler',
       key: 'educators',
       url: '/egitmenler',
+      noEducator: true,
       icon: 'icmn icmn-user',
     },
     {

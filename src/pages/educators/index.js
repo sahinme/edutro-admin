@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
 import { withRouter } from "react-router-dom";
 import { Helmet } from 'react-helmet'
+import { NotFound } from 'components/CleanUIComponents/NotFound'
 import styles from './style.module.scss'
 import { getTenantEducatorsRequest } from "../../redux/educators/actions";
 import EducatorCard from "./components/educatorCard";
@@ -50,11 +51,11 @@ class Educators extends React.Component {
               </div>
               <Divider></Divider>
               <div className="row">
-                {educators && educators.data && educators.data.map(item => (
+                {educators && educators.data && educators.data.length > 0 ? educators.data.map(item => (
                   <div className="col-lg-4">
                     <EducatorCard name={item.name} surname={item.surname} profession={item.profession} logoPath={item.profileImagePath}></EducatorCard>
                   </div>
-                ))}
+                )) : <NotFound onClick={this.showEducatorModal} title="Ekli eğitmeniniz bulunmuyor" subTitle="Beraber çalıştığınız eğitmenleri hemen ekleyin" status="404" extra="Eğitmen Ekle" />}
               </div>
             </div>
           </div>

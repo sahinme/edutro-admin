@@ -25,6 +25,7 @@
     ]
   },
   "dependencies": {
+    "@ant-design/icons": "^4.0.0",
     "@rowno/sparkline": "^4.0.0",
     "@tinymce/tinymce-react": "^3.4.0",
     "antd": "^3.20.3",

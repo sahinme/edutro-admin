@@ -1,9 +1,12 @@
 import React from 'react'
 import { Button, Progress, Calendar, Tabs, Upload, Icon, Input, Menu, Dropdown } from 'antd'
 import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import { withRouter, Link } from "react-router-dom";
 import Avatar from 'components/CleanUIComponents/Avatar'
 import Donut from 'components/CleanUIComponents/Donut'
-import Chat from 'components/CleanUIComponents/Chat'
+import { getProfileInfoRequest } from "redux/profile/actions";
 import SettingsForm from './SettingsForm'
 import data from './data.json'
 import style from './style.module.scss'
@@ -26,6 +29,7 @@ const actions = (
   </Menu>
 )
 
+@connect(({ profile }) => ({ profile }))
 class ProfileApp extends React.Component {
   state = {
     name: '',
@@ -60,6 +64,11 @@ class ProfileApp extends React.Component {
     })
   }
 
+  componentDidMount() {
+    const { getProfileInfo } = this.props;
+    getProfileInfo({})
+  }
+
   render() {
     const {
       name,
@@ -80,10 +89,12 @@ class ProfileApp extends React.Component {
       posts,
     } = this.state
 
+    const { profile } = this.props;
+    const { data } = profile;
     return (
       <div>
         <Helmet title="Profile" />
-        <div className={style.profile}>
+        {profile && profile.data ? <div className={style.profile}>
           <div className="row">
             <div className="col-xl-4">
               <div
@@ -92,7 +103,7 @@ class ProfileApp extends React.Component {
               >
                 <div>
                   <div className="card-body text-center">
-                    <Avatar src={photo} size="110" border="true" borderColor="white" />
+                    <Avatar src={data.logoPath} size="110" border="true" borderColor="white" />
                     <br />
                     <br />
                     <Button.Group size="default">
@@ -122,7 +133,7 @@ class ProfileApp extends React.Component {
                 <div>
                   <h2>
                     <span className="text-black mr-2">
-                      <strong>{name}</strong>
+                      <strong>{data.tenantName}</strong>
                     </span>
                     <small className="text-muted">{nickname}</small>
                   </h2>
@@ -130,12 +141,12 @@ class ProfileApp extends React.Component {
                 </div>
                 <div className={style.socialCounts}>
                   <div className="text-center mr-3">
-                    <h2>{followersCount}</h2>
+                    <h2>{data.courses.length}</h2>
                     <p className="mb-0">Eğitimler</p>
                   </div>
                   <div className="text-center">
-                    <h2>{postsCount}</h2>
-                    <p className="mb-0">Yazılar</p>
+                    <h2>{data.tenantEducators.length}</h2>
+                    <p className="mb-0">Eğitmenler</p>
                   </div>
                 </div>
               </div>
@@ -150,7 +161,7 @@ class ProfileApp extends React.Component {
                       }
                       key="1"
                     >
-                      <SettingsForm />
+                      <SettingsForm data={data} />
                     </TabPane>
                     <TabPane
                       tab={
@@ -168,10 +179,14 @@ class ProfileApp extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> : <div />}
       </div>
     )
   }
 }
 
-export default ProfileApp
+const mapDispatchToProps = dispatch => ({
+  getProfileInfo: payload => dispatch(getProfileInfoRequest(payload))
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(ProfileApp)

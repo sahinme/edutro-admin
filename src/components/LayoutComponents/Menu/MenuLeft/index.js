@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu, Layout } from 'antd'
 import store from 'store'
+import { readLocalStorage } from 'helpers'
 import { Scrollbars } from 'react-custom-scrollbars'
 import _ from 'lodash'
 import styles from './style.module.scss'
@@ -106,9 +107,10 @@ class MenuLeft extends React.Component {
   }
 
   generateMenuItems = () => {
+    const loginInfo = readLocalStorage("loginInfo");
     const { menuData = [] } = this.props
     const generateItem = item => {
-      const { key, title, url, icon, disabled, pro } = item
+      const { key, title, url, icon, disabled, pro, noEducator } = item
       if (item.divider) {
         return <Divider key={Math.random()} />
       }
@@ -159,7 +161,7 @@ class MenuLeft extends React.Component {
             </SubMenu>
           )
         }
-        return generateItem(menuItem)
+        return generateItem(menuItem);
       })
 
     return menuData.map(menuItem => {
@@ -175,6 +177,9 @@ class MenuLeft extends React.Component {
             {generateSubmenu(menuItem.children)}
           </SubMenu>
         )
+      }
+      if (menuItem.noEducator && loginInfo.entityData.entityType === 20) {
+        return null;
       }
       return generateItem(menuItem)
     })

@@ -6,6 +6,8 @@ import settings from './settings/reducers'
 import courses from "./course/reducers";
 import educators from "./educators/reducers";
 import auth from "./auth/reducers";
+import questions from "./questions/reducers";
+import profile from "./profile/reducers";
 
 export default history =>
   combineReducers({
@@ -15,5 +17,7 @@ export default history =>
     settings,
     courses,
     educators,
-    auth
+    auth,
+    questions,
+    profile
   })
