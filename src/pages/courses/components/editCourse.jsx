@@ -5,6 +5,7 @@ import {
   Select,
   Button,
   Upload,
+  Spin,
   DatePicker,
   message,
   Form,
@@ -13,8 +14,16 @@ import {
   Icon,
 } from 'antd'
 import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import moment from 'moment'
+import { withRouter } from 'react-router-dom'
+import { getSelectedCourseRequest } from 'redux/course/actions'
+import { getCategoriesRequest } from 'redux/categories/actions'
+import { API_URL } from 'redux/services'
 import { Editor } from '@tinymce/tinymce-react'
-import styles from '../style.module.scss'
+import { getLocationsRequest } from 'redux/locations/actions'
+import { durationTypes } from '..'
 
 const { Option } = Select
 const InputGroup = Input.Group
@@ -34,6 +43,7 @@ const dragprop = {
     }
   },
 }
+
 function getBase64(img, callback) {
   const reader = new FileReader()
   reader.addEventListener('load', () => callback(reader.result))
@@ -52,10 +62,39 @@ function beforeUpload(file) {
   return isJpgOrPng && isLt2M
 }
 
+const requestOptions = {
+  method: 'GET',
+  headers: {
+    Accept: 'application/json, text/javascript, */*; q=0.01',
+    'Content-Type': 'application/json; charset=utf-8',
+  },
+}
+
+@connect(({ selectedCourse, locations, categories }) => ({ selectedCourse, locations, categories }))
 @Form.create()
 class EditCourse extends React.Component {
   state = {
     loading: false,
+    info: {},
+    description: null,
+  }
+
+  componentDidMount() {
+    const {
+      match: { params: { id } = {} } = {},
+      getSelectedCourse,
+      form,
+      getLocations,
+      getCategories,
+    } = this.props
+    const { setFieldsValue } = form
+    getSelectedCourse({ id })
+    getLocations({})
+    getCategories({})
+    const response = fetch(`${API_URL}/api/course/get-course-by-id?id=${id}`, requestOptions)
+      .then(response => response.json())
+      .then(res => this.setState({ info: res }))
+      .catch(error => error)
   }
 
   handleChange = info => {
@@ -74,8 +113,23 @@ class EditCourse extends React.Component {
     }
   }
 
+  onSubmit = event => {
+    event.preventDefault()
+    const { form, createCourse } = this.props
+    form.validateFields((error, values) => {
+      if (!error) {
+        console.log(values)
+      }
+    })
+  }
+
+  handleEditorChange = content => {
+    this.setState({ description: content })
+  }
+
   render() {
-    const { imageUrl, loading } = this.state
+    const { imageUrl, loading, info } = this.state
+    const { form, selectedCourse, locations, categories } = this.props
 
     const uploadButton = (
       <div>
@@ -83,7 +137,10 @@ class EditCourse extends React.Component {
         <div className="ant-upload-text">Yükle</div>
       </div>
     )
-    const { form } = this.props
+
+    const { data } = selectedCourse
+    const message = 'Bu alan zorunludur!'
+
     return (
       <div>
         <Helmet title="Eğitim Düzenle" />
@@ -94,21 +151,32 @@ class EditCourse extends React.Component {
             </div>
           </div>
           <div className="card-body">
-            <Form className="mt-3">
+            <Form
+              onSubmit={this.onSubmit}
+              initialValues={{ remember: true }}
+              name="validate_other"
+              className="mt-3"
+            >
               <div className="row">
                 <div className="col-lg-8">
                   <div className="row">
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Eğitim Adı">
-                          {form.getFieldDecorator('title')(<Input placeholder="örn:resim kursu" />)}
+                          {form.getFieldDecorator('title', {
+                            initialValue: data && data.title,
+                            rules: [{ required: true, message }],
+                          })(<Input placeholder="örn:resim kursu" />)}
                         </FormItem>
                       </div>
                     </div>
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Kategori">
-                          {form.getFieldDecorator('category')(
+                          {form.getFieldDecorator('categoryId', {
+                            initialValue: data && data.category.id,
+                            rules: [{ required: true, message }],
+                          })(
                             <Select
                               id="product-edit-colors"
                               showSearch
@@ -120,9 +188,13 @@ class EditCourse extends React.Component {
                                 0
                               }
                             >
-                              <Option value="blue">Kişisel Gelişim</Option>
-                              <Option value="red">Yazılım</Option>
-                              <Option value="green">Sanat</Option>
+                              {categories &&
+                                categories.data &&
+                                categories.data.map(x => (
+                                  <Option key={x.id} value={x.id}>
+                                    {x.displayName}
+                                  </Option>
+                                ))}
                             </Select>,
                           )}
                         </FormItem>
@@ -131,7 +203,10 @@ class EditCourse extends React.Component {
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Lokasyon">
-                          {form.getFieldDecorator('locationId')(
+                          {form.getFieldDecorator('locationId', {
+                            initialValue: data && data.locationId,
+                            rules: [{ required: true, message }],
+                          })(
                             <Select
                               id="product-edit-colors"
                               showSearch
@@ -143,9 +218,13 @@ class EditCourse extends React.Component {
                                 0
                               }
                             >
-                              <Option value="blue">Ankara</Option>
-                              <Option value="red">İstanbul</Option>
-                              <Option value="green">İzmir</Option>
+                              {locations &&
+                                locations.data &&
+                                locations.data.map(x => (
+                                  <Option key={x.id} value={x.id}>
+                                    {x.locationName}
+                                  </Option>
+                                ))}
                             </Select>,
                           )}
                         </FormItem>
@@ -154,16 +233,20 @@ class EditCourse extends React.Component {
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Açık Adres">
-                          {form.getFieldDecorator('address')(
-                            <Input placeholder="örn:Kızılay seminer salonu no:34/A" />,
-                          )}
+                          {form.getFieldDecorator('address', {
+                            initialValue: data && data.address,
+                            rules: [{ required: true, message }],
+                          })(<Input placeholder="örn:Kızılay seminer salonu no:34/A" />)}
                         </FormItem>
                       </div>
                     </div>
                     <div className="col-lg-12">
                       <div className="form-group">
                         <FormItem label="Kısa Özet">
-                          {form.getFieldDecorator('shortDescription')(
+                          {form.getFieldDecorator('shortDescription', {
+                            initialValue: data && data.shortDescription,
+                            rules: [{ required: true, message }],
+                          })(
                             <TextArea
                               placeholder="kurs kartı üzerindeki kısa açıklama"
                               rows={3}
@@ -189,12 +272,8 @@ class EditCourse extends React.Component {
                                   alignleft aligncenter alignright alignjustify | \
                                   bullist numlist outdent indent | removeformat | help',
                               }}
-                              /* value={
-                                initialValues &&
-                                initialValues.length > 0 &&
-                                (language === 'en' ? enText : deText)
-                              } */
-                              // onEditorChange={this.handleEditorChange}
+                              initialValue={data && data.description}
+                              onEditorChange={this.handleEditorChange}
                               rows={4}
                             />,
                           )}
@@ -207,18 +286,20 @@ class EditCourse extends React.Component {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="Normal Fiyat">
-                              {form.getFieldDecorator('totalPrice')(
-                                <Input id="product-edit-total-price" placeholder="299.99" />,
-                              )}
+                              {form.getFieldDecorator('price', {
+                                initialValue: data && data.price,
+                                rules: [{ required: true, message }],
+                              })(<Input id="product-edit-total-price" placeholder="299.99" />)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="İndirimli Fiyat">
-                              {form.getFieldDecorator('discountPrice')(
-                                <Input id="product-edit-discountprice" placeholder="199.99" />,
-                              )}
+                              {form.getFieldDecorator('discountPrice', {
+                                initialValue: data && data.discountPrice,
+                                rules: [{ required: true, message }],
+                              })(<Input id="product-edit-discountprice" placeholder="199.99" />)}
                             </FormItem>
                           </div>
                         </div>
@@ -230,63 +311,80 @@ class EditCourse extends React.Component {
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem label="Başlama Tarihi">
-                              {form.getFieldDecorator('startDate')(
-                                <DatePicker placeholder="tarih secin" />,
-                              )}
+                              {form.getFieldDecorator('startDate', {
+                                initialValue: data && moment(data.startDate),
+                              })(<DatePicker format="DD/MM/YYYY" placeholder="tarih secin" />)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem label="Bitiş Tarihi">
-                              {form.getFieldDecorator('endDate')(
-                                <DatePicker placeholder="tarih secin" />,
-                              )}
+                              {form.getFieldDecorator('endDate', {
+                                initialValue: data && moment(data.endDate),
+                              })(<DatePicker format="DD/MM/YYYY" placeholder="tarih secin" />)}
                             </FormItem>
                           </div>
                         </div>
-                        <div className="col-lg-3">
+                        <div style={{ display: 'flex' }} className="col-lg-3">
                           <div className="form-group">
                             <FormItem label="Eğitim Süresi">
-                              {form.getFieldDecorator('day')(
-                                <InputGroup compact>
-                                  <InputNumber min={1} placeholder="örn:3" />
-                                  <Select defaultValue="Option1">
-                                    <Option value="Option1">gün</Option>
-                                    <Option value="hafta">hafta</Option>
-                                    <Option value="ay">ay</Option>
-                                    <Option value="yıl">yıl</Option>
-                                  </Select>
-                                </InputGroup>,
+                              {form.getFieldDecorator('durationCount', {
+                                initialValue: data && data.durationCount,
+                              })(<InputNumber min={1} placeholder="örn:3" />)}
+                            </FormItem>
+                          </div>
+                          <div className="form-group">
+                            <FormItem label="gün,ay,yıl...">
+                              {form.getFieldDecorator('durationType', {
+                                initialValue: data && data.durationType,
+                              })(
+                                <Select>
+                                  {durationTypes.map(x => (
+                                    <Option key={x.id} value={x.name}>
+                                      {x.name}
+                                    </Option>
+                                  ))}
+                                </Select>,
                               )}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
-                            <FormItem>
-                              {form.getFieldDecorator('colors')(<Checkbox>Sertifika</Checkbox>)}
+                            <FormItem valuepropName="checked">
+                              {form.getFieldDecorator('certificate', {
+                                // initialValue: data && data.certificate,
+                              })(<Checkbox>Sertifika</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('size')(<Checkbox>Katılım Belgesi</Checkbox>)}
+                              {form.getFieldDecorator('certificateOfParticipation', {
+                                valuePropName: 'checked',
+                                initialValue: data && data.certificateOfParticipation,
+                              })(<Checkbox>Katılım Belgesi</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('video')(<Checkbox>Online Video</Checkbox>)}
+                              {form.getFieldDecorator('onlineVideo', {
+                                valuePropName: 'checked',
+                                initialValue: data && data.onlineVideo,
+                              })(<Checkbox>Online Video</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="Eğitim Görseli">
-                              {form.getFieldDecorator('totalPrice')(
+                              {form.getFieldDecorator('imagePath', {
+                                rules: [{ required: true, message }],
+                              })(
                                 <Upload
                                   name="avatar"
                                   listType="picture-card"
@@ -296,8 +394,12 @@ class EditCourse extends React.Component {
                                   beforeUpload={beforeUpload}
                                   onChange={this.handleChange}
                                 >
-                                  {imageUrl ? (
-                                    <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                                  {data && (imageUrl || data.imagePath) ? (
+                                    <img
+                                      src={imageUrl || data.imagePath}
+                                      alt="avatar"
+                                      style={{ width: '100%' }}
+                                    />
                                   ) : (
                                     uploadButton
                                   )}
@@ -308,7 +410,7 @@ class EditCourse extends React.Component {
                         </div>
                         <div className="col-lg-12">
                           <div className="form-actions">
-                            <Button type="primary" className="mr-2">
+                            <Button htmlType="submit" type="primary" className="mr-2">
                               Oluştur
                             </Button>
                             <Button type="default">Vazgeç</Button>
@@ -327,4 +429,10 @@ class EditCourse extends React.Component {
   }
 }
 
-export default EditCourse
+const mapDispatchToProps = dispatch => ({
+  getSelectedCourse: payload => dispatch(getSelectedCourseRequest(payload)),
+  getLocations: payload => dispatch(getLocationsRequest(payload)),
+  getCategories: payload => dispatch(getCategoriesRequest(payload)),
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(EditCourse)

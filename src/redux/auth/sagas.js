@@ -9,7 +9,6 @@ const error = () => {
 };
 
 function* login({ payload }) {
-    debugger;
     try {
         const response = yield call(Post, "/api/token/post/tenantOrEducatorToken", payload, false);
         if (response && !response.errors) {

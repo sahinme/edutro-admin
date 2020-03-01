@@ -129,21 +129,23 @@ class DashboardAlpha extends React.Component {
           <Button className="ml-3">Tümünü Gör</Button>
         </div>
         <div className="row">
-          <div className="col-lg-4">
-            {data && data.length > 0 ? data.map(item => {
-              return (
+          {data && data.length > 0 ? data.slice(0, 3).map(item => {
+            return (
+              <div className="col-lg-4">
+
                 <CourseCard
                   onDelete={this.handleDelete}
+                  id={item.id}
                   icon="lnr lnr-bookmark"
-                  name="NLP Eğitimi"
-                  number="Ankara - Cankaya"
-                  type="NLP"
-                  footer="20.02.2020"
-                  sum="499.99 ₺"
+                  title={item.title}
+                  locationName={item.locationName}
+                  shortDescription={item.shortDescription}
+                  price={item.price}
+                  createdDate={item.createdDate}
                 />
-              )
-            }) : <p>Aktif Eğitiminiz Bulunmamaktadır.</p>}
-          </div>
+              </div>
+            )
+          }) : <p>Aktif Eğitiminiz Bulunmamaktadır.</p>}
         </div>
       </React.Fragment>
     )

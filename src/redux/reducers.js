@@ -8,6 +8,9 @@ import educators from "./educators/reducers";
 import auth from "./auth/reducers";
 import questions from "./questions/reducers";
 import profile from "./profile/reducers";
+import selectedCourse from "./course/selectedCourseReducer";
+import locations from "./locations/reducers";
+import categories from "./categories/reducers";
 
 export default history =>
   combineReducers({
@@ -19,5 +22,8 @@ export default history =>
     educators,
     auth,
     questions,
-    profile
+    profile,
+    selectedCourse,
+    locations,
+    categories
   })

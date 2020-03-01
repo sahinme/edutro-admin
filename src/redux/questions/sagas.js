@@ -4,7 +4,6 @@ import { readLocalStorage } from 'helpers';
 import { GET_ENTITY_QUESTIONS_FAILURE, GET_ENTITY_QUESTIONS_REQUEST, GET_ENTITY_QUESTIONS_SUCCESS } from "./actions";
 
 function* getEntityQuestionsSaga({ payload }) {
-  debugger;
   const loginInfo = readLocalStorage('loginInfo').entityData;
   try {
     const { id, entityType } = loginInfo;

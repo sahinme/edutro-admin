@@ -47,7 +47,8 @@
     "no-underscore-dangle": "off",
     "react/jsx-indent": "off",
     "no-multi-str": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "no-useless-computed-key": "off"
   },
   "parserOptions": {
     "ecmaFeatures": {

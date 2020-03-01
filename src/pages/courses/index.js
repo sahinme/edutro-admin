@@ -11,6 +11,8 @@ import styles from './style.module.scss'
 import RemoveCourseModal from './components/removeCourseModal'
 
 
+export const durationTypes = [{ name: "saat", id: 1 }, { name: "gün", id: 2 }, { name: "hafta", id: 3 }, { name: "ay", id: 4 }, { name: "yıl", id: 5 }]
+
 @connect(({ courses }) => ({ courses }))
 class Courses extends React.Component {
   state = {
@@ -45,12 +47,13 @@ class Courses extends React.Component {
                   <div className="col-lg-4">
                     <CourseCard
                       onDelete={this.handleDelete}
+                      id={item.id}
                       icon="lnr lnr-bookmark"
-                      name="NLP Eğitimi"
-                      number="Ankara - Cankaya"
-                      type="NLP"
-                      footer="20.02.2020"
-                      sum="499.99 ₺"
+                      title={item.title}
+                      locationName={item.locationName}
+                      shortDescription={item.shortDescription}
+                      price={item.price}
+                      createdDate={item.createdDate}
                     />
                   </div>
                 )) : <NotFound onClick={() => history.push('/egitimler/egitim-olustur')} title="Oluşturulmuş eğitiminiz yok" subTitle="Eğitimleriniz duyurmaya hemen başlayın" status="404" extra="Eğitim Oluştur" />}

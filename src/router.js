@@ -60,7 +60,7 @@ const routes = [
     exact: true,
   },
   {
-    path: '/egitimler/egitim-duzenle',
+    path: '/egitimler/egitimlerim/:courseName/:id',
     component: loadable(() => import('pages/courses/components/editCourse')),
     exact: true,
   },

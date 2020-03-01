@@ -1,6 +1,8 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Button } from 'antd';
+import moment from "moment";
+import "moment/locale/tr";
 import styles from './style.module.scss'
 
 
@@ -28,23 +30,29 @@ class CourseCard extends React.Component {
   }
 
   render() {
-    const { icon, name, number, type, footer, sum } = this.state
-    const { history, onDelete } = this.props;
+    const { history, onDelete, icon, title, createdDate, price, locationName, id } = this.props;
     return (
       <a href="javascript: void(0);" className={`card card--withShadow ${styles.paymentCard}`}>
-        {sum && <span className={styles.sum}>{sum}</span>}
+        {price && <span className={styles.sum}>{price.toFixed(2) + " ₺"}</span>}
         {icon && (
           <div className={styles.icon}>
             <i className={icon} />
           </div>
         )}
-        {name && <span className={styles.name}>{name}</span>}
+        {title && <span className={styles.name}>{title}</span>}
         {<span className={styles.number}> <ButtonGroup>
-          <Button onClick={() => history.push("/egitimler/egitim-duzenle")} type="primary" ghost>Düzenle</Button>
+          <Button
+            onClick={() => history.push({
+              pathname: `/egitimler/egitimlerim/${title.replace(/ /g, "-")
+                .toLowerCase()}/${id}`,
+            })}
+            type="primary"
+            ghost
+          > Düzenle </Button>
           <Button onClick={onDelete} type="danger" ghost>Sil</Button>
         </ButtonGroup> </span>}
-        {type && <span className={styles.type}>{type}</span>}
-        {footer && <div className={styles.footer}>{footer}</div>}
+        {locationName && <span className={styles.type}>{locationName}</span>}
+        {createdDate && <div className={styles.footer}>{moment(createdDate).format("LL")}</div>}
       </a>
     )
   }

@@ -19,7 +19,10 @@ import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
 import { withRouter, Link } from 'react-router-dom'
 import { Editor } from '@tinymce/tinymce-react'
+import { getCategoriesRequest } from 'redux/categories/actions'
+import { getLocationsRequest } from 'redux/locations/actions'
 import { createCourseRequest } from 'redux/course/actions'
+import { durationTypes } from '..'
 
 const { Panel } = Collapse
 
@@ -48,11 +51,19 @@ function beforeUpload(file) {
 
 let id = 0
 let idTeaching = 0
+
+@connect(({ locations, categories }) => ({ locations, categories }))
 @Form.create()
 class AddCourse extends React.Component {
   state = {
     loading: false,
     fullDescription: '',
+  }
+
+  componentDidMount() {
+    const { getLocations, getCategories } = this.props
+    getLocations({})
+    getCategories({})
   }
 
   handleChange = info => {
@@ -75,6 +86,7 @@ class AddCourse extends React.Component {
     event.preventDefault()
     const { form, createCourse } = this.props
     form.validateFields((error, values) => {
+      debugger
       if (!error) {
         const { fullDescription } = this.state
         values.fullDescription = fullDescription
@@ -85,7 +97,7 @@ class AddCourse extends React.Component {
         values.file = values.file.file.originFileObj
         values.startDate = moment(values.startDate).format('YYYY-MM-DD')
         values.endDate = moment(values.endDate).format('YYYY-MM-DD')
-        createCourse(values)
+        // createCourse(values)
         console.log(values)
       }
     })
@@ -131,7 +143,7 @@ class AddCourse extends React.Component {
 
   render() {
     const { imageUrl, loading } = this.state
-    const { form } = this.props
+    const { form, locations, categories } = this.props
 
     const uploadButton = (
       <div>
@@ -241,14 +253,18 @@ class AddCourse extends React.Component {
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Eğitim Adı">
-                          {form.getFieldDecorator('title')(<Input placeholder="örn:resim kursu" />)}
+                          {form.getFieldDecorator('title', {
+                            rules: [{ required: true, message: 'Bu alan zorunludur' }],
+                          })(<Input placeholder="örn:resim kursu" />)}
                         </FormItem>
                       </div>
                     </div>
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Kategori">
-                          {form.getFieldDecorator('categoryId')(
+                          {form.getFieldDecorator('categoryId', {
+                            rules: [{ required: true, message: 'Bu alan zorunludur' }],
+                          })(
                             <Select
                               id="product-edit-colors"
                               showSearch
@@ -260,9 +276,13 @@ class AddCourse extends React.Component {
                                 0
                               }
                             >
-                              <Option value={1}>Kişisel Gelişim</Option>
-                              <Option value="red">Yazılım</Option>
-                              <Option value="green">Sanat</Option>
+                              {categories &&
+                                categories.data &&
+                                categories.data.map(x => (
+                                  <Option key={x.id} value={x.id}>
+                                    {x.displayName}
+                                  </Option>
+                                ))}
                             </Select>,
                           )}
                         </FormItem>
@@ -271,7 +291,9 @@ class AddCourse extends React.Component {
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Lokasyon">
-                          {form.getFieldDecorator('locationId')(
+                          {form.getFieldDecorator('locationId', {
+                            rules: [{ required: true, message: 'Bu alan zorunludur' }],
+                          })(
                             <Select
                               id="product-edit-colors"
                               showSearch
@@ -283,9 +305,13 @@ class AddCourse extends React.Component {
                                 0
                               }
                             >
-                              <Option value={1}>Ankara</Option>
-                              <Option value="2">İstanbul</Option>
-                              <Option value="3">İzmir</Option>
+                              {locations &&
+                                locations.data &&
+                                locations.data.map(x => (
+                                  <Option key={x.id} value={x.id}>
+                                    {x.locationName}
+                                  </Option>
+                                ))}
                             </Select>,
                           )}
                         </FormItem>
@@ -294,9 +320,9 @@ class AddCourse extends React.Component {
                     <div className="col-lg-6">
                       <div className="form-group">
                         <FormItem label="Açık Adres">
-                          {form.getFieldDecorator('address')(
-                            <Input placeholder="örn:Kızılay seminer salonu no:34/A" />,
-                          )}
+                          {form.getFieldDecorator('address', {
+                            rules: [{ required: true, message: 'Bu alan zorunludur' }],
+                          })(<Input placeholder="örn:Kızılay seminer salonu no:34/A" />)}
                         </FormItem>
                       </div>
                     </div>
@@ -326,7 +352,9 @@ class AddCourse extends React.Component {
                       </div>
                       <div className="form-group">
                         <FormItem label="Kısa Açıklama">
-                          {form.getFieldDecorator('shortDescription')(
+                          {form.getFieldDecorator('shortDescription', {
+                            rules: [{ required: true, message: 'Bu alan zorunludur' }],
+                          })(
                             <TextArea
                               maxlength="160"
                               placeholder="Eğitim hakkında kısa-özet bilgi"
@@ -366,7 +394,9 @@ class AddCourse extends React.Component {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="Normal Fiyat">
-                              {form.getFieldDecorator('price')(
+                              {form.getFieldDecorator('price', {
+                                rules: [{ required: true, message: 'Bu alan zorunludur' }],
+                              })(
                                 <InputNumber
                                   style={{ width: '100%' }}
                                   min={0}
@@ -412,19 +442,24 @@ class AddCourse extends React.Component {
                             </FormItem>
                           </div>
                         </div>
-                        <div className="col-lg-3">
+                        <div style={{ display: 'flex' }} className="col-lg-3">
                           <div className="form-group">
                             <FormItem label="Eğitim Süresi">
-                              {form.getFieldDecorator('duration')(
-                                <InputGroup compact>
-                                  <InputNumber min={1} placeholder="örn:3" />
-                                  <Select defaultValue="Option1">
-                                    <Option value="Option1">gün</Option>
-                                    <Option value="hafta">hafta</Option>
-                                    <Option value="ay">ay</Option>
-                                    <Option value="yıl">yıl</Option>
-                                  </Select>
-                                </InputGroup>,
+                              {form.getFieldDecorator('durationCount')(
+                                <InputNumber min={1} placeholder="örn:3" />,
+                              )}
+                            </FormItem>
+                          </div>
+                          <div className="form-group">
+                            <FormItem label="gün,ay,yıl...">
+                              {form.getFieldDecorator('durationType')(
+                                <Select>
+                                  {durationTypes.map(x => (
+                                    <Option key={x.id} value={x.name}>
+                                      {x.name}
+                                    </Option>
+                                  ))}
+                                </Select>,
                               )}
                             </FormItem>
                           </div>
@@ -432,27 +467,27 @@ class AddCourse extends React.Component {
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('certificate')(
-                                <Checkbox>Sertifika</Checkbox>,
-                              )}
+                              {form.getFieldDecorator('certificate', {
+                                valuePropName: 'checked',
+                              })(<Checkbox>Sertifika</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('certificateOfParticipation')(
-                                <Checkbox>Katılım Belgesi</Checkbox>,
-                              )}
+                              {form.getFieldDecorator('certificateOfParticipation', {
+                                valuePropName: 'checked',
+                              })(<Checkbox>Katılım Belgesi</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
                             <FormItem>
-                              {form.getFieldDecorator('onlineVideo')(
-                                <Checkbox>Online Video</Checkbox>,
-                              )}
+                              {form.getFieldDecorator('onlineVideo', {
+                                valuePropName: 'checked',
+                              })(<Checkbox>Online Video</Checkbox>)}
                             </FormItem>
                           </div>
                         </div>
@@ -513,6 +548,8 @@ class AddCourse extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   createCourse: payload => dispatch(createCourseRequest(payload)),
+  getLocations: payload => dispatch(getLocationsRequest(payload)),
+  getCategories: payload => dispatch(getCategoriesRequest(payload)),
 })
 
 export default compose(connect(null, mapDispatchToProps), withRouter)(AddCourse)

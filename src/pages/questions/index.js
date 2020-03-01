@@ -15,7 +15,6 @@ const { Search } = Input
 class Questions extends React.Component {
 
   componentDidMount() {
-    debugger;
     const { getEntityQuestions } = this.props;
     getEntityQuestions({})
   }
