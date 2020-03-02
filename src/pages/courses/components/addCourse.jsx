@@ -61,7 +61,7 @@ class AddCourse extends React.Component {
   }
 
   componentDidMount() {
-    const { getLocations, getCategories } = this.props
+    const { getLocations, getCategories, form } = this.props
     getLocations({})
     getCategories({})
   }
@@ -175,8 +175,10 @@ class AddCourse extends React.Component {
         sm: { span: 20, offset: 4 },
       },
     }
+
     form.getFieldDecorator('keys', { initialValue: [] })
     form.getFieldDecorator('keysTeaching', { initialValue: [] })
+
     const keys = form.getFieldValue('keys')
     const keysTeaching = form.getFieldValue('keysTeaching')
 

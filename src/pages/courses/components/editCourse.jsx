@@ -13,12 +13,13 @@ import {
   InputNumber,
   Icon,
 } from 'antd'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
 import moment from 'moment'
 import { withRouter } from 'react-router-dom'
-import { getSelectedCourseRequest } from 'redux/course/actions'
+import { getSelectedCourseRequest, editCourseRequest } from 'redux/course/actions'
 import { getCategoriesRequest } from 'redux/categories/actions'
 import { API_URL } from 'redux/services'
 import { Editor } from '@tinymce/tinymce-react'
@@ -70,6 +71,9 @@ const requestOptions = {
   },
 }
 
+let id = 0
+let idTeaching = 0
+
 @connect(({ selectedCourse, locations, categories }) => ({ selectedCourse, locations, categories }))
 @Form.create()
 class EditCourse extends React.Component {
@@ -91,10 +95,10 @@ class EditCourse extends React.Component {
     getSelectedCourse({ id })
     getLocations({})
     getCategories({})
-    const response = fetch(`${API_URL}/api/course/get-course-by-id?id=${id}`, requestOptions)
+    /* const response = fetch(`${API_URL}/api/course/get-course-by-id?id=${id}`, requestOptions)
       .then(response => response.json())
       .then(res => this.setState({ info: res }))
-      .catch(error => error)
+      .catch(error => error) */
   }
 
   handleChange = info => {
@@ -123,8 +127,86 @@ class EditCourse extends React.Component {
     })
   }
 
+  remove = k => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keys')
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    })
+  }
+
+  removeTeaching = k => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keysTeaching')
+    form.setFieldsValue({
+      keysTeaching: keys.filter(key => key !== k),
+    })
+  }
+
+  add = () => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keys')
+    const nextKeys = keys.concat(id++)
+    form.setFieldsValue({
+      keys: nextKeys,
+    })
+  }
+
+  addTeaching = () => {
+    const { form } = this.props
+    const keys = form.getFieldValue('keysTeaching')
+    const nextKeys = keys.concat(idTeaching++)
+    form.setFieldsValue({
+      keysTeaching: nextKeys,
+    })
+  }
+
   handleEditorChange = content => {
     this.setState({ description: content })
+  }
+
+  onSubmit = event => {
+    event.preventDefault()
+    const { form, editCourse, selectedCourse } = this.props
+    form.validateFields((error, values) => {
+      debugger
+      if (!error) {
+        const { fullDescription } = this.state
+        values.fullDescription = fullDescription
+
+        const prevRequirements = []
+        const prevTeachings = []
+
+        for (let [key, value] of Object.entries(values.names)) {
+          prevRequirements.push(value)
+        }
+
+        for (let [key, value] of Object.entries(values.namesTeaching)) {
+          prevTeachings.push(value)
+        }
+
+        const requirements = prevRequirements.join('|')
+        values.requirements = requirements
+        const teachings = prevTeachings.join('|')
+        values.teachings = teachings
+
+        if (values.file) {
+          values.file = values.file.file.originFileObj
+        }
+
+        values.startDate = moment(values.startDate).format('YYYY-MM-DD')
+        values.endDate = moment(values.endDate).format('YYYY-MM-DD')
+        if (values.certificate === undefined) values.certificate = false
+        if (values.certificateOfParticipation === undefined)
+          values.certificateOfParticipation = false
+        if (values.onlineVideo === undefined) {
+          values.onlineVideo = false
+        }
+        values.id = selectedCourse.data.id
+        editCourse(values)
+        console.log(values)
+      }
+    })
   }
 
   render() {
@@ -138,8 +220,99 @@ class EditCourse extends React.Component {
       </div>
     )
 
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 20 },
+      },
+    }
+    const formItemLayoutWithOutLabel = {
+      wrapperCol: {
+        xs: { span: 24, offset: 0 },
+        sm: { span: 20, offset: 4 },
+      },
+    }
+
     const { data } = selectedCourse
     const message = 'Bu alan zorunludur!'
+
+    form.getFieldDecorator('keys', { initialValue: data ? data.requirements.split('|') : [] })
+    form.getFieldDecorator('keysTeaching', {
+      initialValue: data ? data.teachings.split('|') : [],
+    })
+
+    const keys = form.getFieldValue('keys')
+    const keysTeaching = form.getFieldValue('keysTeaching')
+
+    const formItems = keys.map((k, index) => (
+      <Form.Item
+        {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+        label={index === 0 ? 'Gereklilik' : ''}
+        required={false}
+        key={k}
+      >
+        {form.getFieldDecorator(`names[${k}]`, {
+          validateTrigger: ['onChange', 'onBlur'],
+          rules: [
+            {
+              required: true,
+              whitespace: true,
+              message: 'Bu alan zorunludur.',
+            },
+          ],
+          initialValue: k,
+        })(
+          <Input
+            placeholder="örn:17-25 yaş arasında olmak"
+            style={{ width: '60%', marginRight: 8 }}
+          />,
+        )}
+        {keys.length > 0 ? (
+          <Icon
+            className="dynamic-delete-button"
+            type="minus-circle-o"
+            onClick={() => this.remove(k)}
+          />
+        ) : null}
+      </Form.Item>
+    ))
+
+    const formItemsTeaching = keysTeaching.map((k, index) => (
+      <Form.Item
+        {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+        label={index === 0 ? 'Öğrenilecekler' : ''}
+        required={false}
+        key={k}
+      >
+        {form.getFieldDecorator(`namesTeaching[${k}]`, {
+          validateTrigger: ['onChange', 'onBlur'],
+          rules: [
+            {
+              required: true,
+              whitespace: true,
+              message: 'Bu alan zorunludur.',
+            },
+          ],
+          initialValue: k,
+        })(
+          <Input
+            placeholder="örn:Bilinçaltınızı olumlu şekilde programlayabileceksiniz."
+            style={{ width: '60%', marginRight: 8 }}
+          />,
+        )}
+        {keysTeaching.length > 0 ? (
+          <Icon
+            className="dynamic-delete-button"
+            type="minus-circle-o"
+            onClick={() => this.removeTeaching(k)}
+          />
+        ) : null}
+      </Form.Item>
+    ))
 
     return (
       <div>
@@ -238,6 +411,31 @@ class EditCourse extends React.Component {
                             rules: [{ required: true, message }],
                           })(<Input placeholder="örn:Kızılay seminer salonu no:34/A" />)}
                         </FormItem>
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <h4 className="text-black mt-2 mb-3">
+                        <strong>Gereklilikler</strong>
+                      </h4>
+                      <div className="form-group">
+                        {formItems}
+                        <Form.Item>
+                          <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+                            <Icon type="plus" /> Gereklilik ekle
+                          </Button>
+                        </Form.Item>
+                      </div>
+
+                      <h4 className="text-black mt-2 mb-3">
+                        <strong>Eğitimde Neler Öğrenilecek ?</strong>
+                      </h4>
+                      <div className="form-group">
+                        {formItemsTeaching}
+                        <Form.Item>
+                          <Button type="dashed" onClick={this.addTeaching} style={{ width: '60%' }}>
+                            <Icon type="plus" /> Madde ekle
+                          </Button>
+                        </Form.Item>
                       </div>
                     </div>
                     <div className="col-lg-12">
@@ -352,9 +550,10 @@ class EditCourse extends React.Component {
                         </div>
                         <div className="col-lg-4">
                           <div className="form-group">
-                            <FormItem valuepropName="checked">
+                            <FormItem>
                               {form.getFieldDecorator('certificate', {
-                                // initialValue: data && data.certificate,
+                                valuePropName: 'checked',
+                                initialValue: data && data.certificate,
                               })(<Checkbox>Sertifika</Checkbox>)}
                             </FormItem>
                           </div>
@@ -382,9 +581,10 @@ class EditCourse extends React.Component {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <FormItem label="Eğitim Görseli">
-                              {form.getFieldDecorator('imagePath', {
-                                rules: [{ required: true, message }],
-                              })(
+                              {form.getFieldDecorator(
+                                'file',
+                                {},
+                              )(
                                 <Upload
                                   name="avatar"
                                   listType="picture-card"
@@ -433,6 +633,7 @@ const mapDispatchToProps = dispatch => ({
   getSelectedCourse: payload => dispatch(getSelectedCourseRequest(payload)),
   getLocations: payload => dispatch(getLocationsRequest(payload)),
   getCategories: payload => dispatch(getCategoriesRequest(payload)),
+  editCourse: payload => dispatch(editCourseRequest(payload)),
 })
 
 export default compose(connect(null, mapDispatchToProps), withRouter)(EditCourse)

@@ -5,8 +5,8 @@ import { GET_PROFILE_INFO_FAILURE, GET_PROFILE_INFO_REQUEST, GET_PROFILE_INFO_SU
 
 function* getProfileInfoSaga({ payload }) {
   const loginInfo = readLocalStorage('loginInfo').entityData;
-  const tenantUrl = `/api/tenant/get-by-ıd?id=${loginInfo.id}`;
-  const educatorUrl = `/api/educator/get-educator-by-ıd?id=${loginInfo.id}`;
+  const tenantUrl = `/api/tenant/get-by-id?id=${loginInfo.id}`;
+  const educatorUrl = `/api/educator/get-educator-by-id?id=${loginInfo.id}`;
   try {
     const { entityType } = loginInfo;
     const response = yield call(Get, entityType === 20 ? educatorUrl : tenantUrl, false);
