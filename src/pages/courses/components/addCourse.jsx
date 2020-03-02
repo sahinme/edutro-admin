@@ -90,14 +90,22 @@ class AddCourse extends React.Component {
       if (!error) {
         const { fullDescription } = this.state
         values.fullDescription = fullDescription
+
         const requirements = values.names.join('|')
         values.requirements = requirements
         const teachings = values.namesTeaching.join('|')
         values.teachings = teachings
+
         values.file = values.file.file.originFileObj
+
         values.startDate = moment(values.startDate).format('YYYY-MM-DD')
         values.endDate = moment(values.endDate).format('YYYY-MM-DD')
-        // createCourse(values)
+
+        if (values.certificate === undefined) values.certificate = false
+        if (values.certificateOfParticipation === undefined)
+          values.certificateOfParticipation = false
+        if (values.onlineVideo === undefined) values.onlineVideo = false
+        createCourse(values)
         console.log(values)
       }
     })
