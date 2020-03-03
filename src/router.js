@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import Loadable from 'react-loadable'
+import { connect } from "react-redux";
 
 import Loader from 'components/LayoutComponents/Loader'
 import IndexLayout from 'layouts'
@@ -289,9 +290,10 @@ const routes = [
   },
 ]
 
+@connect(({ loader }) => ({ loader }))
 class Router extends React.Component {
   render() {
-    const { history } = this.props
+    const { history, loader } = this.props
     return (
       <ConnectedRouter history={history}>
         <IndexLayout>
@@ -313,4 +315,8 @@ class Router extends React.Component {
   }
 }
 
-export default Router
+const mapStateToProps = state => ({
+  loader: state.loader
+});
+
+export default connect(mapStateToProps)(Router);

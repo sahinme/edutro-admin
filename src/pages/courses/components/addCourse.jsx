@@ -52,7 +52,7 @@ function beforeUpload(file) {
 let id = 0
 let idTeaching = 0
 
-@connect(({ locations, categories }) => ({ locations, categories }))
+@connect(({ locations, categories, loader }) => ({ locations, categories, loader }))
 @Form.create()
 class AddCourse extends React.Component {
   state = {
@@ -278,6 +278,7 @@ class AddCourse extends React.Component {
                             <Select
                               id="product-edit-colors"
                               showSearch
+                              notFoundContent="bulunamadı"
                               style={{ width: '100%' }}
                               placeholder="örn:sanat ve tasarım"
                               optionFilterProp="children"
@@ -309,6 +310,7 @@ class AddCourse extends React.Component {
                               showSearch
                               style={{ width: '100%' }}
                               placeholder="örn:Ankara"
+                              notFoundContent="bulunamadı"
                               optionFilterProp="children"
                               filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
@@ -379,6 +381,7 @@ class AddCourse extends React.Component {
                           {form.getFieldDecorator('description')(
                             <Editor
                               init={{
+                                language_url: './tr.js',
                                 height: 400,
                                 menubar: false,
                                 plugins: [

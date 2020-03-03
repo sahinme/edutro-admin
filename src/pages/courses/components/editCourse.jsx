@@ -611,7 +611,7 @@ class EditCourse extends React.Component {
                         <div className="col-lg-12">
                           <div className="form-actions">
                             <Button htmlType="submit" type="primary" className="mr-2">
-                              Oluştur
+                              Kaydet
                             </Button>
                             <Button type="default">Vazgeç</Button>
                           </div>

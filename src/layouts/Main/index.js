@@ -7,14 +7,16 @@ import TopBar from 'components/LayoutComponents/TopBar'
 import Menu from 'components/LayoutComponents/Menu'
 import Footer from 'components/LayoutComponents/Footer'
 import Breadcrumbs from 'components/LayoutComponents/Breadcrumbs'
+import SpinLoading from 'components/LayoutComponents/Spin'
 import Settings from 'components/LayoutComponents/Settings'
 
-const mapStateToProps = ({ settings }) => ({
+const mapStateToProps = ({ settings, loader }) => ({
   isBorderless: settings.isBorderless,
   isSquaredBorders: settings.isSquaredBorders,
   isFixedWidth: settings.isFixedWidth,
   isMenuShadow: settings.isMenuShadow,
   isMenuTop: settings.isMenuTop,
+  loading: loader.loading
 })
 
 @withRouter
@@ -28,6 +30,7 @@ class MainLayout extends React.PureComponent {
       isFixedWidth,
       isMenuShadow,
       isMenuTop,
+      loading
     } = this.props
     return (
       <Layout
@@ -48,6 +51,7 @@ class MainLayout extends React.PureComponent {
           </Layout.Header>
           <Layout.Content style={{ height: '100%', position: 'relative' }}>
             <Breadcrumbs />
+            {loading && <SpinLoading />}
             <div className="utils__content">{children}</div>
           </Layout.Content>
           <Layout.Footer>

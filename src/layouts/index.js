@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import NProgress from 'nprogress'
 import { Helmet } from 'react-helmet'
 import { readLocalStorage } from 'helpers'
-import Loader from 'components/LayoutComponents/Loader'
+import SpinLoading from 'components/LayoutComponents/Spin'
 import PublicLayout from './Public'
 import LoginLayout from './Login'
 import MainLayout from './Main'
@@ -16,7 +16,7 @@ const Layouts = {
 }
 
 @withRouter
-@connect(({ auth }) => ({ auth }))
+@connect(({ auth, loader }) => ({ auth, loader }))
 class IndexLayout extends React.PureComponent {
   previousPath = ''
 
@@ -33,6 +33,7 @@ class IndexLayout extends React.PureComponent {
       children,
       location: { pathname, search },
       auth,
+      loader
     } = this.props
 
     // NProgress Management
