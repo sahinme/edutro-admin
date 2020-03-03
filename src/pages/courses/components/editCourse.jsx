@@ -458,6 +458,8 @@ class EditCourse extends React.Component {
                           {form.getFieldDecorator('fullDescription')(
                             <Editor
                               init={{
+                                language: 'tr_TR',
+                                language_url: '/langs/tr_TR.js',
                                 height: 400,
                                 menubar: false,
                                 plugins: [

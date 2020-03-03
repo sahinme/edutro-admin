@@ -381,9 +381,10 @@ class AddCourse extends React.Component {
                           {form.getFieldDecorator('description')(
                             <Editor
                               init={{
-                                language_url: './tr.js',
+                                language: 'tr_TR',
+                                language_url: '/langs/tr_TR.js',
                                 height: 400,
-                                menubar: false,
+                                menubar: true,
                                 plugins: [
                                   'advlist autolink lists link image charmap print preview anchor',
                                   'searchreplace visualblocks code fullscreen',

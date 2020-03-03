@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from "react-redux"
 import { Form, Icon, Input, Button, Upload, Select } from 'antd'
 import { Editor } from '@tinymce/tinymce-react'
 
@@ -8,6 +9,7 @@ const { TextArea } = Input
 
 
 @Form.create()
+@connect(({ locations }) => ({ locations }))
 class SettingsForm extends React.Component {
   state = { aboutUs: null }
 
@@ -18,7 +20,7 @@ class SettingsForm extends React.Component {
   }
 
   render() {
-    const { form, data } = this.props
+    const { form, data, locations } = this.props
     const { aboutUs } = this.state;
     return (
       <Form style={{ marginLeft: "10px" }} onSubmit={this.handleSubmit} className="login-form">
@@ -27,15 +29,9 @@ class SettingsForm extends React.Component {
         </h5>
         <div className="row">
           <div className="col-lg-5">
-            <FormItem label="Kullacı Adı">
-              {form.getFieldDecorator('userName', {
-                rules: [{ required: false }],
-              })(<Input />)}
-            </FormItem>
-          </div>
-          <div className="col-lg-5">
             <FormItem label="E-Posta">
               {form.getFieldDecorator('email', {
+                initialValue: data && data.email,
                 rules: [{ required: false }],
               })(<Input />)}
             </FormItem>
@@ -79,9 +75,10 @@ class SettingsForm extends React.Component {
         <div className="row">
           <div className="col-lg-5">
             <FormItem label="Lokasyon">
-              {form.getFieldDecorator('location')(<Select defaultValue="Option1">
-                <Option value="1">Ankara</Option>
-                <Option value="hafta">İstanbul</Option>
+              {form.getFieldDecorator('location', {
+                initialValue: data && data.locationId
+              })(<Select>
+                {locations && locations.data && locations.data.map(x => <Option key={x.id} value={x.id}>{x.locationName}</Option>)}
               </Select>)}
             </FormItem>
           </div>
@@ -98,6 +95,8 @@ class SettingsForm extends React.Component {
             {form.getFieldDecorator('description')(
               <Editor
                 init={{
+                  language: 'tr_TR',
+                  language_url: '/langs/tr_TR.js',
                   height: 400,
                   menubar: false,
                   plugins: [

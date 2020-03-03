@@ -1,16 +1,23 @@
 import React from 'react'
-import { Button, Progress, Calendar, Tabs, Upload, Icon, Input, Menu, Dropdown } from 'antd'
+import { Button, Progress, Calendar, Tabs, LocaleProvider, Icon, Input, Menu } from 'antd'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
 import { withRouter, Link } from "react-router-dom";
+import moment from 'moment';
+import 'moment/locale/tr';
+import trTr from 'antd/lib/locale-provider/tr_TR';
 import Avatar from 'components/CleanUIComponents/Avatar'
 import Donut from 'components/CleanUIComponents/Donut'
 import { getProfileInfoRequest } from "redux/profile/actions";
+import { getLocationsRequest } from 'redux/locations/actions'
 import SettingsForm from './SettingsForm'
 import data from './data.json'
 import style from './style.module.scss'
 import ChangePassword from './ChangePassword'
+
+moment.locale('tr');
+
 
 const { TabPane } = Tabs
 const { TextArea } = Input
@@ -65,8 +72,9 @@ class ProfileApp extends React.Component {
   }
 
   componentDidMount() {
-    const { getProfileInfo } = this.props;
+    const { getProfileInfo, getLocations } = this.props;
     getProfileInfo({})
+    getLocations({})
   }
 
   render() {
@@ -124,7 +132,9 @@ class ProfileApp extends React.Component {
                   <h5 className="mb-3 text-black">
                     <strong>Takvim</strong>
                   </h5>
-                  <Calendar fullscreen={false} />
+                  <LocaleProvider locale={trTr}>
+                    <Calendar />
+                  </LocaleProvider>
                 </div>
               </div>
             </div>
@@ -186,7 +196,8 @@ class ProfileApp extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getProfileInfo: payload => dispatch(getProfileInfoRequest(payload))
+  getProfileInfo: payload => dispatch(getProfileInfoRequest(payload)),
+  getLocations: payload => dispatch(getLocationsRequest(payload)),
 })
 
 export default compose(connect(null, mapDispatchToProps), withRouter)(ProfileApp)
