@@ -1,13 +1,9 @@
 import React from 'react'
-import { Editor } from 'react-draft-wysiwyg'
-import FroalaEditor from 'react-froala-wysiwyg';
 import { Form, Input, Button, Radio, Select, Upload, Icon } from 'antd'
+import { Editor } from '@tinymce/tinymce-react'
 
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 import styles from '../style.module.scss'
-import Example from './Example';
 
 
 const FormItem = Form.Item
@@ -72,23 +68,50 @@ class AddForm extends React.Component {
           <FormItem label="İçerik">
             {form.getFieldDecorator('content')(
               <div className={styles.editor}>
-                <Example />
+                <Editor
+                  init={{
+                    paste_data_images: true,
+                    language: 'tr_TR',
+                    language_url: '/langs/tr_TR.js',
+                    height: 400,
+                    menubar: true,
+                    plugins: [
+                      'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                      'searchreplace wordcount visualblocks visualchars code fullscreen',
+                      'insertdatetime media nonbreaking save table contextmenu directionality',
+                      'emoticons template paste textcolor colorpicker textpattern',
+                    ],
+                    /*  toolbar:
+                      'undo redo | formatselect | bold italic backcolor | \
+                      alignleft aligncenter alignright alignjustify | \
+                      bullist numlist outdent indent | removeformat | help', */
+                    toolbar1:
+                      'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                    toolbar2: 'print preview media | forecolor backcolor emoticons',
+                    image_advtab: true,
+                    file_browser_callback_types: 'image',
+                    file_picker_callback: function (callback, value, meta) {
+                      if (meta.filetype === 'image') {
+                        const input = document.getElementById('my-file')
+                        input.click()
+                        input.onchange = function () {
+                          const file = input.files[0]
+                          const reader = new FileReader()
+                          reader.onload = function (e) {
+                            console.log('name', e.target.result)
+                            callback(e.target.result, {
+                              alt: file.name,
+                            })
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }
+                    },
+                  }}
+                  onEditorChange={this.handleEditorChange}
+                  rows={4}
+                />,
               </div>,
-            )}
-          </FormItem>
-        </div>
-        <div className="form-group">
-          <FormItem>
-            {form.getFieldDecorator('Files')(
-              <Dragger>
-                <p className="ant-upload-drag-icon">
-                  <Icon type="inbox" />
-                </p>
-                <p className="ant-upload-text">
-                  Dosya yüklemek için tıklayın veya dosyayı sürükleyin
-                </p>
-                <p className="ant-upload-hint">Tek veya toplu yükleme desteklenir.</p>
-              </Dragger>,
             )}
           </FormItem>
         </div>

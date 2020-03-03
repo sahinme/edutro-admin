@@ -13,6 +13,7 @@ import {
   Collapse,
   Row,
 } from 'antd'
+import $ from 'jquery'
 import moment from 'moment'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
@@ -377,23 +378,55 @@ class AddCourse extends React.Component {
                         </FormItem>
                       </div>
                       <div className="form-group">
+                        <input
+                          id="my-file"
+                          type="file"
+                          name="my-file"
+                          style={{ display: 'none' }}
+                          onChange=""
+                        />
+
                         <FormItem label="Açıklama (Detaylı Tanım)">
                           {form.getFieldDecorator('description')(
                             <Editor
                               init={{
+                                paste_data_images: true,
                                 language: 'tr_TR',
                                 language_url: '/langs/tr_TR.js',
                                 height: 400,
                                 menubar: true,
                                 plugins: [
-                                  'advlist autolink lists link image charmap print preview anchor',
-                                  'searchreplace visualblocks code fullscreen',
-                                  'insertdatetime media table paste code help wordcount',
+                                  'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                                  'searchreplace wordcount visualblocks visualchars code fullscreen',
+                                  'insertdatetime media nonbreaking save table contextmenu directionality',
+                                  'emoticons template paste textcolor colorpicker textpattern',
                                 ],
-                                toolbar:
+                                /*  toolbar:
                                   'undo redo | formatselect | bold italic backcolor | \
                                   alignleft aligncenter alignright alignjustify | \
-                                  bullist numlist outdent indent | removeformat | help',
+                                  bullist numlist outdent indent | removeformat | help', */
+                                toolbar1:
+                                  'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                                toolbar2: 'print preview media | forecolor backcolor emoticons',
+                                image_advtab: true,
+                                file_browser_callback_types: 'image',
+                                file_picker_callback: function(callback, value, meta) {
+                                  if (meta.filetype === 'image') {
+                                    const input = document.getElementById('my-file')
+                                    input.click()
+                                    input.onchange = function() {
+                                      const file = input.files[0]
+                                      const reader = new FileReader()
+                                      reader.onload = function(e) {
+                                        console.log('name', e.target.result)
+                                        callback(e.target.result, {
+                                          alt: file.name,
+                                        })
+                                      }
+                                      reader.readAsDataURL(file)
+                                    }
+                                  }
+                                },
                               }}
                               onEditorChange={this.handleEditorChange}
                               rows={4}
