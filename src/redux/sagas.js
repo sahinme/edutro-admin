@@ -9,7 +9,8 @@ import questions from "./questions/sagas";
 import profile from "./profile/sagas";
 import locations from "./locations/sagas";
 import categories from "./categories/sagas";
+import blogPost from "./blog/sagas";
 
 export default function* rootSaga() {
-  yield all([user(), menu(), settings(), courses(), educators(), auth(), questions(), profile(), locations(), categories()])
+  yield all([user(), menu(),blogPost(), settings(), courses(), educators(), auth(), questions(), profile(), locations(), categories()])
 }
