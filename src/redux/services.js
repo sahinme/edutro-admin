@@ -1,6 +1,6 @@
 import { getSearchParams } from 'helpers';
 
-export const API_URL = 'https://test.radinyazilim.com';
+export const API_URL = 'https://localhost:5001';
 
 const contentTypes = {
   json: 'application/json; charset=utf-8',

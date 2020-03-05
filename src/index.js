@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { logger } from 'redux-logger'
 import thunk from 'redux-thunk'
-import "moment/locale/tr";
+import moment from "moment";
 import { routerMiddleware } from 'connected-react-router'
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
@@ -16,6 +16,8 @@ import * as serviceWorker from './serviceWorker'
 
 // app styles
 import './global.scss'
+
+moment.locale('tr')
 
 const history = createHashHistory()
 const sagaMiddleware = createSagaMiddleware()

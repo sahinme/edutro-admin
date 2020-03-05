@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
 import { withRouter } from 'react-router-dom'
 import { Editor } from '@tinymce/tinymce-react'
-import { createPostRequest } from 'redux/blog/actions'
+import { getSelectedBlogPostRequest, editPostRequest } from 'redux/blog/actions'
 import { getCategoriesRequest } from 'redux/categories/actions'
 
 import styles from '../style.module.scss'
@@ -14,15 +14,16 @@ const { Option } = Select
 const { TextArea } = Input
 
 @Form.create()
-@connect(({ categories }) => ({ categories }))
-class AddForm extends React.Component {
+@connect(({ categories, selectedPost }) => ({ categories, selectedPost }))
+class EditForm extends React.Component {
   state = {
-    content: '',
+    content: null,
   }
 
   componentDidMount() {
-    const { getCategories } = this.props
+    const { getCategories, getSelectedPost, match: { params: { id } = {} } = {} } = this.props
     getCategories({})
+    getSelectedPost({ id })
   }
 
   handleEditorChange = content => {
@@ -31,33 +32,37 @@ class AddForm extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    const { form, createBlogPost } = this.props
-    const { content } = this.state;
+    const { form, editBlogPost, match: { params: { id } = {} } = {}, selectedPost } = this.props
+    const { content } = this.state
     form.validateFields((error, values) => {
-      values.content = content;
+      if (content !== null) {
+        values.content = content
+      }
+      if (content === null) values.content = selectedPost.data.content
+      values.id = id
       if (!error) {
-        createBlogPost(values);
+        editBlogPost(values)
       }
     })
   }
 
   render() {
-
-    const { form, categories } = this.props
-
+    const { form, categories, selectedPost } = this.props
+    const { data } = selectedPost
     return (
       <Form onSubmit={this.handleSubmit} className="mt-3">
         <div className="form-group">
           <FormItem label="Başlık">
-            {form.getFieldDecorator('title')(<Input placeholder="Post title" />)}
+            {form.getFieldDecorator('title', { initialValue: data && data.title })(
+              <Input placeholder="Post title" />,
+            )}
           </FormItem>
         </div>
         <div className="form-group">
           <FormItem label="Kategori">
-            {form.getFieldDecorator(
-              'categoryId',
-              {},
-            )(
+            {form.getFieldDecorator('categoryId', {
+              initialValue: data && data.category && data.category.id,
+            })(
               <Select
                 id="product-edit-colors"
                 showSearch
@@ -83,6 +88,7 @@ class AddForm extends React.Component {
         <div className="form-group">
           <FormItem label="Kısa Açıklama">
             {form.getFieldDecorator('shortDescription', {
+              initialValue: data && data.shortDescription,
               rules: [{ required: true, message: 'Bu alan zorunludur' }],
             })(
               <TextArea
@@ -121,14 +127,14 @@ class AddForm extends React.Component {
                     toolbar2: 'print preview media | forecolor backcolor emoticons',
                     image_advtab: true,
                     file_browser_callback_types: 'image',
-                    file_picker_callback: function (callback, value, meta) {
+                    file_picker_callback: function(callback, value, meta) {
                       if (meta.filetype === 'image') {
                         const input = document.getElementById('my-file')
                         input.click()
-                        input.onchange = function () {
+                        input.onchange = function() {
                           const file = input.files[0]
                           const reader = new FileReader()
-                          reader.onload = function (e) {
+                          reader.onload = function(e) {
                             console.log('name', e.target.result)
                             callback(e.target.result, {
                               alt: file.name,
@@ -141,6 +147,7 @@ class AddForm extends React.Component {
                   }}
                   onEditorChange={this.handleEditorChange}
                   rows={4}
+                  initialValue={data && data.content}
                 />
                 ,
               </div>,
@@ -165,8 +172,9 @@ class AddForm extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  createBlogPost: payload => dispatch(createPostRequest(payload)),
   getCategories: payload => dispatch(getCategoriesRequest(payload)),
+  getSelectedPost: payload => dispatch(getSelectedBlogPostRequest(payload)),
+  editBlogPost: payload => dispatch(editPostRequest(payload)),
 })
 
-export default compose(connect(null, mapDispatchToProps), withRouter)(AddForm)
+export default compose(connect(null, mapDispatchToProps), withRouter)(EditForm)

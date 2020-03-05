@@ -6,10 +6,10 @@ import { GET_TENANT_EDUCATORS_SUCCESS, GET_TENANT_EDUCATORS_FAILURE, GET_TENANT_
 function* getTenantEducatorsSaga({ payload }) {
   const loginInfo = readLocalStorage('loginInfo');
   try {
-    const response = yield call(Get, `/api/educator/get-educators?id=${loginInfo.entityData.id}`, false);
+    const response = yield call(Get, `/api/tenant/get-educators?id=${loginInfo.entityData.id}`, false);
     console.log(response);
     if (response) {
-      yield put({ type: GET_TENANT_EDUCATORS_SUCCESS, payload: response });
+      yield put({ type: GET_TENANT_EDUCATORS_SUCCESS, payload: response[0].tenantEducators });
     } else {
       yield put({ type: GET_TENANT_EDUCATORS_FAILURE, payload: response });
     }

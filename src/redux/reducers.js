@@ -12,6 +12,8 @@ import selectedCourse from "./course/selectedCourseReducer";
 import locations from "./locations/reducers";
 import categories from "./categories/reducers";
 import loader from "./loader/loaderReducer";
+import blogPosts from "./blog/reducers";
+import selectedPost from "./blog/selectedPostReducer";
 
 export default history =>
   combineReducers({
@@ -27,5 +29,7 @@ export default history =>
     selectedCourse,
     locations,
     categories,
-    loader
+    loader,
+    blogPosts,
+    selectedPost
   })

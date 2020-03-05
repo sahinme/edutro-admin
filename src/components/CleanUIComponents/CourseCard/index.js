@@ -30,9 +30,9 @@ class CourseCard extends React.Component {
   }
 
   render() {
-    const { history, onDelete, icon, title, createdDate, price, locationName, id } = this.props;
+    const { history, onDelete, icon, title, createdDate, endDate, price, locationName, id } = this.props;
     return (
-      <a href="javascript: void(0);" className={`card card--withShadow ${styles.paymentCard}`}>
+      <a style={{ boxShadow: " 0 0 2.25rem #e1e1e1" }} href="javascript: void(0);" className={`card card--withShadow ${styles.paymentCard}`}>
         {price && <span className={styles.sum}>{price.toFixed(2) + " ₺"}</span>}
         {icon && (
           <div className={styles.icon}>
@@ -52,7 +52,7 @@ class CourseCard extends React.Component {
           <Button onClick={onDelete} type="danger" ghost>Sil</Button>
         </ButtonGroup> </span>}
         {locationName && <span className={styles.type}>{locationName}</span>}
-        {createdDate && <div className={styles.footer}>{moment(createdDate).format("LL")}</div>}
+        {createdDate && <div className={styles.footer}>{"Oluşturulma tarihi: " + moment(createdDate).format("LL")}</div>}
       </a>
     )
   }

@@ -54,21 +54,13 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!')
+    message.error('Yalnızca JPG/PNG dosya uzantıları yükleyiniz')
   }
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!')
+    message.error('Dosya boyutu 2M dan küçük olmalıdır!')
   }
   return isJpgOrPng && isLt2M
-}
-
-const requestOptions = {
-  method: 'GET',
-  headers: {
-    Accept: 'application/json, text/javascript, */*; q=0.01',
-    'Content-Type': 'application/json; charset=utf-8',
-  },
 }
 
 let id = 0
@@ -95,10 +87,6 @@ class EditCourse extends React.Component {
     getSelectedCourse({ id })
     getLocations({})
     getCategories({})
-    /* const response = fetch(`${API_URL}/api/course/get-course-by-id?id=${id}`, requestOptions)
-      .then(response => response.json())
-      .then(res => this.setState({ info: res }))
-      .catch(error => error) */
   }
 
   handleChange = info => {
@@ -115,16 +103,6 @@ class EditCourse extends React.Component {
         }),
       )
     }
-  }
-
-  onSubmit = event => {
-    event.preventDefault()
-    const { form, createCourse } = this.props
-    form.validateFields((error, values) => {
-      if (!error) {
-        console.log(values)
-      }
-    })
   }
 
   remove = k => {
@@ -171,9 +149,13 @@ class EditCourse extends React.Component {
     form.validateFields((error, values) => {
       debugger
       if (!error) {
-        const { fullDescription } = this.state
-        values.fullDescription = fullDescription
-
+        const { description } = this.state
+        if (description !== null) {
+          values.description = description
+        }
+        if (description === null) {
+          values.description = selectedCourse.data.description
+        }
         const prevRequirements = []
         const prevTeachings = []
 

@@ -53,7 +53,7 @@ class Educators extends React.Component {
               <div className="row">
                 {educators && educators.data && educators.data.length > 0 ? educators.data.map(item => (
                   <div className="col-lg-4">
-                    <EducatorCard name={item.name} surname={item.surname} profession={item.profession} logoPath={item.profileImagePath}></EducatorCard>
+                    <EducatorCard id={item.id} name={item.name} surname={item.surname} profession={item.profession} logoPath={item.profileImagePath}></EducatorCard>
                   </div>
                 )) : <NotFound onClick={this.showEducatorModal} title="Ekli eğitmeniniz bulunmuyor" subTitle="Beraber çalıştığınız eğitmenleri hemen ekleyin" status="404" extra="Eğitmen Ekle" />}
               </div>

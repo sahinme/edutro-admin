@@ -1,66 +1,54 @@
 import React, { Component } from 'react'
-import { Modal, Select } from 'antd'
-import jsonp from 'fetch-jsonp'
+import { Modal, Select, Spin } from 'antd'
+import debounce from 'lodash/debounce'
 import querystring from 'querystring'
 
 const { Option } = Select
 
-let timeout
-let currentValue
-
-function fetch(value, callback) {
-  if (timeout) {
-    clearTimeout(timeout)
-    timeout = null
+class AddEducatorModal extends Component {
+  constructor(props) {
+    super(props)
+    this.lastFetchId = 0
+    this.fetchUser = debounce(this.fetchUser, 800)
   }
-  currentValue = value
 
-  function fake() {
-    const str = querystring.encode({
-      code: 'utf-8',
-      q: value,
-    })
-    jsonp(`https://suggest.taobao.com/sug?${str}`)
+  state = {
+    data: [],
+    value: [],
+    fetching: false,
+  }
+
+  fetchUser = value => {
+    console.log('fetching user', value)
+    this.lastFetchId += 1
+    const fetchId = this.lastFetchId
+    this.setState({ data: [], fetching: true })
+    fetch(`https://localhost:5001/api/educator/get-educator-by-email?email=${value}`)
       .then(response => response.json())
-      .then(d => {
-        if (currentValue === value) {
-          const { result } = d
-          const data = []
-          result.forEach(r => {
-            data.push({
-              value: r[0],
-              text: r[0],
-            })
-          })
-          callback(data)
+      .then(body => {
+        if (fetchId !== this.lastFetchId) {
+          // for fetch callback order
+          return
         }
+        const data = body.map(user => ({
+          text: `${user.name} ${user.surname}`,
+          value: user.id,
+        }))
+        this.setState({ data, fetching: false })
       })
   }
 
-  timeout = setTimeout(fake, 300)
-}
-
-class AddEducatorModal extends Component {
-  state = {
-    data: [],
-    value: undefined,
-  }
-
-  handleSearch = value => {
-    if (value) {
-      fetch(value, data => this.setState({ data }))
-    } else {
-      this.setState({ data: [] })
-    }
-  }
-
   handleChange = value => {
-    this.setState({ value })
+    this.setState({
+      value,
+      data: [],
+      fetching: false,
+    })
   }
 
   render() {
     const { visible, onCancel } = this.props
-    const { data, value } = this.state
+    const { fetching, data, value } = this.state
     const options = data.map(d => <Option key={d.value}>{d.text}</Option>)
     return (
       <Modal
@@ -73,18 +61,19 @@ class AddEducatorModal extends Component {
         cancelText="Vazgeç"
       >
         <Select
-          showSearch
+          mode="multiple"
+          labelInValue
           value={value}
-          placeholder="Eklenecek eğitmenin e-posta adresini giriniz"
-          defaultActiveFirstOption={false}
-          style={{ width: '100%' }}
-          showArrow={false}
+          placeholder="Select users"
+          notFoundContent={fetching ? <Spin size="small" /> : null}
           filterOption={false}
-          onSearch={this.handleSearch}
+          onSearch={this.fetchUser}
           onChange={this.handleChange}
-          notFoundContent={null}
+          style={{ width: '100%' }}
         >
-          {options}
+          {data.map(d => (
+            <Option key={d.value}>{d.text}</Option>
+          ))}
         </Select>
       </Modal>
     )

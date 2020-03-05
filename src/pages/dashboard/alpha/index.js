@@ -136,6 +136,7 @@ class DashboardAlpha extends React.Component {
                 <CourseCard
                   onDelete={this.handleDelete}
                   id={item.id}
+                  endDate={item.endDate}
                   icon="lnr lnr-bookmark"
                   title={item.title}
                   locationName={item.locationName}

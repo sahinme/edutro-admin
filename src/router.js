@@ -81,6 +81,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/yazi-duzenle/:id',
+    component: loadable(() => import('pages/blog/edit-blog-post')),
+    exact: true,
+  },
+  {
     path: '/sorular/soru-detay',
     component: loadable(() => import('pages/questions/components/questionDetail')),
     exact: true,
