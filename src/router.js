@@ -86,7 +86,7 @@ const routes = [
     exact: true,
   },
   {
-    path: '/sorular/soru-detay',
+    path: '/sorular/soru-detay/:id',
     component: loadable(() => import('pages/questions/components/questionDetail')),
     exact: true,
   },

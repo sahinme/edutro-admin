@@ -41,11 +41,12 @@ class Questions extends React.Component {
             <Search placeholder="mesajlari arayin..." style={{ width: '100%' }} />
             <div className={styles.feed}>
               <div className="row">
-                {questions && questions.data ? questions.data.map(item => (
-                  <div className="col-lg-6">
-                    <QuestionCard />
-                  </div>
-                )) : renderNoQuestion}
+                {questions && questions.data
+                  && questions.data.length > 0 ? questions.data.map(item => (
+                    <div className="col-lg-6">
+                      <QuestionCard id={item.id} title={item.title} description={item.description} createdDateTime={item.createdDateTime} />
+                    </div>
+                  )) : renderNoQuestion}
               </div>
             </div>
           </div>

@@ -1,33 +1,56 @@
 import React from 'react'
-import { Comment, Avatar, Input } from 'antd'
+import { withRouter } from 'react-router-dom'
+import { Input, Avatar, Button } from 'antd'
 import { Helmet } from 'react-helmet'
-import styles from './style.module.scss'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import moment from 'moment'
+import { getSelectedQuestionRequest, createAnswerRequest } from 'redux/questions/actions'
+import style from './style.module.scss'
 
 const { Search } = Input
-const data = [1, 1, 1, 1, 1, 1, 1, 1]
-const ExampleComment = ({ children }) => (
-  <Comment
-    actions={[<span key="comment-nested-reply-to">Reply to</span>]}
-    author={<a>Han Solo</a>}
-    avatar={
-      <Avatar
-        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        alt="Han Solo"
-      />
-    }
-    content={
-      <p>
-        We supply a series of design principles, practical patterns and high quality design
-        resources (Sketch and Axure).
-      </p>
-    }
-  >
-    {children}
-  </Comment>
+const { TextArea } = Input
+
+const Message = ({ title, description, userName, createdDate, entityType }) => (
+  <div className={`${style.message} ${entityType === (10 || 20) ? style.me : style.companion}`}>
+    <div>
+      <Avatar size="50" border="false" />
+    </div>
+    <div className={style.messageContent}>
+      <strong>{userName}</strong>
+      <strong className={style.date_time}>{moment(createdDate).format('LLL')}</strong>
+      <p>{title}</p>
+      <p>{description}</p>
+    </div>
+  </div>
 )
 
+@connect(({ selectedQuestion }) => ({ selectedQuestion }))
 class QuestionDetail extends React.Component {
+  state = {
+    description: '',
+  }
+
+  componentDidMount() {
+    moment.locale('tr')
+    const { match: { params: { id } = {} } = {}, getSelectedQuestion } = this.props
+    getSelectedQuestion({ id })
+  }
+
+  onChange = e => {
+    this.setState({ description: e.target.value })
+  }
+
+  onClick = () => {
+    const { match: { params: { id } = {} } = {}, sendMessage } = this.props
+    const { description } = this.state
+    const values = { questionId: id, description }
+    sendMessage(values)
+  }
+
   render() {
+    const { selectedQuestion } = this.props
+    const { data } = selectedQuestion
     return (
       <div>
         <Helmet title="Soru-Cevap" />
@@ -39,18 +62,48 @@ class QuestionDetail extends React.Component {
           </div>
           <div className="card-body">
             <Search placeholder="mesajlari arayin..." style={{ width: '100%' }} />
-            <div className={styles.feed}>
-              <div className="row">
-                {data.map(item => (
-                  <div className="col-lg-12">
-                    <ExampleComment>
-                      <ExampleComment>
-                        <ExampleComment />
-                        <ExampleComment />
-                      </ExampleComment>
-                    </ExampleComment>
-                  </div>
-                ))}
+            {data && (
+              <Message
+                entityType={30}
+                userName={data.userName}
+                createdDate={data.createdDate}
+                description={data.description}
+                title={data.title}
+              />
+            )}
+            {data &&
+              data.answers &&
+              data.answers.map(item => {
+                return (
+                  <Message
+                    id={item.id}
+                    userName={item.userName}
+                    createdDate={item.createdDate}
+                    description={item.description}
+                    entityType={item.entityType}
+                    title={item.title}
+                  />
+                )
+              })}
+            <div className="form-group">
+              <TextArea
+                maxlength="160"
+                placeholder="Eğitim hakkında kısa-özet bilgi"
+                rows={3}
+                onChange={this.onChange}
+                id="shortDescription"
+              />
+            </div>
+            <div className="col-lg-12">
+              <div className="form-actions">
+                <Button
+                  style={{ float: 'right' }}
+                  onClick={this.onClick}
+                  type="primary"
+                  className="mr-2"
+                >
+                  Mesaj Gönder
+                </Button>
               </div>
             </div>
           </div>
@@ -60,4 +113,9 @@ class QuestionDetail extends React.Component {
   }
 }
 
-export default QuestionDetail
+const mapDispatchToProps = dispatch => ({
+  getSelectedQuestion: payload => dispatch(getSelectedQuestionRequest(payload)),
+  sendMessage: payload => dispatch(createAnswerRequest(payload)),
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(QuestionDetail)

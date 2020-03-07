@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import { Modal, Select, Spin } from 'antd'
+import { Modal, Select, Spin, Avatar, Card } from 'antd'
 import debounce from 'lodash/debounce'
-import querystring from 'querystring'
+import { withRouter, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { compose } from 'lodash/fp'
+import { addEducatorRequest } from 'redux/tenant/actions'
 
 const { Option } = Select
+const { Meta } = Card
 
 class AddEducatorModal extends Component {
   constructor(props) {
@@ -16,6 +20,7 @@ class AddEducatorModal extends Component {
     data: [],
     value: [],
     fetching: false,
+    selectedUserId: null,
   }
 
   fetchUser = value => {
@@ -23,7 +28,7 @@ class AddEducatorModal extends Component {
     this.lastFetchId += 1
     const fetchId = this.lastFetchId
     this.setState({ data: [], fetching: true })
-    fetch(`https://localhost:5001/api/educator/get-educator-by-email?email=${value}`)
+    fetch(`https://test.radinyazilim.com/api/educator/get-educator-by-email?email=${value}`)
       .then(response => response.json())
       .then(body => {
         if (fetchId !== this.lastFetchId) {
@@ -33,6 +38,8 @@ class AddEducatorModal extends Component {
         const data = body.map(user => ({
           text: `${user.name} ${user.surname}`,
           value: user.id,
+          logoPath: user.logoPath,
+          profession: user.profession,
         }))
         this.setState({ data, fetching: false })
       })
@@ -46,6 +53,18 @@ class AddEducatorModal extends Component {
     })
   }
 
+  handleOkButton = e => {
+    const { selectedUserId } = this.state
+    const educatorId = parseInt(selectedUserId, 10)
+    const { addEducator, onCancel } = this.props
+    addEducator({ educatorId })
+    onCancel()
+  }
+
+  onSelect = e => {
+    this.setState({ selectedUserId: e.key })
+  }
+
   render() {
     const { visible, onCancel } = this.props
     const { fetching, data, value } = this.state
@@ -55,16 +74,18 @@ class AddEducatorModal extends Component {
         title="Eğitmen Ekle"
         centered
         visible={visible}
-        onOk={onCancel}
+        onOk={this.handleOkButton}
         onCancel={onCancel}
         okText="Gönder"
         cancelText="Vazgeç"
       >
+        <p>Lütfen eklemek istediğiniz eğitmenin e-posta adresini giriniz</p>
         <Select
-          mode="multiple"
+          showSearch
           labelInValue
+          onSelect={this.onSelect}
           value={value}
-          placeholder="Select users"
+          placeholder="E-posta adresi giriniz"
           notFoundContent={fetching ? <Spin size="small" /> : null}
           filterOption={false}
           onSearch={this.fetchUser}
@@ -72,7 +93,17 @@ class AddEducatorModal extends Component {
           style={{ width: '100%' }}
         >
           {data.map(d => (
-            <Option key={d.value}>{d.text}</Option>
+            <Option key={d.value}>
+              <p>{d.text}</p>
+              <small>{d.profession}</small>
+              {/*  <Card style={{ width: 300 }}>
+                <Meta
+                  avatar={<Avatar src={d.logoPath} />}
+                  title={d.text}
+                  description={d.profession}
+                />
+              </Card> */}
+            </Option>
           ))}
         </Select>
       </Modal>
@@ -80,4 +111,8 @@ class AddEducatorModal extends Component {
   }
 }
 
-export default AddEducatorModal
+const mapDispatchToProps = dispatch => ({
+  addEducator: payload => dispatch(addEducatorRequest(payload)),
+})
+
+export default compose(connect(null, mapDispatchToProps), withRouter)(AddEducatorModal)

@@ -10,7 +10,9 @@ import profile from "./profile/sagas";
 import locations from "./locations/sagas";
 import categories from "./categories/sagas";
 import blogPost from "./blog/sagas";
+import tenant from "./tenant/sagas";
+import notification from "./notification/sagas";
 
 export default function* rootSaga() {
-  yield all([user(), menu(),blogPost(), settings(), courses(), educators(), auth(), questions(), profile(), locations(), categories()])
+  yield all([user(), menu(), blogPost(), tenant(), notification(), settings(), courses(), educators(), auth(), questions(), profile(), locations(), categories()])
 }

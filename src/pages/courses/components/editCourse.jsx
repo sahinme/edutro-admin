@@ -13,7 +13,6 @@ import {
   InputNumber,
   Icon,
 } from 'antd'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
@@ -192,7 +191,7 @@ class EditCourse extends React.Component {
   }
 
   render() {
-    const { imageUrl, loading, info } = this.state
+    const { imageUrl, loading, description } = this.state
     const { form, selectedCourse, locations, categories } = this.props
 
     const uploadButton = (

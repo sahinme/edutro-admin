@@ -2,8 +2,26 @@ export const GET_ENTITY_QUESTIONS_REQUEST = 'GET_ENTITY_QUESTIONS_REQUEST';
 export const GET_ENTITY_QUESTIONS_SUCCESS = 'GET_ENTITY_QUESTIONS_SUCCESS';
 export const GET_ENTITY_QUESTIONS_FAILURE = 'GET_ENTITY_QUESTIONS_FAILURE';
 
+export const GET_SELECTED_QUESTION_REQUEST = 'GET_SELECTED_QUESTION_REQUEST';
+export const GET_SELECTED_QUESTION_SUCCESS = 'GET_SELECTED_QUESTION_SUCCESS';
+export const GET_SELECTED_QUESTION_FAILURE = 'GET_SELECTED_QUESTION_FAILURE';
+
+export const CREATE_ANSWER_REQUEST = 'CREATE_ANSWER_REQUEST';
+export const CREATE_ANSWER_SUCCESS = 'CREATE_ANSWER_SUCCESS';
+export const CREATE_ANSWER_FAILURE = 'CREATE_ANSWER_FAILURE';
+
 export const getEntityQuestionsRequest = payload => ({
   type: GET_ENTITY_QUESTIONS_REQUEST,
+  payload,
+});
+
+export const getSelectedQuestionRequest = payload => ({
+  type: GET_SELECTED_QUESTION_REQUEST,
+  payload,
+});
+
+export const createAnswerRequest = payload => ({
+  type: CREATE_ANSWER_REQUEST,
   payload,
 });
 

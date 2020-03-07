@@ -9,6 +9,7 @@ import Footer from 'components/LayoutComponents/Footer'
 import Breadcrumbs from 'components/LayoutComponents/Breadcrumbs'
 import SpinLoading from 'components/LayoutComponents/Spin'
 import Settings from 'components/LayoutComponents/Settings'
+import Loader from 'components/LayoutComponents/Loader'
 
 const mapStateToProps = ({ settings, loader }) => ({
   isBorderless: settings.isBorderless,
@@ -51,7 +52,7 @@ class MainLayout extends React.PureComponent {
           </Layout.Header>
           <Layout.Content style={{ height: '100%', position: 'relative' }}>
             <Breadcrumbs />
-            {loading && <SpinLoading />}
+            {loading && <Loader />}
             <div className="utils__content">{children}</div>
           </Layout.Content>
           <Layout.Footer>

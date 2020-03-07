@@ -1,22 +1,26 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Card, Divider } from 'antd'
+import moment from 'moment'
+
+moment.locale('tr')
 
 class QuestionCard extends Component {
   render() {
-    const { history } = this.props
+    const { history, title, description, createdDateTime, id } = this.props
 
     return (
       <div>
         <Card
+          key={id}
           style={{ marginTop: 16 }}
           type="inner"
-          title="NLP Egitimi hakkinda"
+          title={title}
           extra={
             <div>
               <a
                 style={{ color: 'blue' }}
-                onClick={() => history.push('/sorular/soru-detay')}
+                onClick={() => history.push(`/sorular/soru-detay/${id}`)}
                 href="javascript: void(0);"
               >
                 Detaylar
@@ -29,10 +33,11 @@ class QuestionCard extends Component {
               >
                 Okundu olarak işaretle
               </a>
+              <p> {moment(createdDateTime).format('LLL')} </p>
             </div>
           }
         >
-          kac para abi bi egitim
+          {description}
         </Card>
       </div>
     )

@@ -49,6 +49,7 @@ class Courses extends React.Component {
                       onDelete={this.handleDelete}
                       id={item.id}
                       endDate={item.endDate}
+                      isActive={item.isActive}
                       icon="lnr lnr-bookmark"
                       title={item.title}
                       locationName={item.locationName}

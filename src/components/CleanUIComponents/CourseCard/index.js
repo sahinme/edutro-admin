@@ -1,10 +1,11 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import moment from "moment";
 import "moment/locale/tr";
 import styles from './style.module.scss'
 
+moment.locale('tr')
 
 const ButtonGroup = Button.Group;
 
@@ -30,13 +31,13 @@ class CourseCard extends React.Component {
   }
 
   render() {
-    const { history, onDelete, icon, title, createdDate, endDate, price, locationName, id } = this.props;
+    const { history, onDelete, icon, title, createdDate, isActive, price, locationName, id } = this.props;
     return (
       <a style={{ boxShadow: " 0 0 2.25rem #e1e1e1" }} href="javascript: void(0);" className={`card card--withShadow ${styles.paymentCard}`}>
         {price && <span className={styles.sum}>{price.toFixed(2) + " ₺"}</span>}
         {icon && (
           <div className={styles.icon}>
-            <i className={icon} />
+            <Tag className={icon} color={isActive ? "green" : "red"}>{isActive ? "Aktif" : "Askıda"}</Tag>
           </div>
         )}
         {title && <span className={styles.name}>{title}</span>}

@@ -14,6 +14,8 @@ import categories from "./categories/reducers";
 import loader from "./loader/loaderReducer";
 import blogPosts from "./blog/reducers";
 import selectedPost from "./blog/selectedPostReducer";
+import notifications from "./notification/reducers";
+import selectedQuestion from "./questions/selectedQuestion";
 
 export default history =>
   combineReducers({
@@ -31,5 +33,7 @@ export default history =>
     categories,
     loader,
     blogPosts,
-    selectedPost
+    selectedPost,
+    notifications,
+    selectedQuestion
   })

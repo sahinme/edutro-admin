@@ -112,7 +112,7 @@ function* getSelectedCourseSaga({ payload }) {
   const loginInfo = readLocalStorage('loginInfo');
   try {
     yield put({ type: LOADER_START });
-    const response = yield call(Get, `/api/course/get-course-by-id?id=${payload.id}`, {}, {}, false);
+    const response = yield call(Get, `/api/course/get-course/by-id?id=${payload.id}`, {}, {}, false);
     console.log(response);
     if (response) {
       yield put({ type: GET_SELECTED_COURSE_SUCCESS, payload: response });

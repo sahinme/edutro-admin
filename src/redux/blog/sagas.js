@@ -33,7 +33,7 @@ function* getEntityBlogPostsSaga({ payload }) {
 function* getSelectedBlogPostsSaga({ payload }) {
   try {
     yield put({ type: LOADER_START });
-    const response = yield call(Get, `/api/post/get-post-by-id?id=${payload.id}`, false);
+    const response = yield call(Get, `/api/post/get-post/by-id?id=${payload.id}`, false);
     console.log(response);
     if (response) {
       yield put({ type: GET_SELECTED_POST_SUCCESS, payload: response });

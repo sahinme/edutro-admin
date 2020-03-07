@@ -7,9 +7,12 @@ import { withRouter, Link } from "react-router-dom";
 import ChartCard from 'components/CleanUIComponents/ChartCard'
 import CourseCard from 'components/CleanUIComponents/CourseCard'
 import { getTenantCoursesRequest } from "redux/course/actions";
+import NotificationList from 'components/CleanUIComponents/Notification'
+
 import { tableData } from './data.json'
 
-@connect(({ courses }) => ({ courses }))
+
+@connect(({ courses, notifications }) => ({ courses, notifications }))
 class DashboardAlpha extends React.Component {
 
   componentDidMount() {
@@ -18,7 +21,7 @@ class DashboardAlpha extends React.Component {
   }
 
   render() {
-    const { courses, history } = this.props;
+    const { courses, history, notifications } = this.props;
     const tableColumns = [
       {
         title: 'Başlık',
@@ -108,6 +111,18 @@ class DashboardAlpha extends React.Component {
             <div className="card">
               <div className="card-header">
                 <div className="utils__title">
+                  <strong>Bildirimler</strong>
+                  <NotificationList data={notifications.data || []} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card">
+              <div className="card-header">
+                <div className="utils__title">
                   <strong>Soru & Mesajlar</strong>
                   <Button onClick={() => history.push('/sorular')} className="ml-3">Tümünü Gör</Button>
                 </div>
@@ -136,6 +151,7 @@ class DashboardAlpha extends React.Component {
                 <CourseCard
                   onDelete={this.handleDelete}
                   id={item.id}
+                  isActive={item.isActive}
                   endDate={item.endDate}
                   icon="lnr lnr-bookmark"
                   title={item.title}
