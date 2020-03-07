@@ -81,6 +81,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/bildirimler',
+    component: loadable(() => import('pages/notifications')),
+    exact: true,
+  },
+  {
     path: '/yazi-duzenle/:id',
     component: loadable(() => import('pages/blog/edit-blog-post')),
     exact: true,

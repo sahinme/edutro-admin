@@ -165,6 +165,12 @@ export async function getLeftMenuData() {
       pro: true,
     }, */
     {
+      title: 'Bildirimler',
+      key: 'notifications',
+      url: '/bildirimler',
+      pro: false,
+    },
+    {
       title: 'Profil',
       key: 'profile',
       url: '/profile',

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'lodash/fp'
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { Menu, Dropdown } from 'antd'
 import { getEntityNotificationsRequest } from "redux/notification/actions";
 
@@ -16,17 +16,17 @@ class HomeMenu extends React.Component {
   }
 
   render() {
-    const { notifications } = this.props;
+    const { notifications, history } = this.props;
 
     const menuItem = (props) => {
-      return <Menu.Item key={props.index} className={styles.item}>
+      return <Menu.Item onClick={() => history.push('/bildirimler')} key={props.index} className={styles.item}>
         <i className={`${styles.icon} icmn-star-full`} />
         <div className={styles.inner}>
           <div className={styles.title}>
             <span className="pull-right">now</span>
-            <a href="javascript: void(0);">
+            <Link to="/bildirimler">
               {props.title}
-            </a>
+            </Link>
           </div>
           <div className={styles.descr}>
             {props.content}
