@@ -43,7 +43,7 @@
     "firebase": "^6.3.0",
     "froala-editor": "^3.1.0",
     "history": "^4.9.0",
-    "jodit": "^3.3.22",
+    "jodit": "^3.24.9",
     "jodit-react": "^1.0.41",
     "jquery": "^3.4.1",
     "lodash": "^4.17.14",
